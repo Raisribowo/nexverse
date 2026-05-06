@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Nexora Game</title>
+  <title>Nexora App</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <style>
@@ -10,109 +10,180 @@
       font-family: Arial;
       background: #0d1117;
       color: white;
-      text-align: center;
     }
 
-    h1 {
+    .header {
+      background: #161b22;
+      padding: 15px;
+      text-align: center;
       color: #00ff99;
+      font-size: 20px;
+    }
+
+    .container {
+      padding: 15px;
     }
 
     .card {
       background: #161b22;
-      margin: 15px;
       padding: 20px;
       border-radius: 15px;
-      box-shadow: 0 0 15px rgba(0,255,150,0.2);
+      margin-bottom: 15px;
+    }
+
+    input {
+      width: 100%;
+      padding: 10px;
+      border-radius: 10px;
+      border: none;
+      margin-bottom: 10px;
     }
 
     button {
-      padding: 12px 20px;
-      margin: 5px;
+      width: 100%;
+      padding: 15px;
       border: none;
       border-radius: 10px;
       background: #00ff99;
       color: black;
-      font-weight: bold;
-      cursor: pointer;
+      font-size: 16px;
     }
 
-    button:disabled {
-      background: gray;
-      cursor: not-allowed;
+    .hidden {
+      display: none;
     }
   </style>
 </head>
 
 <body>
 
-  <h1>🚀 Nexora Mining Game</h1>
+  <div class="header">🚀 Nexora Mining App</div>
 
-  <!-- WALLET -->
-  <div class="card">
-    <h2>Wallet 👛</h2>
-    <p id="saldo">0 NXR</p>
-  </div>
+  <div class="container">
 
-  <!-- MINING -->
-  <div class="card">
-    <h2>Mining ⛏️</h2>
-    <p>Power: <span id="power">1</span></p>
-    <button onclick="mine()">Start Mining</button>
-  </div>
+    <!-- LOGIN -->
+    <div class="card" id="loginBox">
+      <h3>Login Player</h3>
+      <input id="nama" placeholder="Masukkan Nama / ID">
+      <button onclick="login()">Masuk</button>
+    </div>
 
-  <!-- LEVEL -->
-  <div class="card">
-    <h2>Level 📈</h2>
-    <p>Level: <span id="level">1</span></p>
-    <p>Next: <span id="next">20</span> NXR</p>
-  </div>
+    <!-- GAME -->
+    <div id="gameBox" class="hidden">
 
-  <!-- SKILL -->
-  <div class="card">
-    <h2>Upgrade Skill ⚙️</h2>
-    <p>Mining Speed Lv: <span id="skill">1</span></p>
-    <p>Cost: <span id="cost">10</span> NXR</p>
-    <button onclick="upgrade()">Upgrade</button>
+      <div class="card">
+        <h3>Player: <span id="player"></span></h3>
+        <h2 id="saldo">0 NXR</h2>
+      </div>
+
+      <div class="card">
+        <h3>Mining</h3>
+        <p>Power: <span id="power">1</span></p>
+        <button onclick="mine()">⛏️ Mining</button>
+      </div>
+
+      <div class="card">
+        <h3>Level</h3>
+        <p>Level: <span id="level">1</span></p>
+      </div>
+
+      <div class="card">
+        <h3>Upgrade</h3>
+        <p>Cost: <span id="cost">10</span> NXR</p>
+        <button onclick="upgrade()">Upgrade Skill</button>
+      </div>
+
+      <div class="card">
+        <button onclick="logout()">Logout</button>
+      </div>
+
+    </div>
+
   </div>
 
   <script>
+    let player = localStorage.getItem("player");
+
     let saldo = 0;
     let level = 1;
     let power = 1;
-    let skill = 1;
 
-    function mine() {
-      saldo += power;
+    function login() {
+      player = document.getElementById("nama").value;
 
-      // level up
-      if (saldo >= level * 20) {
-        level++;
+      if (!player) {
+        alert("Isi nama dulu!");
+        return;
       }
+
+      localStorage.setItem("player", player);
+
+      loadData();
+      showGame();
+    }
+
+    function loadData() {
+      saldo = parseInt(localStorage.getItem(player+"_saldo")) || 0;
+      level = parseInt(localStorage.getItem(player+"_level")) || 1;
+      power = parseInt(localStorage.getItem(player+"_power")) || 1;
+    }
+
+    function saveData() {
+      localStorage.setItem(player+"_saldo", saldo);
+      localStorage.setItem(player+"_level", level);
+      localStorage.setItem(player+"_power", power);
+    }
+
+    function showGame() {
+      document.getElementById("loginBox").classList.add("hidden");
+      document.getElementById("gameBox").classList.remove("hidden");
+
+      document.getElementById("player").innerText = player;
 
       updateUI();
     }
 
+    function mine() {
+      saldo += power;
+
+      if (saldo >= level * 20) {
+        level++;
+      }
+
+      saveData();
+      updateUI();
+    }
+
     function upgrade() {
-      let cost = skill * 10;
+      let cost = power * 10;
 
       if (saldo >= cost) {
         saldo -= cost;
-        skill++;
-        power += 1;
+        power++;
       } else {
         alert("NXR tidak cukup!");
       }
 
+      saveData();
       updateUI();
     }
 
     function updateUI() {
       document.getElementById("saldo").innerText = saldo + " NXR";
       document.getElementById("level").innerText = level;
-      document.getElementById("next").innerText = level * 20;
       document.getElementById("power").innerText = power;
-      document.getElementById("skill").innerText = skill;
-      document.getElementById("cost").innerText = skill * 10;
+      document.getElementById("cost").innerText = power * 10;
+    }
+
+    function logout() {
+      localStorage.removeItem("player");
+      location.reload();
+    }
+
+    // AUTO LOGIN
+    if (player) {
+      loadData();
+      showGame();
     }
   </script>
 
