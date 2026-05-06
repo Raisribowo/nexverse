@@ -2,21 +2,119 @@
 <html>
 <head>
   <title>Nexora Game</title>
-</head>
-<body style="background:black;color:lime;text-align:center;">
-  <h1>🚀 Nexora Mining Game</h1>
-  <p>Welcome Abi</p>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <button onclick="mine()">⛏️ Start Mining</button>
-  <h2 id="saldo">0 NXR</h2>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial;
+      background: #0d1117;
+      color: white;
+      text-align: center;
+    }
+
+    h1 {
+      color: #00ff99;
+    }
+
+    .card {
+      background: #161b22;
+      margin: 15px;
+      padding: 20px;
+      border-radius: 15px;
+      box-shadow: 0 0 15px rgba(0,255,150,0.2);
+    }
+
+    button {
+      padding: 12px 20px;
+      margin: 5px;
+      border: none;
+      border-radius: 10px;
+      background: #00ff99;
+      color: black;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    button:disabled {
+      background: gray;
+      cursor: not-allowed;
+    }
+  </style>
+</head>
+
+<body>
+
+  <h1>🚀 Nexora Mining Game</h1>
+
+  <!-- WALLET -->
+  <div class="card">
+    <h2>Wallet 👛</h2>
+    <p id="saldo">0 NXR</p>
+  </div>
+
+  <!-- MINING -->
+  <div class="card">
+    <h2>Mining ⛏️</h2>
+    <p>Power: <span id="power">1</span></p>
+    <button onclick="mine()">Start Mining</button>
+  </div>
+
+  <!-- LEVEL -->
+  <div class="card">
+    <h2>Level 📈</h2>
+    <p>Level: <span id="level">1</span></p>
+    <p>Next: <span id="next">20</span> NXR</p>
+  </div>
+
+  <!-- SKILL -->
+  <div class="card">
+    <h2>Upgrade Skill ⚙️</h2>
+    <p>Mining Speed Lv: <span id="skill">1</span></p>
+    <p>Cost: <span id="cost">10</span> NXR</p>
+    <button onclick="upgrade()">Upgrade</button>
+  </div>
 
   <script>
     let saldo = 0;
+    let level = 1;
+    let power = 1;
+    let skill = 1;
 
     function mine() {
-      saldo += 1;
+      saldo += power;
+
+      // level up
+      if (saldo >= level * 20) {
+        level++;
+      }
+
+      updateUI();
+    }
+
+    function upgrade() {
+      let cost = skill * 10;
+
+      if (saldo >= cost) {
+        saldo -= cost;
+        skill++;
+        power += 1;
+      } else {
+        alert("NXR tidak cukup!");
+      }
+
+      updateUI();
+    }
+
+    function updateUI() {
       document.getElementById("saldo").innerText = saldo + " NXR";
+      document.getElementById("level").innerText = level;
+      document.getElementById("next").innerText = level * 20;
+      document.getElementById("power").innerText = power;
+      document.getElementById("skill").innerText = skill;
+      document.getElementById("cost").innerText = skill * 10;
     }
   </script>
+
 </body>
 </html>
