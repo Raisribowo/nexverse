@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Nexora Game</title>
+</head>
+<body style="background:black;color:lime;text-align:center;">
+  <h1>🚀 Nexora Mining Game</h1>
+  <p>Welcome Abi</p>
+
+  <button onclick="mine()">⛏️ Start Mining</button>
+  <h2 id="saldo">0 NXR</h2>
+
+  <script>
+    let saldo = 0;
+
+    function mine() {
+      saldo += 1;
+      document.getElementById("saldo").innerText = saldo + " NXR";
+    }
+  </script>
+</body>
+</html>
