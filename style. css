@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Nexora Game</title>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js"></script>
+
+  <script src="firebase.js"></script>
+  <script src="game.js"></script>
+
+  <style>
+    body{background:#0f172a;color:white;font-family:Arial;}
+    .box{padding:10px;border:1px solid #333;margin:10px;}
+    button{padding:10px;margin-top:10px;}
+  </style>
+</head>
+
+<body>
+
+<h2>NEXORA DASHBOARD</h2>
+
+<div class="box">
+  Balance: <span id="balance">0</span> NXR
+</div>
+
+<div class="box">
+  Tool Level: <span id="tool">1</span>
+</div>
+
+<button onclick="startMining()">START MINING (60s)</button>
+
+</body>
+</html>
