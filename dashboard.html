@@ -1,217 +1,34 @@
 <!DOCTYPE html>
-<html lang="id">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Nexora RPG Dashboard</title>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+  <title>Nexora Game</title>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js"></script>
+
+  <script src="firebase.js"></script>
+  <script src="game.js"></script>
+
   <style>
-    *{margin:0;padding:0;box-sizing:border-box;font-family:'Orbitron',sans-serif;}
-    body{
-      background:linear-gradient(135deg,#0f172a,#111827,#1e293b);
-      color:white;
-      height:100vh;
-      overflow-y:auto;
-    }
-
-    .topbar{
-      padding:15px;
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      background:rgba(255,255,255,0.05);
-      border-bottom:1px solid rgba(255,255,255,0.1);
-      position:sticky;
-      top:0;
-    }
-
-    .logo{color:#00ffff;font-size:20px;font-weight:bold;}
-    .wallet{font-size:12px;color:#94a3b8;}
-
-    .container{padding:15px;}
-
-    .card{
-      background:rgba(255,255,255,0.05);
-      padding:15px;
-      border-radius:15px;
-      margin-bottom:12px;
-      border:1px solid rgba(255,255,255,0.1);
-    }
-
-    .title{font-size:13px;color:#94a3b8;}
-    .value{font-size:20px;margin-top:5px;color:#00ffff;}
-
-    .btn{
-      width:100%;
-      padding:12px;
-      border:none;
-      border-radius:12px;
-      background:linear-gradient(90deg,#00ffff,#2563eb);
-      color:white;
-      margin-top:10px;
-      cursor:pointer;
-      font-weight:bold;
-    }
-
-    .btn:disabled{background:gray;cursor:not-allowed;}
-
-    .progress{width:100%;height:10px;background:#1e293b;border-radius:10px;overflow:hidden;margin-top:10px;}
-    .bar{height:100%;width:0%;background:#00ffff;}
-
-    .grid{display:grid;grid-template-columns:1fr;gap:10px;}
-
-    .market-item{
-      background:rgba(255,255,255,0.05);
-      padding:12px;
-      border-radius:12px;
-      border:1px solid rgba(255,255,255,0.1);
-    }
-
-    .small{font-size:12px;color:#94a3b8;}
+    body{background:#0f172a;color:white;font-family:Arial;}
+    .box{padding:10px;border:1px solid #333;margin:10px;}
+    button{padding:10px;margin-top:10px;}
   </style>
 </head>
+
 <body>
 
-<div class="topbar">
-  <div class="logo">NEXORA RPG</div>
-  <div class="wallet" id="userInfo"></div>
+<h2>NEXORA DASHBOARD</h2>
+
+<div class="box">
+  Balance: <span id="balance">0</span> NXR
 </div>
 
-<div class="container">
-
-  <div class="card">
-    <div class="title">Saldo</div>
-    <div class="value" id="balance">0 NXR</div>
-  </div>
-
-  <div class="card">
-    <div class="title">Tool Mining</div>
-    <div class="value" id="tool">Basic Rig LVL 1</div>
-    <div class="small" id="speed">Speed: Normal</div>
-    <button class="btn" onclick="upgradeTool()">Upgrade Tool</button>
-  </div>
-
-  <div class="card">
-    <div class="title">Mining System</div>
-    <div id="status">Idle</div>
-    <div class="progress"><div class="bar" id="bar"></div></div>
-    <button class="btn" id="mineBtn" onclick="startMining()">START MINING</button>
-  </div>
-
-  <div class="card">
-    <div class="title">Marketplace Tools</div>
-    <div class="grid" id="market"></div>
-  </div>
-
+<div class="box">
+  Tool Level: <span id="tool">1</span>
 </div>
 
-<script>
-let user = JSON.parse(localStorage.getItem('currentUser'));
-if(!user){window.location.href='index.html';}
-
-if(!user.balance) user.balance = 0;
-if(!user.toolLevel) user.toolLevel = 1;
-
-let mining=false;
-let duration=60000;
-let rewardBase=10;
-
-function save(){localStorage.setItem('currentUser',JSON.stringify(user));}
-
-function render(){
-  document.getElementById('balance').innerText=user.balance+' NXR';
-  document.getElementById('userInfo').innerText=user.username;
-
-  document.getElementById('tool').innerText='Mining Rig LVL '+user.toolLevel;
-
-  let speedText='Normal';
-  if(user.toolLevel==2) speedText='Fast';
-  if(user.toolLevel>=3) speedText='Ultra Fast';
-  document.getElementById('speed').innerText='Speed: '+speedText;
-}
-
-function upgradeTool(){
-  let cost=user.toolLevel*20;
-
-  if(user.balance<cost){alert('Saldo tidak cukup');return;}
-
-  user.balance-=cost;
-  user.toolLevel+=1;
-
-  save();
-  render();
-}
-
-function startMining(){
-  if(mining) return;
-
-  mining=true;
-  document.getElementById('status').innerText='Mining...';
-
-  let start=Date.now();
-
-  let speedMultiplier=1;
-  if(user.toolLevel==2) speedMultiplier=1.3;
-  if(user.toolLevel>=3) speedMultiplier=1.6;
-
-  let interval=setInterval(()=>{
-    let progress=(Date.now()-start)/duration*100*speedMultiplier;
-    document.getElementById('bar').style.width=Math.min(progress,100)+'%';
-
-    if(progress>=100){
-      clearInterval(interval);
-      mining=false;
-
-      let reward=rewardBase*user.toolLevel;
-      user.balance+=reward;
-
-      save();
-      render();
-
-      document.getElementById('status')
-      .innerText='Mining complete +'+reward+' NXR';
-
-      document.getElementById('bar').style.width='0%';
-    }
-  },1000);
-}
-
-let marketItems=[
-  {name:'Basic Rig LVL2',price:40},
-  {name:'Advanced Rig LVL3',price:80},
-  {name:'Speed Booster',price:60}
-];
-
-function renderMarket(){
-  let box=document.getElementById('market');
-  box.innerHTML='';
-
-  marketItems.forEach((item,i)=>{
-    let div=document.createElement('div');
-    div.className='market-item';
-    div.innerHTML=`<b>${item.name}</b><br><span class='small'>Price: ${item.price} NXR</span><button class='btn' onclick='buy(${i})'>BUY</button>`;
-    box.appendChild(div);
-  });
-}
-
-function buy(i){
-  let item=marketItems[i];
-
-  if(user.balance<item.price){alert('Tidak cukup NXR');return;}
-
-  user.balance-=item.price;
-
-  if(item.name.includes('LVL2')) user.toolLevel=2;
-  if(item.name.includes('LVL3')) user.toolLevel=3;
-
-  save();
-  render();
-  renderMarket();
-}
-
-render();
-renderMarket();
-</script>
+<button onclick="startMining()">START MINING (60s)</button>
 
 </body>
 </html>
