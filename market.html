@@ -1,170 +1,391 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Nexora Market</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
   <style>
-    body {
-      margin: 0;
-      font-family: Arial;
-      background: #0b1220;
-      color: white;
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+      font-family:Arial, sans-serif;
     }
 
-    .topbar {
-      padding: 15px;
-      background: #111a2e;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+    body{
+      background:#0b0e11;
+      color:white;
+      display:flex;
+      height:100vh;
+      overflow:hidden;
     }
 
-    .logo {
-      color: #38bdf8;
-      font-weight: bold;
+    .sidebar{
+      width:240px;
+      background:#11161f;
+      border-right:1px solid rgba(255,255,255,0.08);
+      padding:20px;
     }
 
-    .container {
-      padding: 15px;
+    .logo{
+      font-size:28px;
+      font-weight:bold;
+      color:#f0b90b;
+      margin-bottom:40px;
     }
 
-    .card {
-      background: #111a2e;
-      padding: 15px;
-      border-radius: 12px;
-      margin-bottom: 15px;
+    .menu{
+      display:flex;
+      flex-direction:column;
+      gap:14px;
     }
 
-    .price {
-      font-size: 28px;
-      color: #22c55e;
-      font-weight: bold;
+    .menu a{
+      text-decoration:none;
+      color:#b7bdc6;
+      padding:14px;
+      border-radius:12px;
+      transition:0.3s;
+      display:flex;
+      align-items:center;
+      gap:12px;
     }
 
-    .row {
-      display: flex;
-      gap: 10px;
+    .menu a:hover,
+    .menu a.active{
+      background:#1e2329;
+      color:#f0b90b;
     }
 
-    input {
-      width: 100%;
-      padding: 10px;
-      border-radius: 8px;
-      border: none;
-      outline: none;
+    .main{
+      flex:1;
+      display:flex;
+      flex-direction:column;
     }
 
-    button {
-      width: 100%;
-      padding: 12px;
-      border: none;
-      border-radius: 10px;
-      font-weight: bold;
-      cursor: pointer;
+    .topbar{
+      height:70px;
+      background:#11161f;
+      border-bottom:1px solid rgba(255,255,255,0.08);
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      padding:0 25px;
     }
 
-    .buy {
-      background: #22c55e;
-      color: black;
+    .pair{
+      display:flex;
+      align-items:center;
+      gap:15px;
     }
 
-    .sell {
-      background: #ef4444;
-      color: white;
+    .pair h2{
+      color:#f0b90b;
     }
 
-    .small {
-      font-size: 12px;
-      color: #94a3b8;
+    .price{
+      color:#00ff99;
+      font-size:28px;
+      font-weight:bold;
+    }
+
+    .content{
+      flex:1;
+      display:grid;
+      grid-template-columns: 1fr 340px;
+      gap:12px;
+      padding:12px;
+      overflow:hidden;
+    }
+
+    .chart-box{
+      background:#161b22;
+      border-radius:18px;
+      padding:20px;
+      display:flex;
+      flex-direction:column;
+    }
+
+    .chart-header{
+      display:flex;
+      justify-content:space-between;
+      margin-bottom:20px;
+    }
+
+    .chart-actions{
+      display:flex;
+      gap:10px;
+    }
+
+    .chart-actions button{
+      background:#1e2329;
+      color:#ccc;
+      border:none;
+      padding:8px 14px;
+      border-radius:10px;
+      cursor:pointer;
+    }
+
+    .chart-actions button:hover{
+      background:#f0b90b;
+      color:black;
+    }
+
+    .chart-container{
+      flex:1;
+      position:relative;
+    }
+
+    .side-panel{
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+      overflow:auto;
+    }
+
+    .panel{
+      background:#161b22;
+      border-radius:18px;
+      padding:18px;
+    }
+
+    .panel h3{
+      margin-bottom:15px;
+      color:#f0b90b;
+    }
+
+    .orderbook{
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+      font-size:14px;
+    }
+
+    .sell{
+      color:#ff4d4d;
+      display:flex;
+      justify-content:space-between;
+    }
+
+    .buy{
+      color:#00ff99;
+      display:flex;
+      justify-content:space-between;
+    }
+
+    .trade-box input{
+      width:100%;
+      padding:14px;
+      margin-bottom:12px;
+      border:none;
+      border-radius:10px;
+      background:#1e2329;
+      color:white;
+    }
+
+    .buy-btn,
+    .sell-btn{
+      width:100%;
+      padding:14px;
+      border:none;
+      border-radius:12px;
+      font-weight:bold;
+      cursor:pointer;
+      margin-top:8px;
+    }
+
+    .buy-btn{
+      background:#00c076;
+      color:white;
+    }
+
+    .sell-btn{
+      background:#f6465d;
+      color:white;
+    }
+
+    .coins{
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+    }
+
+    .coin{
+      background:#1e2329;
+      padding:12px;
+      border-radius:12px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+    }
+
+    .green{
+      color:#00ff99;
+    }
+
+    .red{
+      color:#ff4d4d;
+    }
+
+    @media(max-width:1000px){
+      .content{
+        grid-template-columns:1fr;
+      }
+
+      .sidebar{
+        display:none;
+      }
     }
   </style>
 </head>
-
 <body>
 
-  <div class="topbar">
-    <div class="logo">📈 NEXORA MARKET</div>
-    <div>Live Trading</div>
+  <div class="sidebar">
+    <div class="logo">NEXORA</div>
+
+    <div class="menu">
+      <a href="index.html"><i class="fa-solid fa-house"></i> Rumah</a>
+      <a href="mining.html"><i class="fa-solid fa-microchip"></i> Mining</a>
+      <a href="market.html" class="active"><i class="fa-solid fa-chart-line"></i> Market</a>
+      <a href="wallet.html"><i class="fa-solid fa-wallet"></i> Wallet</a>
+      <a href="leaderboard.html"><i class="fa-solid fa-trophy"></i> Leaderboard</a>
+      <a href="nft.html"><i class="fa-solid fa-cube"></i> NFT Rig</a>
+    </div>
   </div>
 
-  <div class="container">
+  <div class="main">
 
-    <!-- PRICE -->
-    <div class="card">
-      <h3>💰 NXR Price</h3>
-      <div class="price" id="price">1000</div>
-      <p class="small">Update setiap klik (demo system)</p>
+    <div class="topbar">
+      <div class="pair">
+        <h2>NXR/USDT</h2>
+        <div class="price">$1.284</div>
+        <div class="green">+8.12%</div>
+      </div>
 
-      <button onclick="updatePrice()">Refresh Price</button>
+      <div>
+        Volume 24h : <span class="green">12.4M NXR</span>
+      </div>
     </div>
 
-    <!-- WALLET -->
-    <div class="card">
-      <h3>👛 Your Wallet</h3>
-      <p>NXR Balance: <b id="balance">0</b></p>
-    </div>
+    <div class="content">
 
-    <!-- BUY -->
-    <div class="card">
-      <h3>🟢 BUY NXR</h3>
-      <input type="number" id="buyAmount" placeholder="Amount NXR">
-      <button class="buy" onclick="buy()">BUY</button>
-    </div>
+      <div class="chart-box">
 
-    <!-- SELL -->
-    <div class="card">
-      <h3>🔴 SELL NXR</h3>
-      <input type="number" id="sellAmount" placeholder="Amount NXR">
-      <button class="sell" onclick="sell()">SELL</button>
+        <div class="chart-header">
+          <h3>Trading Chart</h3>
+
+          <div class="chart-actions">
+            <button>1H</button>
+            <button>4H</button>
+            <button>1D</button>
+            <button>1W</button>
+          </div>
+        </div>
+
+        <div class="chart-container">
+          <canvas id="marketChart"></canvas>
+        </div>
+
+      </div>
+
+      <div class="side-panel">
+
+        <div class="panel">
+          <h3>Order Book</h3>
+
+          <div class="orderbook">
+            <div class="sell"><span>1.291</span><span>420 NXR</span></div>
+            <div class="sell"><span>1.288</span><span>350 NXR</span></div>
+            <div class="sell"><span>1.285</span><span>210 NXR</span></div>
+            <div class="buy"><span>1.280</span><span>480 NXR</span></div>
+            <div class="buy"><span>1.276</span><span>690 NXR</span></div>
+            <div class="buy"><span>1.271</span><span>800 NXR</span></div>
+          </div>
+        </div>
+
+        <div class="panel trade-box">
+          <h3>Trade NXR</h3>
+
+          <input type="number" placeholder="Jumlah NXR">
+          <input type="number" placeholder="Harga">
+
+          <button class="buy-btn">BUY NXR</button>
+          <button class="sell-btn">SELL NXR</button>
+        </div>
+
+        <div class="panel">
+          <h3>Market Coins</h3>
+
+          <div class="coins">
+
+            <div class="coin">
+              <div>BTC</div>
+              <div class="green">+3.2%</div>
+            </div>
+
+            <div class="coin">
+              <div>ETH</div>
+              <div class="green">+1.8%</div>
+            </div>
+
+            <div class="coin">
+              <div>NXR</div>
+              <div class="green">+8.1%</div>
+            </div>
+
+            <div class="coin">
+              <div>TON</div>
+              <div class="red">-2.3%</div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+
     </div>
 
   </div>
 
   <script>
-    let price = 1000;
-    let balance = 0;
+    const ctx = document.getElementById('marketChart');
 
-    function updateUI() {
-      document.getElementById("price").innerText = price;
-      document.getElementById("balance").innerText = balance;
-    }
-
-    function updatePrice() {
-      // simulasi market naik turun
-      let change = Math.floor(Math.random() * 200 - 100);
-      price = Math.max(100, price + change);
-      updateUI();
-    }
-
-    function buy() {
-      let amount = parseInt(document.getElementById("buyAmount").value);
-
-      if(!amount || amount <= 0) return alert("Masukkan jumlah!");
-
-      let cost = amount * price;
-
-      balance += amount;
-
-      alert("Berhasil beli " + amount + " NXR");
-      updateUI();
-    }
-
-    function sell() {
-      let amount = parseInt(document.getElementById("sellAmount").value);
-
-      if(!amount || amount <= 0) return alert("Masukkan jumlah!");
-
-      if(amount > balance) return alert("Balance tidak cukup!");
-
-      balance -= amount;
-
-      alert("Berhasil jual " + amount + " NXR");
-      updateUI();
-    }
-
-    updateUI();
+    new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: ['00:00','02:00','04:00','06:00','08:00','10:00','12:00','14:00','16:00','18:00','20:00'],
+        datasets: [{
+          label: 'NXR Price',
+          data: [0.82,0.88,0.92,0.95,1.01,1.08,1.12,1.18,1.20,1.24,1.28],
+          borderColor: '#f0b90b',
+          backgroundColor: 'rgba(240,185,11,0.1)',
+          tension: 0.4,
+          fill: true
+        }]
+      },
+      options: {
+        responsive:true,
+        maintainAspectRatio:false,
+        plugins:{
+          legend:{
+            display:false
+          }
+        },
+        scales:{
+          x:{
+            ticks:{color:'#999'},
+            grid:{color:'rgba(255,255,255,0.05)'}
+          },
+          y:{
+            ticks:{color:'#999'},
+            grid:{color:'rgba(255,255,255,0.05)'}
+          }
+        }
+      }
+    });
   </script>
 
 </body>
