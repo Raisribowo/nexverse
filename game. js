@@ -1,0 +1,47 @@
+let user;
+
+auth.onAuthStateChanged(async (u)=>{
+  if(!u){
+    window.location.href="index.html";
+    return;
+  }
+
+  user = u;
+
+  db.collection("users").doc(user.uid)
+  .onSnapshot(doc=>{
+    document.getElementById("balance").innerText = doc.data().balance;
+    document.getElementById("tool").innerText = doc.data().toolLevel;
+  });
+});
+
+async function startMining(){
+
+  let ref = db.collection("users").doc(user.uid);
+  let data = await ref.get();
+
+  let cost = 5;
+
+  if(data.data().balance < cost){
+    alert("Saldo tidak cukup");
+    return;
+  }
+
+  // bayar sewa alat
+  await ref.update({
+    balance: firebase.firestore.FieldValue.increment(-cost)
+  });
+
+  // mining delay server simulation
+  setTimeout(async ()=>{
+
+    let reward = 10 * data.data().toolLevel;
+
+    await ref.update({
+      balance: firebase.firestore.FieldValue.increment(reward)
+    });
+
+    alert("Mining selesai +"+reward+" NXR");
+
+  },60000);
+}
