@@ -3,252 +3,200 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Nexora Exchange Game</title>
-  <script src="https://cdn.tailwindcss.com"></script>
+  <title>Nexora - Auth System</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
   <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Orbitron', sans-serif;
+    }
+
     body {
-      background: #0b0e11;
+      background: linear-gradient(135deg, #0f172a, #111827, #1e293b);
       color: white;
-      font-family: Arial, sans-serif;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
 
-    .glass {
-      background: rgba(255,255,255,0.03);
+    .container {
+      width: 90%;
+      max-width: 420px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
       backdrop-filter: blur(10px);
-      border: 1px solid rgba(255,255,255,0.05);
+      border-radius: 20px;
+      padding: 30px;
+      box-shadow: 0 0 30px rgba(0,255,255,0.2);
     }
 
-    .glow {
-      box-shadow: 0 0 20px rgba(240, 185, 11, 0.3);
+    .logo {
+      text-align: center;
+      font-size: 34px;
+      color: #00ffff;
+      margin-bottom: 10px;
+      text-shadow: 0 0 10px #00ffff;
     }
 
-    .scroll-hide::-webkit-scrollbar {
+    .subtitle {
+      text-align: center;
+      font-size: 12px;
+      color: #94a3b8;
+      margin-bottom: 25px;
+    }
+
+    .toggle {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+
+    .toggle button {
+      flex: 1;
+      padding: 10px;
+      border: none;
+      cursor: pointer;
+      background: rgba(255,255,255,0.08);
+      color: white;
+      transition: 0.3s;
+    }
+
+    .toggle button.active {
+      background: #00ffff;
+      color: black;
+    }
+
+    .input-box {
+      margin-bottom: 15px;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px;
+      border-radius: 10px;
+      border: none;
+      outline: none;
+      background: rgba(255,255,255,0.08);
+      color: white;
+    }
+
+    .btn {
+      width: 100%;
+      padding: 12px;
+      border: none;
+      border-radius: 10px;
+      background: linear-gradient(90deg,#00ffff,#2563eb);
+      color: white;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    .msg {
+      text-align: center;
+      margin-top: 10px;
+      font-size: 12px;
+      color: #00ff99;
+    }
+
+    .hidden {
       display: none;
     }
   </style>
 </head>
 <body>
 
-  <!-- Navbar -->
-  <header class="flex items-center justify-between px-6 py-4 border-b border-gray-800 sticky top-0 bg-[#0b0e11] z-50">
-    <div class="flex items-center gap-3">
-      <div class="w-10 h-10 rounded-xl bg-yellow-400 flex items-center justify-center text-black font-bold text-xl">
-        N
-      </div>
-      <div>
-        <h1 class="text-xl font-bold text-yellow-400">NEXORA</h1>
-        <p class="text-xs text-gray-400">Crypto Mining Game</p>
-      </div>
-    </div>
+<div class="container">
+  <div class="logo">NEXORA</div>
+  <div class="subtitle">Login & Register System</div>
 
-    <div class="flex gap-3">
-      <button class="bg-yellow-400 text-black px-4 py-2 rounded-xl font-bold hover:scale-105 transition">
-        Deposit
-      </button>
-      <button class="glass px-4 py-2 rounded-xl hover:bg-gray-800 transition">
-        Wallet
-      </button>
-    </div>
-  </header>
+  <div class="toggle">
+    <button id="btnReg" class="active" onclick="show('register')">Register</button>
+    <button id="btnLogin" onclick="show('login')">Login</button>
+  </div>
 
-  <!-- Hero -->
-  <section class="px-6 py-8">
-    <div class="glass rounded-3xl p-6 glow">
-      <div class="flex flex-col md:flex-row justify-between gap-6 items-center">
-        <div>
-          <h2 class="text-3xl font-bold mb-3">
-            Welcome to <span class="text-yellow-400">Nexora Exchange</span>
-          </h2>
-          <p class="text-gray-400 max-w-xl">
-            Mining • Trading • NFT • Blockchain RPG
-          </p>
+  <!-- REGISTER -->
+  <div id="registerBox">
+    <div class="input-box"><input id="r_user" placeholder="Username"></div>
+    <div class="input-box"><input id="r_email" placeholder="Email"></div>
+    <div class="input-box"><input id="r_pass" type="password" placeholder="Password"></div>
+    <button class="btn" onclick="register()">DAFTAR</button>
+  </div>
 
-          <div class="flex gap-3 mt-6">
-            <button class="bg-yellow-400 text-black px-5 py-3 rounded-2xl font-bold hover:scale-105 transition">
-              Start Mining
-            </button>
-            <button class="glass px-5 py-3 rounded-2xl hover:bg-gray-800 transition">
-              Marketplace
-            </button>
-          </div>
-        </div>
+  <!-- LOGIN -->
+  <div id="loginBox" class="hidden">
+    <div class="input-box"><input id="l_email" placeholder="Email"></div>
+    <div class="input-box"><input id="l_pass" type="password" placeholder="Password"></div>
+    <button class="btn" onclick="login()">LOGIN</button>
+  </div>
 
-        <div class="glass rounded-3xl p-5 w-full md:w-80">
-          <h3 class="text-lg font-bold mb-4">Player Wallet</h3>
+  <div class="msg" id="msg"></div>
+</div>
 
-          <div class="space-y-4">
-            <div>
-              <p class="text-gray-400 text-sm">Balance</p>
-              <h2 class="text-3xl font-bold text-yellow-400">12,450 NXR</h2>
-            </div>
+<script>
+function show(type){
+  document.getElementById('registerBox').classList.add('hidden');
+  document.getElementById('loginBox').classList.add('hidden');
 
-            <div>
-              <p class="text-gray-400 text-sm">Mining Power</p>
-              <div class="w-full bg-gray-800 rounded-full h-4 mt-2 overflow-hidden">
-                <div class="bg-yellow-400 h-4 rounded-full" style="width: 78%"></div>
-              </div>
-              <p class="text-sm mt-2">78%</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
+  document.getElementById('btnReg').classList.remove('active');
+  document.getElementById('btnLogin').classList.remove('active');
 
-  <!-- Market -->
-  <section class="px-6 pb-6">
-    <div class="grid md:grid-cols-3 gap-5">
+  if(type==='register'){
+    document.getElementById('registerBox').classList.remove('hidden');
+    document.getElementById('btnReg').classList.add('active');
+  }else{
+    document.getElementById('loginBox').classList.remove('hidden');
+    document.getElementById('btnLogin').classList.add('active');
+  }
+}
 
-      <div class="glass rounded-3xl p-5">
-        <div class="flex justify-between items-center mb-4">
-          <h3 class="font-bold text-lg">NXR / USDT</h3>
-          <span class="text-green-400">+12.5%</span>
-        </div>
+function getUsers(){
+  return JSON.parse(localStorage.getItem('nexoraUsers')||'[]');
+}
 
-        <div class="h-32 flex items-end gap-2">
-          <div class="bg-yellow-400 w-4 h-16 rounded-t"></div>
-          <div class="bg-yellow-400 w-4 h-24 rounded-t"></div>
-          <div class="bg-yellow-400 w-4 h-20 rounded-t"></div>
-          <div class="bg-yellow-400 w-4 h-28 rounded-t"></div>
-          <div class="bg-yellow-400 w-4 h-14 rounded-t"></div>
-          <div class="bg-yellow-400 w-4 h-32 rounded-t"></div>
-          <div class="bg-yellow-400 w-4 h-24 rounded-t"></div>
-        </div>
+function saveUsers(u){
+  localStorage.setItem('nexoraUsers',JSON.stringify(u));
+}
 
-        <button class="w-full bg-yellow-400 text-black mt-5 py-3 rounded-2xl font-bold hover:scale-105 transition">
-          Trade Now
-        </button>
-      </div>
+function register(){
+  let users=getUsers();
 
-      <div class="glass rounded-3xl p-5">
-        <h3 class="font-bold text-lg mb-4">Daily Missions</h3>
+  let user={
+    id:'NXR-'+Math.floor(Math.random()*900000),
+    username:document.getElementById('r_user').value,
+    email:document.getElementById('r_email').value,
+    password:document.getElementById('r_pass').value,
+    balance:0
+  };
 
-        <div class="space-y-3">
-          <div class="bg-gray-900 p-4 rounded-2xl flex justify-between items-center">
-            <div>
-              <p class="font-bold">Mining 10 Blocks</p>
-              <p class="text-gray-400 text-sm">Reward: 50 NXR</p>
-            </div>
-            <button class="bg-yellow-400 text-black px-3 py-2 rounded-xl text-sm font-bold">
-              Claim
-            </button>
-          </div>
+  users.push(user);
+  saveUsers(users);
 
-          <div class="bg-gray-900 p-4 rounded-2xl flex justify-between items-center">
-            <div>
-              <p class="font-bold">Invite 1 Player</p>
-              <p class="text-gray-400 text-sm">Reward: NFT Box</p>
-            </div>
-            <button class="glass px-3 py-2 rounded-xl text-sm">
-              Pending
-            </button>
-          </div>
-        </div>
-      </div>
+  document.getElementById('msg').innerText="Register sukses ID: "+user.id;
+}
 
-      <div class="glass rounded-3xl p-5">
-        <h3 class="font-bold text-lg mb-4">Top Miners</h3>
+function login(){
+  let users=getUsers();
 
-        <div class="space-y-4">
-          <div class="flex justify-between">
-            <span>#1 AbiHunter</span>
-            <span class="text-yellow-400">52,000 NXR</span>
-          </div>
+  let email=document.getElementById('l_email').value;
+  let pass=document.getElementById('l_pass').value;
 
-          <div class="flex justify-between">
-            <span>#2 NexKing</span>
-            <span class="text-yellow-400">48,200 NXR</span>
-          </div>
+  let found=users.find(u=>u.email===email && u.password===pass);
 
-          <div class="flex justify-between">
-            <span>#3 BlockRider</span>
-            <span class="text-yellow-400">41,890 NXR</span>
-          </div>
-        </div>
-      </div>
+  if(found){
+    localStorage.setItem('currentUser',JSON.stringify(found));
+    document.getElementById('msg').innerText="Login sukses: "+found.username;
 
-    </div>
-  </section>
-
-  <!-- Mining Panel -->
-  <section class="px-6 pb-10">
-    <div class="glass rounded-3xl p-6">
-      <div class="flex flex-col md:flex-row justify-between gap-6 items-center">
-
-        <div>
-          <h2 class="text-2xl font-bold mb-3">Realtime Mining</h2>
-          <p class="text-gray-400 mb-5">
-            Generate NXR every second based on your mining power.
-          </p>
-
-          <div class="flex gap-3">
-            <button onclick="startMining()" class="bg-yellow-400 text-black px-5 py-3 rounded-2xl font-bold hover:scale-105 transition">
-              Start
-            </button>
-
-            <button onclick="stopMining()" class="bg-red-500 px-5 py-3 rounded-2xl font-bold hover:scale-105 transition">
-              Stop
-            </button>
-          </div>
-        </div>
-
-        <div class="text-center">
-          <div class="w-40 h-40 rounded-full border-8 border-yellow-400 flex items-center justify-center text-3xl font-bold animate-pulse">
-            <span id="mining">0</span>
-          </div>
-          <p class="mt-4 text-gray-400">NXR Generated</p>
-        </div>
-
-      </div>
-    </div>
-  </section>
-
-  <!-- Bottom Navigation -->
-  <nav class="fixed bottom-0 left-0 right-0 bg-[#11151c] border-t border-gray-800 flex justify-around py-3">
-    <button class="flex flex-col items-center text-yellow-400 text-sm">
-      🏠
-      Home
-    </button>
-
-    <button class="flex flex-col items-center text-gray-400 text-sm hover:text-yellow-400">
-      📈
-      Market
-    </button>
-
-    <button class="flex flex-col items-center text-gray-400 text-sm hover:text-yellow-400">
-      ⛏️
-      Mining
-    </button>
-
-    <button class="flex flex-col items-center text-gray-400 text-sm hover:text-yellow-400">
-      🎮
-      Game
-    </button>
-
-    <button class="flex flex-col items-center text-gray-400 text-sm hover:text-yellow-400">
-      👤
-      Profile
-    </button>
-  </nav>
-
-  <script>
-    let value = 0;
-    let miningInterval;
-
-    function startMining() {
-      if (!miningInterval) {
-        miningInterval = setInterval(() => {
-          value += Math.floor(Math.random() * 5) + 1;
-          document.getElementById('mining').innerText = value;
-        }, 1000);
-      }
-    }
-
-    function stopMining() {
-      clearInterval(miningInterval);
-      miningInterval = null;
-    }
-  </script>
+    setTimeout(()=>{
+      window.location.href="dashboard.html";
+    },1000);
+  }else{
+    document.getElementById('msg').innerText="Login gagal";
+  }
+}
+</script>
 
 </body>
 </html>
