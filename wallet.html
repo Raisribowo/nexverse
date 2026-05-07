@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Nexora Wallet</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #0b0f1a;
+    color: white;
+}
+
+.header {
+    padding: 20px;
+    background: #11182a;
+    text-align: center;
+    font-size: 20px;
+    font-weight: bold;
+    border-bottom: 1px solid #222;
+}
+
+.container {
+    padding: 15px;
+}
+
+.card {
+    background: #151c2e;
+    padding: 15px;
+    border-radius: 12px;
+    margin-bottom: 15px;
+}
+
+.balance {
+    font-size: 28px;
+    color: #00ffb3;
+    margin-top: 10px;
+}
+
+.btn-row {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+button {
+    flex: 1;
+    padding: 12px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.topup {
+    background: #00c853;
+    color: white;
+}
+
+.withdraw {
+    background: #ff3d00;
+    color: white;
+}
+
+.history {
+    margin-top: 10px;
+}
+
+.tx {
+    padding: 10px;
+    background: #0f1525;
+    border-radius: 8px;
+    margin-bottom: 8px;
+    font-size: 14px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.green { color: #00ffb3; }
+.red { color: #ff5252; }
+</style>
+</head>
+
+<body>
+
+<div class="header">
+    💰 NEXORA WALLET
+</div>
+
+<div class="container">
+
+    <!-- BALANCE -->
+    <div class="card">
+        <div>Available Balance</div>
+        <div class="balance">1,250 NXR</div>
+
+        <div class="btn-row">
+            <button class="topup" onclick="topup()">Top Up</button>
+            <button class="withdraw" onclick="withdraw()">Withdraw</button>
+        </div>
+    </div>
+
+    <!-- STATS -->
+    <div class="card">
+        <div>Total Profit Today</div>
+        <div class="green">+120 NXR</div>
+        <br>
+        <div>Total Loss Today</div>
+        <div class="red">-30 NXR</div>
+    </div>
+
+    <!-- TRANSACTION HISTORY -->
+    <div class="card">
+        <div>Transaction History</div>
+
+        <div class="history">
+            <div class="tx">
+                <span>Mining Reward</span>
+                <span class="green">+50 NXR</span>
+            </div>
+
+            <div class="tx">
+                <span>Market Buy</span>
+                <span class="red">-100 NXR</span>
+            </div>
+
+            <div class="tx">
+                <span>Referral Bonus</span>
+                <span class="green">+20 NXR</span>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+function topup() {
+    alert("Fitur Top Up akan terhubung ke sistem pembayaran Nexora (nanti bisa QRIS / crypto gateway).");
+}
+
+function withdraw() {
+    alert("Withdraw sedang diproses (akan terhubung ke wallet blockchain).");
+}
+</script>
+
+</body>
+</html>
