@@ -1,21 +1,117 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Nexora Login</title>
-  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js"></script>
-  <script src="firebase.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Nexora - Crypto Mining Game</title>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: radial-gradient(circle at top, #0f172a, #020617);
+      color: white;
+      text-align: center;
+    }
+
+    .container {
+      padding: 60px 20px;
+    }
+
+    h1 {
+      font-size: 42px;
+      color: #38bdf8;
+      margin-bottom: 10px;
+    }
+
+    p {
+      color: #94a3b8;
+      margin-bottom: 40px;
+    }
+
+    .card {
+      background: rgba(255,255,255,0.05);
+      padding: 25px;
+      border-radius: 15px;
+      max-width: 400px;
+      margin: auto;
+      box-shadow: 0 0 20px rgba(56,189,248,0.2);
+    }
+
+    input {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border: none;
+      border-radius: 8px;
+      outline: none;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      margin-top: 10px;
+      background: #38bdf8;
+      border: none;
+      border-radius: 8px;
+      color: black;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #0ea5e9;
+    }
+
+    .footer {
+      margin-top: 30px;
+      font-size: 12px;
+      color: #64748b;
+    }
+  </style>
 </head>
 
 <body>
-  <h2>NEXORA LOGIN</h2>
 
-  <input id="email" placeholder="email">
-  <input id="password" type="password" placeholder="password">
+  <div class="container">
 
-  <button onclick="login()">Login</button>
-  <button onclick="register()">Register</button>
+    <h1>⚡ NEXORA</h1>
+    <p>Crypto Mining • Trading • Play to Earn Game</p>
 
-  <script src="auth.js"></script>
+    <div class="card">
+
+      <h3>Login Player</h3>
+
+      <input type="text" id="username" placeholder="Username">
+      <input type="email" id="email" placeholder="Email">
+
+      <button onclick="login()">Enter Game</button>
+
+    </div>
+
+    <div class="footer">
+      © 2026 Nexora Network | Build your digital economy
+    </div>
+
+  </div>
+
+  <script>
+    function login() {
+      let username = document.getElementById("username").value;
+      let email = document.getElementById("email").value;
+
+      if(username === "" || email === "") {
+        alert("Isi username & email dulu!");
+        return;
+      }
+
+      // Simpan sementara (nanti diganti Firebase)
+      localStorage.setItem("nexora_user", username);
+
+      // Pindah ke game
+      window.location.href = "game.html";
+    }
+  </script>
+
 </body>
 </html>
