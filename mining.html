@@ -1,183 +1,185 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Nexora Mining</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-
-  <style>
+<meta charset="UTF-8">
+<title>Nexora Mining Rig v1</title>
+<style>
     body {
-      margin: 0;
-      font-family: Arial;
-      background: #0b1220;
-      color: white;
+        margin: 0;
+        font-family: Arial;
+        background: #0b0f1a;
+        color: #fff;
+        display: flex;
     }
 
-    .topbar {
-      padding: 15px;
-      background: #111a2e;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+    /* SIDEBAR */
+    .sidebar {
+        width: 220px;
+        background: #11182a;
+        height: 100vh;
+        padding: 20px;
     }
 
     .logo {
-      color: #38bdf8;
-      font-weight: bold;
+        font-size: 20px;
+        font-weight: bold;
+        color: #00ffcc;
+        margin-bottom: 30px;
     }
 
-    .container {
-      padding: 15px;
+    .menu button {
+        width: 100%;
+        padding: 10px;
+        margin: 5px 0;
+        background: #1b2742;
+        border: none;
+        color: white;
+        cursor: pointer;
+        border-radius: 8px;
     }
 
-    .card {
-      background: #111a2e;
-      padding: 15px;
-      border-radius: 12px;
-      margin-bottom: 15px;
-      text-align: center;
+    .menu button:hover {
+        background: #00ffcc;
+        color: black;
     }
 
-    .big {
-      font-size: 30px;
-      font-weight: bold;
-      color: #22c55e;
-    }
-
-    button {
-      width: 100%;
-      padding: 12px;
-      border: none;
-      border-radius: 10px;
-      font-weight: bold;
-      cursor: pointer;
-      margin-top: 10px;
-    }
-
-    .mine {
-      background: linear-gradient(90deg,#22c55e,#38bdf8);
-      color: black;
-    }
-
-    .stop {
-      background: #ef4444;
-      color: white;
-    }
-
-    .small {
-      font-size: 12px;
-      color: #94a3b8;
+    /* MAIN */
+    .main {
+        flex: 1;
+        padding: 20px;
     }
 
     .grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
     }
 
-    .stat {
-      background: #0f172a;
-      padding: 10px;
-      border-radius: 10px;
+    .card {
+        background: #141c2f;
+        padding: 20px;
+        border-radius: 12px;
+        box-shadow: 0 0 10px rgba(0,255,204,0.1);
     }
-  </style>
+
+    .status {
+        font-size: 14px;
+        margin-top: 10px;
+    }
+
+    .green {
+        color: #00ffcc;
+    }
+
+    .red {
+        color: #ff4d4d;
+    }
+
+    .btn {
+        margin-top: 15px;
+        padding: 10px 15px;
+        border: none;
+        cursor: pointer;
+        border-radius: 8px;
+        font-weight: bold;
+    }
+
+    .start {
+        background: #00ffcc;
+        color: black;
+    }
+
+    .stop {
+        background: #ff4d4d;
+        color: white;
+    }
+
+    .profit {
+        font-size: 22px;
+        color: #00ffcc;
+        margin-top: 10px;
+    }
+
+</style>
 </head>
 
 <body>
 
-  <div class="topbar">
-    <div class="logo">⛏️ NEXORA MINING</div>
-    <div>Active Miner</div>
-  </div>
-
-  <div class="container">
-
-    <!-- STATUS -->
-    <div class="card">
-      <h3>Mining Status</h3>
-      <div class="big" id="status">STOPPED</div>
-      <p class="small">Reward otomatis tiap 1 detik saat aktif</p>
+<!-- SIDEBAR -->
+<div class="sidebar">
+    <div class="logo">NEXORA</div>
+    <div class="menu">
+        <button>Home</button>
+        <button>Mining</button>
+        <button>Market</button>
+        <button>Wallet</button>
+        <button>NFT Rig</button>
+        <button>Leaderboard</button>
     </div>
+</div>
 
-    <!-- STATS -->
-    <div class="card">
-      <h3>📊 Stats</h3>
-      <div class="grid">
-        <div class="stat">
-          <div>Balance NXR</div>
-          <h2 id="balance">0</h2>
+<!-- MAIN -->
+<div class="main">
+    <h2>⛏️ Mining Rig Dashboard</h2>
+
+    <div class="grid">
+
+        <!-- RIG STATUS -->
+        <div class="card">
+            <h3>Rig Alpha</h3>
+            <div class="status">Power: <span id="power" class="red">OFF</span></div>
+            <div class="status">Temperature: <span id="temp">45°C</span></div>
+            <div class="status">Hashrate: <span id="hash">0 H/s</span></div>
+
+            <button class="btn start" onclick="startMining()">START MINING</button>
+            <button class="btn stop" onclick="stopMining()">STOP</button>
         </div>
-        <div class="stat">
-          <div>Energy</div>
-          <h2 id="energy">100</h2>
+
+        <!-- PROFIT -->
+        <div class="card">
+            <h3>Profit Realtime</h3>
+            <div class="profit" id="profit">0 NXR</div>
+            <div class="status">Est. per minute mining reward</div>
         </div>
-      </div>
+
     </div>
+</div>
 
-    <!-- MINING CONTROL -->
-    <div class="card">
-      <h3>⚙️ Control</h3>
+<script>
+let mining = false;
+let profit = 0;
+let hash = 0;
+let temp = 45;
+let interval;
 
-      <button class="mine" onclick="startMining()">START MINING</button>
-      <button class="stop" onclick="stopMining()">STOP MINING</button>
+function startMining(){
+    if(mining) return;
+    mining = true;
 
-      <p class="small">+5 NXR / detik (demo system)</p>
-    </div>
+    document.getElementById("power").innerText = "ON";
+    document.getElementById("power").className = "green";
 
-    <!-- HASHRATE -->
-    <div class="card">
-      <h3>⚡ Hashrate</h3>
-      <div class="big" id="hashrate">0 H/s</div>
-    </div>
+    interval = setInterval(() => {
+        hash = Math.floor(Math.random() * 500 + 200);
+        temp = Math.floor(Math.random() * 20 + 50);
+        profit += Math.random() * 0.5;
 
-  </div>
+        document.getElementById("hash").innerText = hash + " H/s";
+        document.getElementById("temp").innerText = temp + "°C";
+        document.getElementById("profit").innerText = profit.toFixed(3) + " NXR";
+    }, 1000);
+}
 
-  <script>
-    let balance = 0;
-    let energy = 100;
-    let mining = false;
-    let interval;
+function stopMining(){
+    mining = false;
+    clearInterval(interval);
 
-    let hashrate = 0;
+    document.getElementById("power").innerText = "OFF";
+    document.getElementById("power").className = "red";
 
-    function updateUI() {
-      document.getElementById("balance").innerText = balance;
-      document.getElementById("energy").innerText = energy;
-      document.getElementById("hashrate").innerText = hashrate + " H/s";
-    }
-
-    function startMining() {
-      if(mining) return;
-
-      mining = true;
-      document.getElementById("status").innerText = "MINING ACTIVE";
-
-      hashrate = Math.floor(Math.random() * 10 + 5);
-
-      interval = setInterval(() => {
-
-        if(energy <= 0) {
-          stopMining();
-          alert("Energy habis!");
-          return;
-        }
-
-        balance += 5;
-        energy -= 2;
-
-        updateUI();
-
-      }, 1000);
-    }
-
-    function stopMining() {
-      mining = false;
-      document.getElementById("status").innerText = "STOPPED";
-      clearInterval(interval);
-    }
-
-    updateUI();
-  </script>
+    document.getElementById("hash").innerText = "0 H/s";
+}
+</script>
 
 </body>
 </html>
