@@ -1,382 +1,359 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Nexora Mining Dashboard</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nexora Mining</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    body {
+      background: #0d1117;
+      color: white;
+      display: flex;
+      min-height: 100vh;
+    }
 
-<style>
+    .sidebar {
+      width: 240px;
+      background: #111827;
+      padding: 20px;
+      border-right: 1px solid #1f2937;
+    }
 
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-}
+    .logo {
+      font-size: 28px;
+      font-weight: bold;
+      margin-bottom: 30px;
+      color: #00ffb3;
+    }
 
-body{
-    font-family:'Poppins',sans-serif;
-    background:#081120;
-    color:white;
-    display:flex;
-    min-height:100vh;
-}
+    .menu {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
 
-/* SIDEBAR */
+    .menu button {
+      background: #1f2937;
+      border: none;
+      color: white;
+      padding: 14px;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: 0.2s;
+      text-align: left;
+    }
 
-.sidebar{
-    width:240px;
-    background:#0d1728;
-    border-right:1px solid rgba(255,255,255,0.05);
-    padding:25px;
-}
+    .menu button:hover {
+      background: #00ffb3;
+      color: black;
+    }
 
-.logo{
-    font-size:28px;
-    font-weight:700;
-    color:#00ffd5;
-    margin-bottom:40px;
-}
+    .main {
+      flex: 1;
+      padding: 20px;
+    }
 
-.menu{
-    display:flex;
-    flex-direction:column;
-    gap:12px;
-}
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
 
-.menu button{
-    background:#131f34;
-    border:none;
-    color:white;
-    padding:14px;
-    border-radius:12px;
-    text-align:left;
-    font-size:15px;
-    cursor:pointer;
-    transition:0.3s;
-}
+    .wallet {
+      background: #111827;
+      padding: 12px 20px;
+      border-radius: 12px;
+      font-weight: bold;
+    }
 
-.menu button:hover{
-    background:#00ffd5;
-    color:black;
-    transform:translateX(5px);
-}
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+    }
 
-/* MAIN */
+    .card {
+      background: #111827;
+      border: 1px solid #1f2937;
+      border-radius: 16px;
+      padding: 20px;
+    }
 
-.main{
-    flex:1;
-    padding:25px;
-}
+    .card h2 {
+      margin-bottom: 15px;
+      color: #00ffb3;
+    }
 
-/* TOP */
+    .stat {
+      margin-bottom: 10px;
+      font-size: 15px;
+    }
 
-.topbar{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    margin-bottom:25px;
-}
+    .progress {
+      width: 100%;
+      height: 14px;
+      background: #1f2937;
+      border-radius: 10px;
+      overflow: hidden;
+      margin-top: 6px;
+    }
 
-.topbar h1{
-    font-size:28px;
-}
+    .bar {
+      height: 100%;
+      background: #00ffb3;
+      width: 80%;
+    }
 
-.balance{
-    background:#111d31;
-    padding:12px 18px;
-    border-radius:12px;
-    color:#00ffd5;
-    font-weight:600;
-}
+    .mining-btn {
+      width: 100%;
+      margin-top: 15px;
+      padding: 14px;
+      border: none;
+      border-radius: 12px;
+      background: #00ffb3;
+      color: black;
+      font-weight: bold;
+      cursor: pointer;
+      font-size: 16px;
+    }
 
-/* GRID */
+    .mining-btn:hover {
+      opacity: 0.9;
+    }
 
-.grid{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
-    gap:20px;
-}
+    .rig-box {
+      background: #0f172a;
+      border-radius: 14px;
+      padding: 15px;
+      margin-top: 10px;
+      border: 1px solid #1f2937;
+    }
 
-/* CARD */
+    .rig-title {
+      font-size: 18px;
+      margin-bottom: 10px;
+      color: #00ffb3;
+    }
 
-.card{
-    background:#101b2d;
-    border-radius:18px;
-    padding:22px;
-    box-shadow:0 0 20px rgba(0,255,213,0.05);
-}
+    .status-online {
+      color: #22c55e;
+      font-weight: bold;
+    }
 
-.card h3{
-    margin-bottom:18px;
-    font-size:20px;
-}
+    .market-box {
+      margin-top: 15px;
+      background: #0f172a;
+      padding: 15px;
+      border-radius: 12px;
+    }
 
-.stat{
-    margin-bottom:12px;
-    font-size:15px;
-}
+    .price {
+      font-size: 32px;
+      color: #00ffb3;
+      margin-top: 10px;
+    }
 
-.green{
-    color:#00ffd5;
-}
-
-.red{
-    color:#ff5a5a;
-}
-
-/* HASH BAR */
-
-.hashbar{
-    width:100%;
-    height:14px;
-    background:#1d2b45;
-    border-radius:10px;
-    overflow:hidden;
-    margin-top:10px;
-}
-
-.hashfill{
-    height:100%;
-    width:0%;
-    background:#00ffd5;
-    transition:0.5s;
-}
-
-/* BUTTONS */
-
-.buttons{
-    margin-top:20px;
-    display:flex;
-    gap:10px;
-}
-
-.btn{
-    flex:1;
-    border:none;
-    padding:12px;
-    border-radius:12px;
-    font-weight:600;
-    cursor:pointer;
-    transition:0.3s;
-}
-
-.start{
-    background:#00ffd5;
-    color:black;
-}
-
-.stop{
-    background:#ff5a5a;
-    color:white;
-}
-
-.btn:hover{
-    transform:scale(1.03);
-}
-
-/* NFT */
-
-.nft-box{
-    background:linear-gradient(135deg,#00ffd5,#0066ff);
-    border-radius:15px;
-    padding:20px;
-    color:black;
-    font-weight:600;
-}
-
-/* MARKET */
-
-.market-price{
-    font-size:32px;
-    color:#00ffd5;
-    font-weight:700;
-}
-
-/* LEADERBOARD */
-
-.player{
-    display:flex;
-    justify-content:space-between;
-    margin-bottom:12px;
-    background:#18253c;
-    padding:10px;
-    border-radius:10px;
-}
-
-</style>
+    .footer {
+      margin-top: 30px;
+      text-align: center;
+      color: #9ca3af;
+      font-size: 14px;
+    }
+  </style>
 </head>
-
 <body>
 
-<!-- SIDEBAR -->
-
-<div class="sidebar">
-
+  <div class="sidebar">
     <div class="logo">NEXORA</div>
 
     <div class="menu">
-        <button>🏠 Home</button>
-        <button>⛏️ Mining</button>
-        <button>💹 Market</button>
-        <button>👛 Wallet</button>
-        <button>🏆 Leaderboard</button>
-        <button>🧬 NFT Rig</button>
-        <button>⚙️ Upgrade</button>
+      <button>🏠 Home</button>
+      <button>⛏ Mining</button>
+      <button>📈 Market</button>
+      <button>💰 Wallet</button>
+      <button>🏆 Leaderboard</button>
+      <button>🧩 NFT Rig</button>
+      <button>⚡ Upgrade</button>
+      <button>⚙ Settings</button>
     </div>
+  </div>
 
-</div>
-
-<!-- MAIN -->
-
-<div class="main">
-
-    <!-- TOP -->
+  <div class="main">
 
     <div class="topbar">
-        <h1>Mining Dashboard</h1>
-
-        <div class="balance">
-            Balance: <span id="balance">0.000</span> NXR
-        </div>
+      <h1>Mining Dashboard</h1>
+      <div class="wallet">Balance: <span id="balance">5000</span> NXR</div>
     </div>
-
-    <!-- GRID -->
 
     <div class="grid">
 
-        <!-- MINING -->
+      <div class="card">
+        <h2>Mining Status</h2>
 
-        <div class="card">
-            <h3>⛏️ Rig Mining</h3>
+        <div class="stat">Rig Status: <span class="status-online" id="statusText">ONLINE</span></div>
+        <div class="stat">Hash Power: 10 H/s</div>
+        <div class="stat">Daily Reward: 72 NXR</div>
+        <div class="stat">Electricity Cost: 48 NXR</div>
+        <div class="stat">Maintenance: 5 NXR</div>
+        <div class="stat">Estimated Profit: 19 NXR/day</div>
+        <div class="stat">Mined Today: <span id="minedToday">0</span> NXR</div>
 
-            <div class="stat">
-                Power:
-                <span id="power" class="red">OFF</span>
-            </div>
+        <button class="mining-btn" onclick="startMining()">START MINING</button>
+      </div>
 
-            <div class="stat">
-                Temperature:
-                <span id="temp">45°C</span>
-            </div>
+      <div class="card">
+        <h2>Rig Durability</h2>
 
-            <div class="stat">
-                Hashrate:
-                <span id="hashrate">0 H/s</span>
-            </div>
-
-            <div class="hashbar">
-                <div class="hashfill" id="hashfill"></div>
-            </div>
-
-            <div class="buttons">
-                <button class="btn start" onclick="startMining()">START</button>
-                <button class="btn stop" onclick="stopMining()">STOP</button>
-            </div>
+        <div class="stat">Durability: <span id="durabilityText">82%</span></div>
+        <div class="progress">
+          <div class="bar" id="durabilityBar"></div>
         </div>
 
-        <!-- MARKET -->
-
-        <div class="card">
-            <h3>💹 NXR Market</h3>
-
-            <div class="market-price">
-                $0.021
-            </div>
-
-            <p style="margin-top:10px;">
-                Nexora market value realtime
-            </p>
+        <div class="stat" style="margin-top:15px;">Temperature: <span id="tempText">67°C</span></div>
+        <div class="progress">
+          <div class="bar" id="tempBar" style="width:67%"></div>
         </div>
 
-        <!-- NFT -->
+        <div class="market-box">
+          Repair Cost: 150 NXR<br><br><button class="mining-btn" onclick="repairRig()">REPAIR RIG</button>
+        </div>
+      </div>
 
-        <div class="card">
-            <h3>🧬 NFT Rig</h3>
+      <div class="card">
+        <h2>NXR Market</h2>
 
-            <div class="nft-box">
-                Genesis Rig #0001
-                <br><br>
-                Legendary Mining Power
-            </div>
+        <div class="stat">Current NXR Price</div>
+        <div class="price" id="priceText">Rp1.24</div>
+
+        <div class="market-box">
+          <div>24h Volume: 124,500 NXR</div>
+          <div>Demand Index: +12%</div>
+          <div>Supply Burned: 8,400 NXR</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>Your Rig</h2>
+
+        <div class="rig-box">
+          <div class="rig-title">Basic Rig</div>
+          <div>Hash Rate: 10 H/s</div>
+          <div>Energy Use: 2/h</div>
+          <div>Efficiency: 85%</div>
         </div>
 
-        <!-- LEADERBOARD -->
-
-        <div class="card">
-            <h3>🏆 Top Miners</h3>
-
-            <div class="player">
-                <span>PlayerOne</span>
-                <span>12,500 NXR</span>
-            </div>
-
-            <div class="player">
-                <span>CryptoWolf</span>
-                <span>10,300 NXR</span>
-            </div>
-
-            <div class="player">
-                <span>NexMiner</span>
-                <span>8,920 NXR</span>
-            </div>
-
-        </div>
+        <button class="mining-btn" onclick="upgradeRig()">UPGRADE RIG</button>
+      </div>
 
     </div>
 
-</div>
+    <div class="footer">
+      Nexora Mining Economy Simulator V1
+    </div>
 
-<script>
+  </div>
 
-let mining = false;
-let balance = 0;
-let interval;
+  <script>
+    let balance = 5000;
+    let mining = false;
+    let minedToday = 0;
+    let temperature = 67;
+    let durability = 82;
+    let nxrPrice = 1.24;
 
-function startMining(){
+    const balanceEl = document.getElementById("balance");
 
-    if(mining) return;
+    function updateUI() {
+      balanceEl.innerText = balance;
+      document.getElementById("minedToday").innerText = minedToday.toFixed(2);
+      document.getElementById("tempText").innerText = temperature + "°C";
+      document.getElementById("durabilityText").innerText = durability + "%";
+      document.getElementById("priceText").innerText = "Rp" + nxrPrice.toFixed(2);
+      document.getElementById("tempBar").style.width = temperature + "%";
+      document.getElementById("durabilityBar").style.width = durability + "%";
+    }
 
-    mining = true;
+    function randomPriceMove() {
+      const move = (Math.random() * 0.1 - 0.05);
+      nxrPrice += move;
 
-    document.getElementById("power").innerText = "ON";
-    document.getElementById("power").className = "green";
+      if (nxrPrice < 1) nxrPrice = 1;
 
-    interval = setInterval(() => {
+      updateUI();
+    }
 
-        let hash = Math.floor(Math.random() * 900 + 100);
-        let temp = Math.floor(Math.random() * 20 + 55);
+    function startMining() {
+      if (mining) return;
 
-        balance += Math.random() * 0.35;
+      mining = true;
+      document.getElementById("statusText").innerText = "MINING...";
 
-        document.getElementById("hashrate").innerText = hash + " H/s";
-        document.getElementById("temp").innerText = temp + "°C";
-        document.getElementById("balance").innerText = balance.toFixed(3);
+      setInterval(() => {
+        if (!mining) return;
 
-        document.getElementById("hashfill").style.width = (hash / 10) + "%";
+        const reward = Math.random() * 2;
 
-    },1000);
+        minedToday += reward;
+        balance += reward;
 
-}
+        temperature += Math.random() * 2;
+        durability -= 0.05;
 
-function stopMining(){
+        if (temperature > 95) {
+          alert("RIG OVERHEAT!");
+          mining = false;
+          document.getElementById("statusText").innerText = "OFFLINE";
+        }
 
-    mining = false;
+        if (durability <= 0) {
+          durability = 0;
+          mining = false;
+          alert("RIG BROKEN!");
+        }
 
-    clearInterval(interval);
+        updateUI();
+      }, 2000);
 
-    document.getElementById("power").innerText = "OFF";
-    document.getElementById("power").className = "red";
+      setInterval(randomPriceMove, 5000);
+    }
 
-    document.getElementById("hashrate").innerText = "0 H/s";
+    function repairRig() {
+      if (balance < 150) {
+        alert("Not enough NXR!");
+        return;
+      }
 
-    document.getElementById("hashfill").style.width = "0%";
+      balance -= 150;
+      durability = 100;
+      temperature = 60;
 
-}
+      updateUI();
 
-</script>
+      alert("Rig repaired successfully!");
+    }
+
+    function upgradeRig() {
+      if (balance < 1000) {
+        alert("Need 1000 NXR to upgrade!");
+        return;
+      }
+
+      balance -= 1000;
+      alert("Rig upgraded! +5 Hash Power");
+
+      updateUI();
+    }
+
+    updateUI();
+  </script>
 
 </body>
 </html>
