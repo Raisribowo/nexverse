@@ -1,34 +1,285 @@
 <!DOCTYPE html>
-<html>
+<html lang="id">
 <head>
-  <title>Nexora Game</title>
-  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nexora PRO Crypto RPG</title>
 
-  <script src="firebase.js"></script>
-  <script src="game.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
 
   <style>
-    body{background:#0f172a;color:white;font-family:Arial;}
-    .box{padding:10px;border:1px solid #333;margin:10px;}
-    button{padding:10px;margin-top:10px;}
+    *{margin:0;padding:0;box-sizing:border-box;font-family:'Orbitron',sans-serif;}
+
+    body{
+      background:radial-gradient(circle at top,#0f172a,#050816);
+      color:white;
+      min-height:100vh;
+      overflow-x:hidden;
+    }
+
+    /* TOPBAR */
+    .topbar{
+      display:flex;
+      justify-content:space-between;
+      padding:15px;
+      background:rgba(255,255,255,0.05);
+      border-bottom:1px solid rgba(255,255,255,0.1);
+      position:sticky;
+      top:0;
+      backdrop-filter:blur(10px);
+    }
+
+    .logo{color:#00ffff;font-size:18px;font-weight:bold;}
+    .wallet{font-size:12px;color:#94a3b8;}
+
+    /* GRID */
+    .container{padding:15px;display:grid;gap:12px;}
+
+    .card{
+      background:rgba(255,255,255,0.05);
+      border:1px solid rgba(255,255,255,0.1);
+      padding:15px;
+      border-radius:15px;
+    }
+
+    .title{font-size:12px;color:#94a3b8;}
+    .value{font-size:20px;color:#00ffff;margin-top:5px;}
+
+    /* BUTTON */
+    button{
+      width:100%;
+      padding:12px;
+      border:none;
+      border-radius:10px;
+      background:linear-gradient(90deg,#00ffff,#2563eb);
+      color:white;
+      font-weight:bold;
+      margin-top:10px;
+      cursor:pointer;
+    }
+
+    button:disabled{background:gray;}
+
+    /* SECTIONS */
+    .section-title{
+      font-size:13px;
+      margin-bottom:8px;
+      color:#94a3b8;
+    }
+
+    /* MARKET */
+    .market-item{
+      padding:10px;
+      border:1px solid rgba(255,255,255,0.1);
+      border-radius:10px;
+      margin-bottom:8px;
+      background:rgba(255,255,255,0.03);
+    }
+
+    .small{font-size:11px;color:#94a3b8;}
+
+    /* LEADERBOARD */
+    .rank{
+      display:flex;
+      justify-content:space-between;
+      padding:8px;
+      border-bottom:1px solid rgba(255,255,255,0.05);
+    }
+
+    .badge{
+      color:#00ffff;
+    }
   </style>
 </head>
 
 <body>
 
-<h2>NEXORA DASHBOARD</h2>
-
-<div class="box">
-  Balance: <span id="balance">0</span> NXR
+<div class="topbar">
+  <div class="logo">NEXORA PRO</div>
+  <div class="wallet" id="userInfo">Loading...</div>
 </div>
 
-<div class="box">
-  Tool Level: <span id="tool">1</span>
+<div class="container">
+
+  <!-- WALLET -->
+  <div class="card">
+    <div class="title">Wallet Balance</div>
+    <div class="value" id="balance">0 NXR</div>
+  </div>
+
+  <!-- MINING -->
+  <div class="card">
+    <div class="title">Mining System</div>
+    <div id="status">Idle</div>
+    <button onclick="startMining()">START MINING</button>
+  </div>
+
+  <!-- UPGRADE TOOL -->
+  <div class="card">
+    <div class="title">Mining Tool</div>
+    <div class="value" id="tool">LVL 1</div>
+    <button onclick="upgradeTool()">Upgrade Tool</button>
+  </div>
+
+  <!-- MARKET -->
+  <div class="card">
+    <div class="section-title">Marketplace</div>
+    <div id="market"></div>
+  </div>
+
+  <!-- LEADERBOARD -->
+  <div class="card">
+    <div class="section-title">Global Leaderboard</div>
+    <div id="leaderboard"></div>
+  </div>
+
 </div>
 
-<button onclick="startMining()">START MINING (60s)</button>
+<script>
+let user;
+
+// AUTH CHECK
+firebase.auth().onAuthStateChanged(async (u)=>{
+  if(!u){window.location.href='index.html';return;}
+
+  user=u;
+
+  firebase.firestore().collection('users').doc(user.uid)
+  .onSnapshot(doc=>{
+    let data=doc.data();
+
+    document.getElementById('balance').innerText=data.balance+' NXR';
+    document.getElementById('tool').innerText='LVL '+data.toolLevel;
+    document.getElementById('userInfo').innerText=user.email;
+  });
+
+  loadMarket();
+  loadLeaderboard();
+});
+
+// MINING (SERVER VALIDATED)
+function startMining(){
+
+  let ref=firebase.firestore().collection('users').doc(user.uid);
+
+  ref.get().then(async doc=>{
+
+    let data=doc.data();
+
+    if(data.balance<5){alert('Need 5 NXR for mining');return;}
+
+    await ref.update({
+      balance:firebase.firestore.FieldValue.increment(-5)
+    });
+
+    document.getElementById('status').innerText='Mining...';
+
+    setTimeout(async()=>{
+
+      let reward=10*data.toolLevel;
+
+      await ref.update({
+        balance:firebase.firestore.FieldValue.increment(reward)
+      });
+
+      document.getElementById('status').innerText='Mining complete +'+reward;
+
+      loadLeaderboard();
+
+    },5000);
+
+  });
+}
+
+// UPGRADE TOOL
+function upgradeTool(){
+
+  let ref=firebase.firestore().collection('users').doc(user.uid);
+
+  ref.get().then(async doc=>{
+
+    let data=doc.data();
+    let cost=data.toolLevel*20;
+
+    if(data.balance<cost){alert('Not enough NXR');return;}
+
+    await ref.update({
+      balance:firebase.firestore.FieldValue.increment(-cost),
+      toolLevel:data.toolLevel+1
+    });
+
+  });
+}
+
+// MARKETPLACE
+function loadMarket(){
+
+  let market=[
+    {name:'Speed Rig',price:50},
+    {name:'Auto Miner',price:100},
+    {name:'Quantum Rig',price:200}
+  ];
+
+  let box=document.getElementById('market');
+  box.innerHTML='';
+
+  market.forEach(i=>{
+    box.innerHTML+=`
+      <div class='market-item'>
+        <b>${i.name}</b><br>
+        <span class='small'>${i.price} NXR</span>
+        <button onclick="buy(${i.price})">BUY</button>
+      </div>
+    `;
+  });
+}
+
+function buy(price){
+
+  let ref=firebase.firestore().collection('users').doc(user.uid);
+
+  ref.get().then(async doc=>{
+
+    let data=doc.data();
+
+    if(data.balance<price){alert('Not enough');return;}
+
+    await ref.update({
+      balance:firebase.firestore.FieldValue.increment(-price)
+    });
+
+  });
+}
+
+// LEADERBOARD
+function loadLeaderboard(){
+
+  firebase.firestore().collection('users')
+  .orderBy('balance','desc')
+  .limit(5)
+  .get()
+  .then(snap=>{
+
+    let box=document.getElementById('leaderboard');
+    box.innerHTML='';
+
+    let i=1;
+    snap.forEach(doc=>{
+      let d=doc.data();
+
+      box.innerHTML+=`
+        <div class='rank'>
+          <span>#${i} ${d.username||'Player'}</span>
+          <span class='badge'>${d.balance} NXR</span>
+        </div>
+      `;
+
+      i++;
+    });
+
+  });
+}
+</script>
 
 </body>
 </html>
