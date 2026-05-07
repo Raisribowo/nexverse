@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nexora RPG Dashboard</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box;font-family:'Orbitron',sans-serif;}
+    body{
+      background:linear-gradient(135deg,#0f172a,#111827,#1e293b);
+      color:white;
+      height:100vh;
+      overflow:hidden;
+    }
+
+    .topbar{
+      padding:15px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      background:rgba(255,255,255,0.05);
+      border-bottom:1px solid rgba(255,255,255,0.1);
+    }
+
+    .logo{
+      color:#00ffff;
+      font-size:20px;
+      font-weight:bold;
+    }
+
+    .wallet{
+      font-size:12px;
+      color:#94a3b8;
+    }
+
+    .container{
+      padding:20px;
+    }
+
+    .card{
+      background:rgba(255,255,255,0.05);
+      padding:15px;
+      border-radius:15px;
+      margin-bottom:15px;
+      border:1px solid rgba(255,255,255,0.1);
+    }
+
+    .title{
+      font-size:14px;
+      color:#94a3b8;
+    }
+
+    .value{
+      font-size:22px;
+      margin-top:5px;
+      color:#00ffff;
+    }
+
+    .btn{
+      width:100%;
+      padding:15px;
+      border:none;
+      border-radius:12px;
+      background:linear-gradient(90deg,#00ffff,#2563eb);
+      color:white;
+      margin-top:10px;
+      cursor:pointer;
+      font-weight:bold;
+    }
+
+    .btn:disabled{
+      background:gray;
+      cursor:not-allowed;
+    }
+
+    .progress{
+      width:100%;
+      height:10px;
+      background:#1e293b;
+      border-radius:10px;
+      overflow:hidden;
+      margin-top:10px;
+    }
+
+    .bar{
+      height:100%;
+      width:0%;
+      background:#00ffff;
+      transition:0.3s;
+    }
+
+    .footer{
+      position:absolute;
+      bottom:10px;
+      width:100%;
+      text-align:center;
+      font-size:11px;
+      color:#64748b;
+    }
+  </style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="logo">NEXORA RPG</div>
+  <div class="wallet" id="userInfo">Loading...</div>
+</div>
+
+<div class="container">
+
+  <div class="card">
+    <div class="title">Total Supply Mining</div>
+    <div class="value">210.000 NXR</div>
+  </div>
+
+  <div class="card">
+    <div class="title">Saldo Player</div>
+    <div class="value" id="balance">0 NXR</div>
+  </div>
+
+  <div class="card">
+    <div class="title">Status Mining</div>
+    <div id="status">Belum mining</div>
+    <div class="progress"><div class="bar" id="bar"></div></div>
+  </div>
+
+  <button class="btn" id="mineBtn" onclick="startMining()">SEWA ALAT & START MINING</button>
+
+</div>
+
+<div class="footer">Nexora World - RPG Mining System</div>
+
+<script>
+let user = JSON.parse(localStorage.getItem('currentUser'));
+if(!user){
+  alert('Silakan login dulu');
+  window.location.href='index.html';
+}
+
+document.getElementById('userInfo').innerText = user.username;
+
+document.getElementById('balance').innerText = user.balance + ' NXR';
+
+let mining = false;
+let progress = 0;
+
+function startMining(){
+  if(mining) return;
+
+  mining = true;
+  progress = 0;
+
+  document.getElementById('status').innerText = 'Mining berjalan (60 menit per blok)...';
+  document.getElementById('mineBtn').disabled = true;
+
+  let interval = setInterval(()=>{
+    progress += 1.67; // simulasi 60 menit jadi 60 detik
+    document.getElementById('bar').style.width = progress + '%';
+
+    if(progress >= 100){
+      clearInterval(interval);
+      mining = false;
+
+      let reward = 10; // reward per blok
+      user.balance += reward;
+
+      localStorage.setItem('currentUser', JSON.stringify(user));
+
+      document.getElementById('balance').innerText = user.balance + ' NXR';
+      document.getElementById('status').innerText = 'Mining selesai +10 NXR';
+      document.getElementById('mineBtn').disabled = false;
+      document.getElementById('bar').style.width = '0%';
+    }
+  }, 1000);
+}
+</script>
+
+</body>
+</html>
