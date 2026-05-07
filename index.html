@@ -1,9 +1,254 @@
 <!DOCTYPE html>
-<html>
+<html lang="id">
 <head>
-  <title>Test Nexora</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nexora Exchange Game</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      background: #0b0e11;
+      color: white;
+      font-family: Arial, sans-serif;
+    }
+
+    .glass {
+      background: rgba(255,255,255,0.03);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .glow {
+      box-shadow: 0 0 20px rgba(240, 185, 11, 0.3);
+    }
+
+    .scroll-hide::-webkit-scrollbar {
+      display: none;
+    }
+  </style>
 </head>
 <body>
-  <h1>✅ Nexora Jalan</h1>
+
+  <!-- Navbar -->
+  <header class="flex items-center justify-between px-6 py-4 border-b border-gray-800 sticky top-0 bg-[#0b0e11] z-50">
+    <div class="flex items-center gap-3">
+      <div class="w-10 h-10 rounded-xl bg-yellow-400 flex items-center justify-center text-black font-bold text-xl">
+        N
+      </div>
+      <div>
+        <h1 class="text-xl font-bold text-yellow-400">NEXORA</h1>
+        <p class="text-xs text-gray-400">Crypto Mining Game</p>
+      </div>
+    </div>
+
+    <div class="flex gap-3">
+      <button class="bg-yellow-400 text-black px-4 py-2 rounded-xl font-bold hover:scale-105 transition">
+        Deposit
+      </button>
+      <button class="glass px-4 py-2 rounded-xl hover:bg-gray-800 transition">
+        Wallet
+      </button>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="px-6 py-8">
+    <div class="glass rounded-3xl p-6 glow">
+      <div class="flex flex-col md:flex-row justify-between gap-6 items-center">
+        <div>
+          <h2 class="text-3xl font-bold mb-3">
+            Welcome to <span class="text-yellow-400">Nexora Exchange</span>
+          </h2>
+          <p class="text-gray-400 max-w-xl">
+            Mining • Trading • NFT • Blockchain RPG
+          </p>
+
+          <div class="flex gap-3 mt-6">
+            <button class="bg-yellow-400 text-black px-5 py-3 rounded-2xl font-bold hover:scale-105 transition">
+              Start Mining
+            </button>
+            <button class="glass px-5 py-3 rounded-2xl hover:bg-gray-800 transition">
+              Marketplace
+            </button>
+          </div>
+        </div>
+
+        <div class="glass rounded-3xl p-5 w-full md:w-80">
+          <h3 class="text-lg font-bold mb-4">Player Wallet</h3>
+
+          <div class="space-y-4">
+            <div>
+              <p class="text-gray-400 text-sm">Balance</p>
+              <h2 class="text-3xl font-bold text-yellow-400">12,450 NXR</h2>
+            </div>
+
+            <div>
+              <p class="text-gray-400 text-sm">Mining Power</p>
+              <div class="w-full bg-gray-800 rounded-full h-4 mt-2 overflow-hidden">
+                <div class="bg-yellow-400 h-4 rounded-full" style="width: 78%"></div>
+              </div>
+              <p class="text-sm mt-2">78%</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Market -->
+  <section class="px-6 pb-6">
+    <div class="grid md:grid-cols-3 gap-5">
+
+      <div class="glass rounded-3xl p-5">
+        <div class="flex justify-between items-center mb-4">
+          <h3 class="font-bold text-lg">NXR / USDT</h3>
+          <span class="text-green-400">+12.5%</span>
+        </div>
+
+        <div class="h-32 flex items-end gap-2">
+          <div class="bg-yellow-400 w-4 h-16 rounded-t"></div>
+          <div class="bg-yellow-400 w-4 h-24 rounded-t"></div>
+          <div class="bg-yellow-400 w-4 h-20 rounded-t"></div>
+          <div class="bg-yellow-400 w-4 h-28 rounded-t"></div>
+          <div class="bg-yellow-400 w-4 h-14 rounded-t"></div>
+          <div class="bg-yellow-400 w-4 h-32 rounded-t"></div>
+          <div class="bg-yellow-400 w-4 h-24 rounded-t"></div>
+        </div>
+
+        <button class="w-full bg-yellow-400 text-black mt-5 py-3 rounded-2xl font-bold hover:scale-105 transition">
+          Trade Now
+        </button>
+      </div>
+
+      <div class="glass rounded-3xl p-5">
+        <h3 class="font-bold text-lg mb-4">Daily Missions</h3>
+
+        <div class="space-y-3">
+          <div class="bg-gray-900 p-4 rounded-2xl flex justify-between items-center">
+            <div>
+              <p class="font-bold">Mining 10 Blocks</p>
+              <p class="text-gray-400 text-sm">Reward: 50 NXR</p>
+            </div>
+            <button class="bg-yellow-400 text-black px-3 py-2 rounded-xl text-sm font-bold">
+              Claim
+            </button>
+          </div>
+
+          <div class="bg-gray-900 p-4 rounded-2xl flex justify-between items-center">
+            <div>
+              <p class="font-bold">Invite 1 Player</p>
+              <p class="text-gray-400 text-sm">Reward: NFT Box</p>
+            </div>
+            <button class="glass px-3 py-2 rounded-xl text-sm">
+              Pending
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="glass rounded-3xl p-5">
+        <h3 class="font-bold text-lg mb-4">Top Miners</h3>
+
+        <div class="space-y-4">
+          <div class="flex justify-between">
+            <span>#1 AbiHunter</span>
+            <span class="text-yellow-400">52,000 NXR</span>
+          </div>
+
+          <div class="flex justify-between">
+            <span>#2 NexKing</span>
+            <span class="text-yellow-400">48,200 NXR</span>
+          </div>
+
+          <div class="flex justify-between">
+            <span>#3 BlockRider</span>
+            <span class="text-yellow-400">41,890 NXR</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Mining Panel -->
+  <section class="px-6 pb-10">
+    <div class="glass rounded-3xl p-6">
+      <div class="flex flex-col md:flex-row justify-between gap-6 items-center">
+
+        <div>
+          <h2 class="text-2xl font-bold mb-3">Realtime Mining</h2>
+          <p class="text-gray-400 mb-5">
+            Generate NXR every second based on your mining power.
+          </p>
+
+          <div class="flex gap-3">
+            <button onclick="startMining()" class="bg-yellow-400 text-black px-5 py-3 rounded-2xl font-bold hover:scale-105 transition">
+              Start
+            </button>
+
+            <button onclick="stopMining()" class="bg-red-500 px-5 py-3 rounded-2xl font-bold hover:scale-105 transition">
+              Stop
+            </button>
+          </div>
+        </div>
+
+        <div class="text-center">
+          <div class="w-40 h-40 rounded-full border-8 border-yellow-400 flex items-center justify-center text-3xl font-bold animate-pulse">
+            <span id="mining">0</span>
+          </div>
+          <p class="mt-4 text-gray-400">NXR Generated</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Bottom Navigation -->
+  <nav class="fixed bottom-0 left-0 right-0 bg-[#11151c] border-t border-gray-800 flex justify-around py-3">
+    <button class="flex flex-col items-center text-yellow-400 text-sm">
+      🏠
+      Home
+    </button>
+
+    <button class="flex flex-col items-center text-gray-400 text-sm hover:text-yellow-400">
+      📈
+      Market
+    </button>
+
+    <button class="flex flex-col items-center text-gray-400 text-sm hover:text-yellow-400">
+      ⛏️
+      Mining
+    </button>
+
+    <button class="flex flex-col items-center text-gray-400 text-sm hover:text-yellow-400">
+      🎮
+      Game
+    </button>
+
+    <button class="flex flex-col items-center text-gray-400 text-sm hover:text-yellow-400">
+      👤
+      Profile
+    </button>
+  </nav>
+
+  <script>
+    let value = 0;
+    let miningInterval;
+
+    function startMining() {
+      if (!miningInterval) {
+        miningInterval = setInterval(() => {
+          value += Math.floor(Math.random() * 5) + 1;
+          document.getElementById('mining').innerText = value;
+        }, 1000);
+      }
+    }
+
+    function stopMining() {
+      clearInterval(miningInterval);
+      miningInterval = null;
+    }
+  </script>
+
 </body>
 </html>
