@@ -2,103 +2,209 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Nexora Mining Rig v1</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nexora Mining Dashboard</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
 <style>
-    body {
-        margin: 0;
-        font-family: Arial;
-        background: #0b0f1a;
-        color: #fff;
-        display: flex;
-    }
 
-    /* SIDEBAR */
-    .sidebar {
-        width: 220px;
-        background: #11182a;
-        height: 100vh;
-        padding: 20px;
-    }
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
 
-    .logo {
-        font-size: 20px;
-        font-weight: bold;
-        color: #00ffcc;
-        margin-bottom: 30px;
-    }
+body{
+    font-family:'Poppins',sans-serif;
+    background:#081120;
+    color:white;
+    display:flex;
+    min-height:100vh;
+}
 
-    .menu button {
-        width: 100%;
-        padding: 10px;
-        margin: 5px 0;
-        background: #1b2742;
-        border: none;
-        color: white;
-        cursor: pointer;
-        border-radius: 8px;
-    }
+/* SIDEBAR */
 
-    .menu button:hover {
-        background: #00ffcc;
-        color: black;
-    }
+.sidebar{
+    width:240px;
+    background:#0d1728;
+    border-right:1px solid rgba(255,255,255,0.05);
+    padding:25px;
+}
 
-    /* MAIN */
-    .main {
-        flex: 1;
-        padding: 20px;
-    }
+.logo{
+    font-size:28px;
+    font-weight:700;
+    color:#00ffd5;
+    margin-bottom:40px;
+}
 
-    .grid {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 20px;
-    }
+.menu{
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+}
 
-    .card {
-        background: #141c2f;
-        padding: 20px;
-        border-radius: 12px;
-        box-shadow: 0 0 10px rgba(0,255,204,0.1);
-    }
+.menu button{
+    background:#131f34;
+    border:none;
+    color:white;
+    padding:14px;
+    border-radius:12px;
+    text-align:left;
+    font-size:15px;
+    cursor:pointer;
+    transition:0.3s;
+}
 
-    .status {
-        font-size: 14px;
-        margin-top: 10px;
-    }
+.menu button:hover{
+    background:#00ffd5;
+    color:black;
+    transform:translateX(5px);
+}
 
-    .green {
-        color: #00ffcc;
-    }
+/* MAIN */
 
-    .red {
-        color: #ff4d4d;
-    }
+.main{
+    flex:1;
+    padding:25px;
+}
 
-    .btn {
-        margin-top: 15px;
-        padding: 10px 15px;
-        border: none;
-        cursor: pointer;
-        border-radius: 8px;
-        font-weight: bold;
-    }
+/* TOP */
 
-    .start {
-        background: #00ffcc;
-        color: black;
-    }
+.topbar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:25px;
+}
 
-    .stop {
-        background: #ff4d4d;
-        color: white;
-    }
+.topbar h1{
+    font-size:28px;
+}
 
-    .profit {
-        font-size: 22px;
-        color: #00ffcc;
-        margin-top: 10px;
-    }
+.balance{
+    background:#111d31;
+    padding:12px 18px;
+    border-radius:12px;
+    color:#00ffd5;
+    font-weight:600;
+}
+
+/* GRID */
+
+.grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+    gap:20px;
+}
+
+/* CARD */
+
+.card{
+    background:#101b2d;
+    border-radius:18px;
+    padding:22px;
+    box-shadow:0 0 20px rgba(0,255,213,0.05);
+}
+
+.card h3{
+    margin-bottom:18px;
+    font-size:20px;
+}
+
+.stat{
+    margin-bottom:12px;
+    font-size:15px;
+}
+
+.green{
+    color:#00ffd5;
+}
+
+.red{
+    color:#ff5a5a;
+}
+
+/* HASH BAR */
+
+.hashbar{
+    width:100%;
+    height:14px;
+    background:#1d2b45;
+    border-radius:10px;
+    overflow:hidden;
+    margin-top:10px;
+}
+
+.hashfill{
+    height:100%;
+    width:0%;
+    background:#00ffd5;
+    transition:0.5s;
+}
+
+/* BUTTONS */
+
+.buttons{
+    margin-top:20px;
+    display:flex;
+    gap:10px;
+}
+
+.btn{
+    flex:1;
+    border:none;
+    padding:12px;
+    border-radius:12px;
+    font-weight:600;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+.start{
+    background:#00ffd5;
+    color:black;
+}
+
+.stop{
+    background:#ff5a5a;
+    color:white;
+}
+
+.btn:hover{
+    transform:scale(1.03);
+}
+
+/* NFT */
+
+.nft-box{
+    background:linear-gradient(135deg,#00ffd5,#0066ff);
+    border-radius:15px;
+    padding:20px;
+    color:black;
+    font-weight:600;
+}
+
+/* MARKET */
+
+.market-price{
+    font-size:32px;
+    color:#00ffd5;
+    font-weight:700;
+}
+
+/* LEADERBOARD */
+
+.player{
+    display:flex;
+    justify-content:space-between;
+    margin-bottom:12px;
+    background:#18253c;
+    padding:10px;
+    border-radius:10px;
+}
 
 </style>
 </head>
@@ -106,79 +212,170 @@
 <body>
 
 <!-- SIDEBAR -->
+
 <div class="sidebar">
+
     <div class="logo">NEXORA</div>
+
     <div class="menu">
-        <button>Home</button>
-        <button>Mining</button>
-        <button>Market</button>
-        <button>Wallet</button>
-        <button>NFT Rig</button>
-        <button>Leaderboard</button>
+        <button>🏠 Home</button>
+        <button>⛏️ Mining</button>
+        <button>💹 Market</button>
+        <button>👛 Wallet</button>
+        <button>🏆 Leaderboard</button>
+        <button>🧬 NFT Rig</button>
+        <button>⚙️ Upgrade</button>
     </div>
+
 </div>
 
 <!-- MAIN -->
+
 <div class="main">
-    <h2>⛏️ Mining Rig Dashboard</h2>
+
+    <!-- TOP -->
+
+    <div class="topbar">
+        <h1>Mining Dashboard</h1>
+
+        <div class="balance">
+            Balance: <span id="balance">0.000</span> NXR
+        </div>
+    </div>
+
+    <!-- GRID -->
 
     <div class="grid">
 
-        <!-- RIG STATUS -->
-        <div class="card">
-            <h3>Rig Alpha</h3>
-            <div class="status">Power: <span id="power" class="red">OFF</span></div>
-            <div class="status">Temperature: <span id="temp">45°C</span></div>
-            <div class="status">Hashrate: <span id="hash">0 H/s</span></div>
+        <!-- MINING -->
 
-            <button class="btn start" onclick="startMining()">START MINING</button>
-            <button class="btn stop" onclick="stopMining()">STOP</button>
+        <div class="card">
+            <h3>⛏️ Rig Mining</h3>
+
+            <div class="stat">
+                Power:
+                <span id="power" class="red">OFF</span>
+            </div>
+
+            <div class="stat">
+                Temperature:
+                <span id="temp">45°C</span>
+            </div>
+
+            <div class="stat">
+                Hashrate:
+                <span id="hashrate">0 H/s</span>
+            </div>
+
+            <div class="hashbar">
+                <div class="hashfill" id="hashfill"></div>
+            </div>
+
+            <div class="buttons">
+                <button class="btn start" onclick="startMining()">START</button>
+                <button class="btn stop" onclick="stopMining()">STOP</button>
+            </div>
         </div>
 
-        <!-- PROFIT -->
+        <!-- MARKET -->
+
         <div class="card">
-            <h3>Profit Realtime</h3>
-            <div class="profit" id="profit">0 NXR</div>
-            <div class="status">Est. per minute mining reward</div>
+            <h3>💹 NXR Market</h3>
+
+            <div class="market-price">
+                $0.021
+            </div>
+
+            <p style="margin-top:10px;">
+                Nexora market value realtime
+            </p>
+        </div>
+
+        <!-- NFT -->
+
+        <div class="card">
+            <h3>🧬 NFT Rig</h3>
+
+            <div class="nft-box">
+                Genesis Rig #0001
+                <br><br>
+                Legendary Mining Power
+            </div>
+        </div>
+
+        <!-- LEADERBOARD -->
+
+        <div class="card">
+            <h3>🏆 Top Miners</h3>
+
+            <div class="player">
+                <span>PlayerOne</span>
+                <span>12,500 NXR</span>
+            </div>
+
+            <div class="player">
+                <span>CryptoWolf</span>
+                <span>10,300 NXR</span>
+            </div>
+
+            <div class="player">
+                <span>NexMiner</span>
+                <span>8,920 NXR</span>
+            </div>
+
         </div>
 
     </div>
+
 </div>
 
 <script>
+
 let mining = false;
-let profit = 0;
-let hash = 0;
-let temp = 45;
+let balance = 0;
 let interval;
 
 function startMining(){
+
     if(mining) return;
+
     mining = true;
 
     document.getElementById("power").innerText = "ON";
     document.getElementById("power").className = "green";
 
     interval = setInterval(() => {
-        hash = Math.floor(Math.random() * 500 + 200);
-        temp = Math.floor(Math.random() * 20 + 50);
-        profit += Math.random() * 0.5;
 
-        document.getElementById("hash").innerText = hash + " H/s";
+        let hash = Math.floor(Math.random() * 900 + 100);
+        let temp = Math.floor(Math.random() * 20 + 55);
+
+        balance += Math.random() * 0.35;
+
+        document.getElementById("hashrate").innerText = hash + " H/s";
         document.getElementById("temp").innerText = temp + "°C";
-        document.getElementById("profit").innerText = profit.toFixed(3) + " NXR";
-    }, 1000);
+        document.getElementById("balance").innerText = balance.toFixed(3);
+
+        document.getElementById("hashfill").style.width = (hash / 10) + "%";
+
+    },1000);
+
 }
 
 function stopMining(){
+
     mining = false;
+
     clearInterval(interval);
 
     document.getElementById("power").innerText = "OFF";
     document.getElementById("power").className = "red";
 
-    document.getElementById("hash").innerText = "0 H/s";
+    document.getElementById("hashrate").innerText = "0 H/s";
+
+    document.getElementById("hashfill").style.width = "0%";
+
 }
+
 </script>
 
 </body>
