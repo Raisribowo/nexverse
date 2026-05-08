@@ -304,11 +304,21 @@ document.getElementById("gamePage").style.display="block";
 document.getElementById("playerName").innerText = playerName;
 
 loadPlayer();
-
+loadMarket();
 }
 
 // ================= LOAD PLAYER =================
 function loadPlayer(){
+  balance = d.balance || 1000;
+
+electricity =
+d.electricity || 0;
+
+durability =
+d.durability || 100;
+
+rigLevel =
+d.rigLevel || 1;
 
 db.ref("players/"+playerId).once("value")
 .then(snap=>{
@@ -329,20 +339,31 @@ updateUI();
 
 }
 
-// ================= SAVE =================
-function savePlayer(){
+  // ================= LOAD MARKET =================
+function loadMarket(){
 
-db.ref("players/"+playerId).set({
+db.ref("market")
 
-name:playerName,
-nxr:nxr,
-power:power,
-level:level,
-online:true
+.on("value",(snap)=>{
+
+if(snap.exists()){
+
+const data = snap.val();
+
+minedSupply =
+data.minedSupply || 0;
+
+remainingSupply =
+data.remainingSupply || totalSupply;
+
+updateUI();
+
+}
 
 });
 
 }
+
 
 // ================= MINE =================
 function mine(){
