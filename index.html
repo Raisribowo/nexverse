@@ -124,6 +124,33 @@ Login Google
 <div class="card">
 🏆 Level: <span id="level">1</span>
 </div>
+  <div class="card">
+💵 Balance:
+<span id="balance">1000</span>
+</div>
+
+<div class="card">
+⚡ Electricity:
+<span id="electricity">0</span>
+</div>
+
+<div class="card">
+🛠 Durability:
+<span id="durability">100</span>%
+</div>
+
+<div class="card">
+🖥 Rig Level:
+<span id="rigLevel">1</span>
+</div>
+
+<button
+class="action"
+onclick="repairRig()">
+
+🛠 Repair Rig
+
+</button>
 
 <button class="action" onclick="mine()">MINE</button>
 
@@ -291,57 +318,19 @@ updateUI();
 // ================= UI UPDATE =================
 function updateUI(){
 
-  // ================= AUTO MINING =================
-setInterval(()=>{
+document.getElementById(
+"nxr"
+).innerText = nxr;
 
-// jika rig masih hidup
-if(durability > 0){
+document.getElementById(
+"power"
+).innerText = power;
 
-// mining income
-let mined = power * 0.1;
+document.getElementById(
+"level"
+).innerText = level;
 
-nxr += mined;
-
-// biaya listrik
-let electricCost =
-power * 0.02;
-
-balance -= electricCost;
-
-// durability turun
-durability -= 0.05;
-
-// total listrik
-electricity += electricCost;
-
-updateUI();
-
-savePlayer();
-
-}
-
-},1000);
-  
-  <div class="card">
-💵 Balance:
-<span id="balance">1000</span>
-</div>
-
-<div class="card">
-⚡ Electricity Cost:
-<span id="electricity">0</span>
-</div>
-
-<div class="card">
-🛠 Rig Durability:
-<span id="durability">100</span>%
-</div>
-
-<div class="card">
-🖥 Rig Level:
-<span id="rigLevel">1</span>
-</div>
-  document.getElementById(
+document.getElementById(
 "balance"
 ).innerText =
 balance.toFixed(2);
@@ -361,15 +350,35 @@ document.getElementById(
 ).innerText =
 rigLevel;
 
-  <button
-class="action"
-onclick="repairRig()">
+}
+  // ================= AUTO MINING =================
+setInterval(()=>{
 
-🛠 Repair Rig
+if(playerId && durability > 0){
 
-</button>
+let mined = power * 0.1;
 
-  function repairRig(){
+nxr += mined;
+
+let electricCost =
+power * 0.02;
+
+balance -= electricCost;
+
+durability -= 0.05;
+
+electricity += electricCost;
+
+updateUI();
+
+savePlayer();
+
+}
+
+},1000);
+
+  // ================= REPAIR RIG =================
+function repairRig(){
 
 if(balance >= 100){
 
@@ -391,9 +400,7 @@ alert("Balance not enough");
 
 }
 
-}
-
-// ================= AUTO SAVE =================
+  // ================= AUTO SAVE =================
 setInterval(()=>{
 
 if(playerId) savePlayer();
