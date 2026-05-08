@@ -167,6 +167,17 @@ let nxr = 0;
 let power = 1;
 let level = 1;
 
+  //================= NEW VARIABLES================
+  let balance = 1000;
+
+let electricity = 0;
+
+let durability = 100;
+
+let rigLevel = 1;
+
+let rentCost = 50;
+
 // ================= LOGIN GOOGLE =================
 function loginGoogle(){
 
@@ -280,9 +291,105 @@ updateUI();
 // ================= UI UPDATE =================
 function updateUI(){
 
-document.getElementById("nxr").innerText = nxr;
-document.getElementById("power").innerText = power;
-document.getElementById("level").innerText = level;
+  // ================= AUTO MINING =================
+setInterval(()=>{
+
+// jika rig masih hidup
+if(durability > 0){
+
+// mining income
+let mined = power * 0.1;
+
+nxr += mined;
+
+// biaya listrik
+let electricCost =
+power * 0.02;
+
+balance -= electricCost;
+
+// durability turun
+durability -= 0.05;
+
+// total listrik
+electricity += electricCost;
+
+updateUI();
+
+savePlayer();
+
+}
+
+},1000);
+  
+  <div class="card">
+💵 Balance:
+<span id="balance">1000</span>
+</div>
+
+<div class="card">
+⚡ Electricity Cost:
+<span id="electricity">0</span>
+</div>
+
+<div class="card">
+🛠 Rig Durability:
+<span id="durability">100</span>%
+</div>
+
+<div class="card">
+🖥 Rig Level:
+<span id="rigLevel">1</span>
+</div>
+  document.getElementById(
+"balance"
+).innerText =
+balance.toFixed(2);
+
+document.getElementById(
+"electricity"
+).innerText =
+electricity.toFixed(2);
+
+document.getElementById(
+"durability"
+).innerText =
+durability.toFixed(1);
+
+document.getElementById(
+"rigLevel"
+).innerText =
+rigLevel;
+
+  <button
+class="action"
+onclick="repairRig()">
+
+🛠 Repair Rig
+
+</button>
+
+  function repairRig(){
+
+if(balance >= 100){
+
+balance -= 100;
+
+durability = 100;
+
+alert("Rig repaired");
+
+updateUI();
+
+savePlayer();
+
+}else{
+
+alert("Balance not enough");
+
+}
+
+}
 
 }
 
