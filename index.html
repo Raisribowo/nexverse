@@ -1,388 +1,304 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Nexora Dashboard</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nexora Pro</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<!-- FIREBASE SDK -->
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
 
 <style>
-
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-}
-
 body{
-    font-family:'Poppins',sans-serif;
-    background:#08111f;
-    color:white;
-    display:flex;
+margin:0;
+font-family:Arial;
+background:#0a0f1f;
+color:white;
 }
 
-/* SIDEBAR */
-
-.sidebar{
-    width:240px;
-    height:100vh;
-    background:#0d1726;
-    border-right:1px solid rgba(255,255,255,0.05);
-    padding:25px;
-    position:fixed;
+/* LOGIN */
+#loginPage{
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+height:100vh;
 }
 
-.logo{
-    font-size:30px;
-    font-weight:700;
-    color:#00ffd5;
-    margin-bottom:40px;
+input{
+width:80%;
+padding:10px;
+margin:5px;
+border:none;
+border-radius:8px;
 }
 
-.menu{
-    display:flex;
-    flex-direction:column;
-    gap:14px;
+/* DASHBOARD */
+#gamePage{
+display:none;
+padding:20px;
 }
-
-.menu button{
-    background:#131f33;
-    border:none;
-    color:white;
-    padding:15px;
-    border-radius:14px;
-    text-align:left;
-    font-size:15px;
-    cursor:pointer;
-    transition:0.3s;
-}
-
-.menu button:hover{
-    background:#00ffd5;
-    color:black;
-    transform:translateX(5px);
-}
-
-/* MAIN */
-
-.main{
-    margin-left:240px;
-    width:100%;
-    padding:25px;
-}
-
-/* TOPBAR */
-
-.topbar{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    margin-bottom:25px;
-}
-
-.topbar h1{
-    font-size:30px;
-}
-
-.profile{
-    background:#111d31;
-    padding:12px 18px;
-    border-radius:14px;
-    color:#00ffd5;
-    font-weight:600;
-}
-
-/* HERO */
-
-.hero{
-    background:linear-gradient(135deg,#00ffd5,#0066ff);
-    border-radius:24px;
-    padding:35px;
-    color:black;
-    margin-bottom:25px;
-}
-
-.hero h2{
-    font-size:34px;
-    margin-bottom:10px;
-}
-
-.hero p{
-    font-size:16px;
-}
-
-/* GRID */
-
-.grid{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
-    gap:20px;
-}
-
-/* CARD */
 
 .card{
-    background:#101b2d;
-    border-radius:20px;
-    padding:24px;
-    box-shadow:0 0 20px rgba(0,255,213,0.05);
-    transition:0.3s;
+background:#11182d;
+padding:15px;
+margin:10px 0;
+border-radius:12px;
+box-shadow:0 0 10px rgba(0,191,255,0.3);
 }
 
-.card:hover{
-    transform:translateY(-4px);
+button{
+padding:10px 15px;
+border:none;
+border-radius:10px;
+cursor:pointer;
+margin:5px;
 }
 
-.card h3{
-    margin-bottom:18px;
-    font-size:20px;
+.action{
+background:#00bfff;
+color:black;
+font-weight:bold;
 }
 
-/* MARKET */
-
-.market-price{
-    font-size:38px;
-    color:#00ffd5;
-    font-weight:700;
+.topbar{
+display:flex;
+justify-content:space-between;
+align-items:center;
 }
 
-.market-change{
-    margin-top:10px;
-    color:#33ff99;
+/* SIDEBAR SIMPLE */
+.menu{
+display:flex;
+gap:10px;
+flex-wrap:wrap;
 }
-
-/* MINING */
-
-.hashrate{
-    font-size:30px;
-    color:#00ffd5;
-    margin-top:10px;
-}
-
-.bar{
-    width:100%;
-    height:14px;
-    background:#1c2942;
-    border-radius:10px;
-    overflow:hidden;
-    margin-top:14px;
-}
-
-.fill{
-    width:75%;
-    height:100%;
-    background:#00ffd5;
-}
-
-/* NFT */
-
-.nft{
-    background:linear-gradient(135deg,#00ffd5,#004cff);
-    padding:20px;
-    border-radius:18px;
-    color:black;
-    font-weight:600;
-    margin-top:10px;
-}
-
-/* LEADERBOARD */
-
-.player{
-    display:flex;
-    justify-content:space-between;
-    margin-bottom:12px;
-    padding:12px;
-    background:#18253d;
-    border-radius:12px;
-}
-
-/* WALLET */
-
-.wallet-balance{
-    font-size:34px;
-    color:#00ffd5;
-    margin-top:10px;
-}
-
-/* BUTTON */
-
-.btn{
-    margin-top:20px;
-    width:100%;
-    padding:14px;
-    border:none;
-    border-radius:14px;
-    background:#00ffd5;
-    color:black;
-    font-weight:700;
-    cursor:pointer;
-    transition:0.3s;
-}
-
-.btn:hover{
-    transform:scale(1.03);
-}
-
 </style>
 </head>
 
 <body>
 
-<!-- SIDEBAR -->
+<!-- ================= LOGIN PAGE ================= -->
+<div id="loginPage">
 
-<div class="sidebar">
+<h1>NEXORA LOGIN</h1>
 
-    <div class="logo">NEXORA</div>
+<input id="email" placeholder="Email">
+<input id="password" type="password" placeholder="Password">
 
-    <div class="menu">
-        <button onclick="location.href='home.html'">🏠 Home</button>
-        <button onclick="location.href='mining.html'">⛏️ Mining</button>
-        <button onclick="location.href='market.html'">💹 Market</button>
-        <button>👛 Wallet</button>
-        <button>🏆 Leaderboard</button>
-        <button>🧬 NFT Rig</button>
-        <button>⚙️ Upgrade</button>
-    </div>
+<button class="action" onclick="loginEmail()">Login Email</button>
+<button class="action" onclick="registerEmail()">Register</button>
+
+<br><br>
+
+<button class="action" onclick="loginGoogle()"
+style="background:white;color:black">
+Login Google
+</button>
+
+</div>
+
+<!-- ================= GAME PAGE ================= -->
+<div id="gamePage">
+
+<div class="topbar">
+<h2>NEXORA PRO</h2>
+<div>👤 <span id="playerName">Player</span></div>
+</div>
+
+<div class="menu">
+<button class="action" onclick="savePlayer()">Save</button>
+<button onclick="logout()">Logout</button>
+</div>
+
+<div class="card">
+💰 NXR: <span id="nxr">0</span>
+</div>
+
+<div class="card">
+⚡ Power: <span id="power">1</span> H/s
+</div>
+
+<div class="card">
+🏆 Level: <span id="level">1</span>
+</div>
+
+<button class="action" onclick="mine()">MINE</button>
 
 </div>
 
-<!-- MAIN -->
+<script>
 
-<div class="main"
+// ================= FIREBASE CONFIG =================
+// Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
 
-    <!-- TOPBAR -->
+// Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: "AIzaSyC5L5hxVSYOl_R5NH3Dnm-ta0L9pkfDN_w",
+  authDomain: "nexora-35f82.firebaseapp.com",
+  projectId: "nexora-35f82",
+  storageBucket: "nexora-35f82.firebasestorage.app",
+  messagingSenderId: "10460502194",
+  appId: "1:10460502194:web:5f00eb22b1caf2519191ab",
+  measurementId: "G-9BBWJS1GDS"
+};
 
-    <div class="topbar">
-        <h1>Crypto Dashboard</h1>
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
 
-        <div class="profile">
-            Player: ABI
-        </div>
-    </div>
+// ================= VARIABLES =================
+let playerId = null;
+let playerName = "Player";
+let nxr = 0;
+let power = 1;
+let level = 1;
 
-    <!-- HERO -->
+// ================= LOGIN GOOGLE =================
+function loginGoogle(){
 
-    <div class="hero">
-        <h2>Welcome to Nexora</h2>
-        <p>
-            Mine NXR, upgrade your NFT rigs, trade resources,
-            and dominate the Nexora economy.
-        </p>
-    </div>
+const provider = new firebase.auth.GoogleAuthProvider();
 
-    <!-- GRID -->
+auth.signInWithPopup(provider)
+.then(res=>{
 
-    <div class="grid">
+playerId = res.user.uid;
+playerName = res.user.displayName;
 
-        <!-- MARKET -->
+startGame();
 
-        <div class="card">
+});
 
-            <h3>💹 NXR Market</h3>
+}
 
-            <div class="market-price">
-                $0.021
-            </div>
+// ================= REGISTER EMAIL =================
+function registerEmail(){
 
-            <div class="market-change">
-                ▲ +12.4% today
-            </div>
+auth.createUserWithEmailAndPassword(
+email.value,
+password.value
+)
+.then(res=>{
 
-        </div>
+playerId = res.user.uid;
+playerName = res.user.email;
 
-        <!-- MINING -->
+startGame();
 
-        <div class="card">
+});
 
-            <h3>⛏️ Mining Power</h3>
+}
 
-            <div class="hashrate">
-                842 H/s
-            </div>
+// ================= LOGIN EMAIL =================
+function loginEmail(){
 
-            <div class="bar">
-                <div class="fill"></div>
-            </div>
+auth.signInWithEmailAndPassword(
+email.value,
+password.value
+)
+.then(res=>{
 
-            <button class="btn">
-                OPEN MINING
-            </button>
+playerId = res.user.uid;
+playerName = res.user.email;
 
-        </div>
+startGame();
 
-        <!-- WALLET -->
+});
 
-        <div class="card">
+}
 
-            <h3>👛 Wallet</h3>
+// ================= START GAME =================
+function startGame(){
 
-            <div class="wallet-balance">
-                1,245.77 NXR
-            </div>
+document.getElementById("loginPage").style.display="none";
+document.getElementById("gamePage").style.display="block";
 
-            <p style="margin-top:10px;">
-                Estimated portfolio value
-            </p>
+document.getElementById("playerName").innerText = playerName;
 
-        </div>
+loadPlayer();
 
-        <!-- NFT -->
+}
 
-        <div class="card">
+// ================= LOAD PLAYER =================
+function loadPlayer(){
 
-            <h3>🧬 NFT Rig</h3>
+db.ref("players/"+playerId).once("value")
+.then(snap=>{
 
-            <div class="nft">
-                Genesis Rig #0001
-                <br><br>
-                Legendary GPU Mining Core
-            </div>
+if(snap.exists()){
 
-        </div>
+let d = snap.val();
 
-        <!-- LEADERBOARD -->
+nxr = d.nxr;
+power = d.power;
+level = d.level;
 
-        <div class="card">
+}
 
-            <h3>🏆 Top Miners</h3>
+updateUI();
 
-            <div class="player">
-                <span>CryptoWolf</span>
-                <span>14,220 NXR</span>
-            </div>
+});
 
-            <div class="player">
-                <span>ABI</span>
-                <span>12,430 NXR</span>
-            </div>
+}
 
-            <div class="player">
-                <span>NexHunter</span>
-                <span>9,880 NXR</span>
-            </div>
+// ================= SAVE =================
+function savePlayer(){
 
-        </div>
+db.ref("players/"+playerId).set({
 
-        <!-- SYSTEM -->
+name:playerName,
+nxr:nxr,
+power:power,
+level:level,
+online:true
 
-        <div class="card">
+});
 
-            <h3>⚡ System Status</h3>
+}
 
-            <p>Network: ONLINE</p>
-            <p style="margin-top:10px;">Players Active: 1,248</p>
-            <p style="margin-top:10px;">Blocks Mined: 21,442</p>
+// ================= MINE =================
+function mine(){
 
-            <button class="btn">
-                VIEW NETWORK
-            </button>
+nxr += power;
+updateUI();
 
-        </div>
+}
 
-    </div>
+// ================= UI UPDATE =================
+function updateUI(){
 
-</div>
+document.getElementById("nxr").innerText = nxr;
+document.getElementById("power").innerText = power;
+document.getElementById("level").innerText = level;
+
+}
+
+// ================= AUTO SAVE =================
+setInterval(()=>{
+
+if(playerId) savePlayer();
+
+},3000);
+
+// ================= LOGOUT =================
+function logout(){
+
+auth.signOut().then(()=>{
+
+location.reload();
+
+});
+
+}
+
+</script>
 
 </body>
 </html>
