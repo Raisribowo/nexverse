@@ -104,6 +104,36 @@ Login Google
 <div id="gamePage">
 
 <div class="topbar">
+  <div style="
+text-align:right;
+font-size:12px;
+">
+
+<div>
+🪙 Total:
+<span id="totalSupply">
+1000000
+</span>
+NXR
+</div>
+
+<div>
+⛏ Remaining:
+<span id="remainingSupply">
+2100000
+</span>
+NXR
+</div>
+
+<div>
+💰 Mined:
+<span id="minedSupply">
+0
+</span>
+NXR
+</div>
+
+</div>
 <h2>NEXORA PRO</h2>
 <div>👤 <span id="playerName">Player</span></div>
 </div>
@@ -193,6 +223,13 @@ let playerName = "Player";
 let nxr = 0;
 let power = 1;
 let level = 1;
+
+  // ================= GLOBAL MARKET =================
+let totalSupply = 2100000;
+
+let minedSupply = 0;
+
+let remainingSupply = totalSupply;
 
   //================= NEW VARIABLES================
   let balance = 1000;
@@ -316,7 +353,20 @@ updateUI();
 }
 
 // ================= UI UPDATE =================
-function updateUI(){
+function updateUI(){document.getElementById(
+"totalSupply"
+).innerText =
+Math.floor(totalSupply);
+
+document.getElementById(
+"remainingSupply"
+).innerText =
+Math.floor(remainingSupply);
+
+document.getElementById(
+"minedSupply"
+).innerText =
+Math.floor(minedSupply);
 
 document.getElementById(
 "nxr"
@@ -359,6 +409,10 @@ if(playerId && durability > 0){
 let mined = power * 0.1;
 
 nxr += mined;
+  minedSupply += mined;
+
+remainingSupply =
+totalSupply - minedSupply;
 
 let electricCost =
 power * 0.02;
@@ -401,11 +455,41 @@ alert("Balance not enough");
 }
 
   // ================= AUTO SAVE =================
-setInterval(()=>{
+function savePlayer(){
 
-if(playerId) savePlayer();
+// SAVE PLAYER
+db.ref("players/"+playerId).set({
 
-},3000);
+name:playerName,
+
+nxr:nxr,
+
+power:power,
+
+level:level,
+
+balance:balance,
+
+electricity:electricity,
+
+durability:durability,
+
+rigLevel:rigLevel,
+
+online:true
+
+});
+
+// SAVE GLOBAL MARKET
+db.ref("market").update({
+
+minedSupply:minedSupply,
+
+remainingSupply:remainingSupply
+
+});
+
+}
 
 // ================= LOGOUT =================
 function logout(){
