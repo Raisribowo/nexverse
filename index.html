@@ -11,65 +11,6 @@
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
 
 <style>
-body{
-margin:0;
-font-family:Arial;
-background:#0a0f1f;
-color:white;
-}
-
-/* LOGIN */
-#loginPage{
-display:flex;
-flex-direction:column;
-justify-content:center;
-align-items:center;
-height:100vh;
-}
-
-input{
-width:80%;
-padding:10px;
-margin:5px;
-border:none;
-border-radius:8px;
-}
-
-/* DASHBOARD */
-#gamePage{
-display:none;
-padding:20px;
-}
-
-.card{
-background:#11182d;
-padding:15px;
-margin:10px 0;
-border-radius:12px;
-box-shadow:0 0 10px rgba(0,191,255,0.3);
-}
-
-button{
-padding:10px 15px;
-border:none;
-border-radius:10px;
-cursor:pointer;
-margin:5px;
-}
-
-.action{
-background:#00bfff;
-color:black;
-font-weight:bold;
-}
-
-.topbar{
-display:flex;
-justify-content:space-between;
-align-items:center;
-}
-<style>
-/*======SIDEBAR ===== */
 
 body{
     margin:0;
@@ -78,7 +19,64 @@ body{
     color:white;
 }
 
-/* Sidebar */
+/* ================= LOGIN ================= */
+
+#loginPage{
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+}
+
+input{
+    width:80%;
+    max-width:300px;
+    padding:12px;
+    margin:6px;
+    border:none;
+    border-radius:10px;
+    outline:none;
+}
+
+/* ================= GAME ================= */
+
+#gamePage{
+    display:none;
+    padding:20px;
+    margin-left:300px;
+}
+
+.card{
+    background:#11182d;
+    padding:15px;
+    margin:10px 0;
+    border-radius:12px;
+    box-shadow:0 0 10px rgba(0,191,255,0.3);
+}
+
+button{
+    padding:12px 15px;
+    border:none;
+    border-radius:10px;
+    cursor:pointer;
+    margin:5px;
+    font-weight:bold;
+}
+
+.action{
+    background:#00bfff;
+    color:black;
+}
+
+.topbar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    flex-wrap:wrap;
+}
+
+/* ================= SIDEBAR ================= */
 
 .sidebar{
     width:260px;
@@ -86,29 +84,20 @@ body{
     position:fixed;
     left:0;
     top:0;
-
     background:rgba(10,15,35,0.95);
-
     border-right:1px solid rgba(0,255,255,0.3);
-
     box-shadow:0 0 25px rgba(0,255,255,0.2);
-
     backdrop-filter:blur(10px);
-
     display:flex;
     flex-direction:column;
     justify-content:space-between;
-
     padding:20px;
 }
-
-/* Logo */
 
 .logo h2{
     margin:0;
     font-size:28px;
     color:#00ffff;
-
     text-shadow:0 0 10px cyan;
 }
 
@@ -117,8 +106,6 @@ body{
     color:#7aa2ff;
 }
 
-/* Menu */
-
 .menu{
     margin-top:30px;
     display:flex;
@@ -126,43 +113,26 @@ body{
     gap:12px;
 }
 
-/* Button */
-
 .menu-btn{
     background:rgba(255,255,255,0.05);
-
     border:1px solid rgba(0,255,255,0.2);
-
     color:white;
-
     padding:14px;
-
     border-radius:15px;
-
     cursor:pointer;
-
     font-size:16px;
-
     text-align:left;
-
     transition:0.3s;
-
     display:flex;
     align-items:center;
     gap:10px;
 }
 
-/* Hover */
-
 .menu-btn:hover{
     background:rgba(0,255,255,0.15);
-
     transform:translateX(5px);
-
     box-shadow:0 0 15px cyan;
 }
-
-/* Active Menu */
 
 .menu-btn.active{
     background:linear-gradient(
@@ -170,36 +140,23 @@ body{
         rgba(0,255,255,0.3),
         rgba(0,100,255,0.3)
     );
-
     border:1px solid cyan;
-
     box-shadow:0 0 20px cyan;
 }
 
-/* Player Box */
-
 .player-box{
     background:rgba(255,255,255,0.05);
-
     border:1px solid rgba(0,255,255,0.2);
-
     border-radius:20px;
-
     padding:15px;
-
     text-align:center;
 }
-
-/* Avatar */
 
 .avatar{
     width:80px;
     height:80px;
-
     border-radius:50%;
-
     border:2px solid cyan;
-
     box-shadow:0 0 20px cyan;
 }
 
@@ -211,55 +168,82 @@ body{
     color:#00ffff;
     font-size:14px;
 }
-    <style>
-    body{
-        <!-- SIDEBAR NEXORA -->
+
+/* ================= MOBILE ================= */
+
+@media(max-width:768px){
+
+.sidebar{
+    width:100%;
+    height:auto;
+    position:relative;
+}
+
+#gamePage{
+    margin-left:0;
+}
+
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- ================= SIDEBAR ================= -->
+
 <div class="sidebar">
 
-    <div class="logo">
-        <h2>NEXORA</h2>
-        <span>CRYPTO MINING</span>
-    </div>
+    <div>
 
-    <div class="menu">
+        <div class="logo">
+            <h2>NEXORA</h2>
+            <span>CRYPTO MINING</span>
+        </div>
 
-        <button class="menu-btn active">
-            🏠 <span>Home</span>
-        </button>
+        <div class="menu">
 
-        <button class="menu-btn">
-            ⛏️ <span>Mining</span>
-        </button>
+            <button class="menu-btn active">
+                🏠 Home
+            </button>
 
-        <button class="menu-btn">
-            📈 <span>Market</span>
-        </button>
+            <button class="menu-btn">
+                ⛏️ Mining
+            </button>
 
-        <button class="menu-btn">
-            💰 <span>Wallet</span>
-        </button>
+            <button class="menu-btn">
+                📈 Market
+            </button>
 
-        <button class="menu-btn">
-            🖼️ <span>NFT Rig</span>
-        </button>
+            <button class="menu-btn">
+                💰 Wallet
+            </button>
 
-        <button class="menu-btn">
-            🏆 <span>Leaderboard</span>
-        </button>
+            <button class="menu-btn">
+                🖼️ NFT Rig
+            </button>
 
-        <button class="menu-btn">
-            ⚔️ <span>Clan</span>
-        </button>
+            <button class="menu-btn">
+                🏆 Leaderboard
+            </button>
 
-        <button class="menu-btn">
-            ⚙️ <span>Settings</span>
-        </button>
+            <button class="menu-btn">
+                ⚔️ Clan
+            </button>
+
+            <button class="menu-btn">
+                ⚙️ Settings
+            </button>
+
+        </div>
 
     </div>
 
     <div class="player-box">
 
-        <img src="https://i.imgur.com/8Km9tLL.png" class="avatar">
+        <img
+        src="https://i.imgur.com/8Km9tLL.png"
+        class="avatar">
 
         <h3>ABI MINER</h3>
 
@@ -270,6 +254,7 @@ body{
 </div>
 
 <!-- ================= LOGIN PAGE ================= -->
+
 <div id="loginPage">
 
 <h1>NEXORA LOGIN</h1>
@@ -277,73 +262,106 @@ body{
 <input id="email" placeholder="Email">
 <input id="password" type="password" placeholder="Password">
 
-<button class="action" onclick="loginEmail()">Login Email</button>
-<button class="action" onclick="registerEmail()">Register</button>
+<button
+class="action"
+onclick="loginEmail()">
 
-<br><br>
+Login Email
 
-<button class="action" onclick="loginGoogle()"
+</button>
+
+<button
+class="action"
+onclick="registerEmail()">
+
+Register
+
+</button>
+
+<button
+class="action"
+onclick="loginGoogle()"
 style="background:white;color:black">
+
 Login Google
+
 </button>
 
 </div>
 
 <!-- ================= GAME PAGE ================= -->
+
 <div id="gamePage">
 
 <div class="topbar">
-  <div style="
-text-align:right;
-font-size:12px;
-">
+
+<h2>NEXORA PRO</h2>
+
+<div>
 
 <div>
 🪙 Total:
-<span id="totalSupply">
-1000000
-</span>
+<span id="totalSupply">1000000</span>
 NXR
 </div>
 
 <div>
 ⛏ Remaining:
-<span id="remainingSupply">
-2100000
-</span>
+<span id="remainingSupply">1000000</span>
 NXR
 </div>
 
 <div>
 💰 Mined:
-<span id="minedSupply">
-0
-</span>
+<span id="minedSupply">0</span>
 NXR
 </div>
 
-</div>
-<h2>NEXORA PRO</h2>
-<div>👤 <span id="playerName">Player</span></div>
+<div>
+👤
+<span id="playerName">
+Player
+</span>
 </div>
 
-<div class="menu">
-<button class="action" onclick="savePlayer()">Save</button>
-<button onclick="logout()">Logout</button>
+</div>
+
+</div>
+
+<div>
+
+<button
+class="action"
+onclick="savePlayer()">
+
+💾 Save
+
+</button>
+
+<button onclick="logout()">
+
+🚪 Logout
+
+</button>
+
 </div>
 
 <div class="card">
-💰 NXR: <span id="nxr">0</span>
+💰 NXR:
+<span id="nxr">0</span>
 </div>
 
 <div class="card">
-⚡ Power: <span id="power">1</span> H/s
+⚡ Power:
+<span id="power">1</span> H/s
 </div>
 
 <div class="card">
-🏆 Level: <span id="level">1</span>
+🏆 Level:
+<span id="level">1</span>
 </div>
-  <div class="card">
+
+<div class="card">
 💵 Balance:
 <span id="balance">1000</span>
 </div>
@@ -371,57 +389,67 @@ onclick="repairRig()">
 
 </button>
 
-<button class="action" onclick="mine()">MINE</button>
+<button
+class="action"
+onclick="mine()">
+
+⛏️ MINE
+
+</button>
 
 </div>
 
 <script>
 
 // ================= FIREBASE CONFIG =================
+
 const firebaseConfig = {
 
-  apiKey: "AIzaSyC5L5hxVSYOl_R5NH3Dnm-ta0L9pkfDN_w",
+  apiKey: "YOUR_API_KEY",
 
-  authDomain: "nexora-35f82.firebaseapp.com",
+  authDomain: "YOUR_PROJECT.firebaseapp.com",
 
   databaseURL:
-  "https://nexora-35f82-default-rtdb.firebaseio.com",
+  "https://YOUR_PROJECT-default-rtdb.firebaseio.com",
 
-  projectId: "nexora-35f82",
+  projectId: "YOUR_PROJECT",
 
   storageBucket:
-  "nexora-35f82.appspot.com",
+  "YOUR_PROJECT.appspot.com",
 
-  messagingSenderId: "10460502194",
+  messagingSenderId: "123456789",
 
-  appId:
-  "1:10460502194:web:5f00eb22b1caf2519191ab"
+  appId: "APP_ID"
 
 };
 
 // ================= INIT FIREBASE =================
+
 firebase.initializeApp(firebaseConfig);
 
 const db = firebase.database();
 
 const auth = firebase.auth();
-  
-  // ================= VARIABLES =================
+
+// ================= VARIABLES =================
+
 let playerId = null;
+
 let playerName = "Player";
+
 let nxr = 0;
+
 let power = 1;
+
 let level = 1;
 
-  // ================= GLOBAL MARKET =================
-let totalSupply = 2100000;
+let totalSupply = 1000000;
 
 let minedSupply = 0;
 
 let remainingSupply = totalSupply;
 
-  //================= NEW VARIABLES================
-  let balance = 1000;
+let balance = 1000;
 
 let electricity = 0;
 
@@ -429,96 +457,136 @@ let durability = 100;
 
 let rigLevel = 1;
 
-let rentCost = 50;
-
 // ================= LOGIN GOOGLE =================
+
 function loginGoogle(){
 
-const provider = new firebase.auth.GoogleAuthProvider();
+const provider =
+new firebase.auth.GoogleAuthProvider();
 
 auth.signInWithPopup(provider)
+
 .then(res=>{
 
 playerId = res.user.uid;
+
 playerName = res.user.displayName;
 
 startGame();
+
+})
+
+.catch(err=>{
+
+alert(err.message);
 
 });
 
 }
 
-// ================= REGISTER EMAIL =================
+// ================= REGISTER =================
+
 function registerEmail(){
 
 auth.createUserWithEmailAndPassword(
 email.value,
 password.value
 )
+
 .then(res=>{
 
 playerId = res.user.uid;
+
 playerName = res.user.email;
 
 startGame();
+
+})
+
+.catch(err=>{
+
+alert(err.message);
 
 });
 
 }
 
-// ================= LOGIN EMAIL =================
+// ================= LOGIN =================
+
 function loginEmail(){
 
 auth.signInWithEmailAndPassword(
 email.value,
 password.value
 )
+
 .then(res=>{
 
 playerId = res.user.uid;
+
 playerName = res.user.email;
 
 startGame();
+
+})
+
+.catch(err=>{
+
+alert(err.message);
 
 });
 
 }
 
 // ================= START GAME =================
+
 function startGame(){
 
-document.getElementById("loginPage").style.display="none";
-document.getElementById("gamePage").style.display="block";
+document.getElementById(
+"loginPage"
+).style.display="none";
 
-document.getElementById("playerName").innerText = playerName;
+document.getElementById(
+"gamePage"
+).style.display="block";
+
+document.getElementById(
+"playerName"
+).innerText = playerName;
 
 loadPlayer();
+
 loadMarket();
+
 }
 
 // ================= LOAD PLAYER =================
+
 function loadPlayer(){
-  balance = d.balance || 1000;
 
-electricity =
-d.electricity || 0;
+db.ref("players/"+playerId)
 
-durability =
-d.durability || 100;
+.once("value")
 
-rigLevel =
-d.rigLevel || 1;
-
-db.ref("players/"+playerId).once("value")
 .then(snap=>{
 
 if(snap.exists()){
 
 let d = snap.val();
 
-nxr = d.nxr;
-power = d.power;
-level = d.level;
+nxr = d.nxr || 0;
+
+power = d.power || 1;
+
+level = d.level || 1;
+
+balance = d.balance || 1000;
+
+electricity = d.electricity || 0;
+
+durability = d.durability || 100;
+
+rigLevel = d.rigLevel || 1;
 
 }
 
@@ -528,7 +596,8 @@ updateUI();
 
 }
 
-  // ================= LOAD MARKET =================
+// ================= LOAD MARKET =================
+
 function loadMarket(){
 
 db.ref("market")
@@ -553,17 +622,40 @@ updateUI();
 
 }
 
+// ================= MANUAL MINE =================
 
-// ================= MINE =================
 function mine(){
 
-nxr += power;
-updateUI();
+if(durability <= 0){
+
+alert("Rig rusak");
+
+return;
 
 }
 
-// ================= UI UPDATE =================
-function updateUI(){document.getElementById(
+let mined = power;
+
+nxr += mined;
+
+minedSupply += mined;
+
+remainingSupply =
+totalSupply - minedSupply;
+
+durability -= 0.5;
+
+updateUI();
+
+savePlayer();
+
+}
+
+// ================= UPDATE UI =================
+
+function updateUI(){
+
+document.getElementById(
 "totalSupply"
 ).innerText =
 Math.floor(totalSupply);
@@ -580,15 +672,18 @@ Math.floor(minedSupply);
 
 document.getElementById(
 "nxr"
-).innerText = nxr;
+).innerText =
+nxr.toFixed(2);
 
 document.getElementById(
 "power"
-).innerText = power;
+).innerText =
+power;
 
 document.getElementById(
 "level"
-).innerText = level;
+).innerText =
+level;
 
 document.getElementById(
 "balance"
@@ -611,27 +706,34 @@ document.getElementById(
 rigLevel;
 
 }
-  // ================= AUTO MINING =================
+
+// ================= AUTO MINING =================
+
 setInterval(()=>{
 
 if(playerId && durability > 0){
 
 let mined = power * 0.1;
 
+let electricCost =
+power * 0.02;
+
+if(balance <= electricCost){
+    return;
+}
+
 nxr += mined;
-  minedSupply += mined;
+
+minedSupply += mined;
 
 remainingSupply =
 totalSupply - minedSupply;
 
-let electricCost =
-power * 0.02;
-
 balance -= electricCost;
 
-durability -= 0.05;
-
 electricity += electricCost;
+
+durability -= 0.05;
 
 updateUI();
 
@@ -641,7 +743,8 @@ savePlayer();
 
 },1000);
 
-  // ================= REPAIR RIG =================
+// ================= REPAIR =================
+
 function repairRig(){
 
 if(balance >= 100){
@@ -658,16 +761,16 @@ savePlayer();
 
 }else{
 
-alert("Balance not enough");
+alert("Balance tidak cukup");
 
 }
 
 }
 
-  // ================= AUTO SAVE =================
+// ================= SAVE =================
+
 function savePlayer(){
 
-// SAVE PLAYER
 db.ref("players/"+playerId).set({
 
 name:playerName,
@@ -690,7 +793,6 @@ online:true
 
 });
 
-// SAVE GLOBAL MARKET
 db.ref("market").update({
 
 minedSupply:minedSupply,
@@ -702,6 +804,7 @@ remainingSupply:remainingSupply
 }
 
 // ================= LOGOUT =================
+
 function logout(){
 
 auth.signOut().then(()=>{
