@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Nexora Pro Stable</title>
+<title>Nexora Pro Arena</title>
 
 <!-- FIREBASE -->
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
@@ -14,8 +14,45 @@
 body{
     margin:0;
     font-family:Arial;
-    background:#070b1a;
+    background:radial-gradient(circle at top,#0b1025,#05070f);
     color:white;
+}
+
+/* SIDEBAR STYLE ML */
+.sidebar{
+    width:240px;
+    height:100vh;
+    position:fixed;
+    left:0;
+    top:0;
+    background:linear-gradient(180deg,#0d142d,#070b1a);
+    padding:20px;
+    box-shadow:2px 0 20px rgba(0,0,0,0.6);
+}
+
+.sidebar h2{
+    color:#00d4ff;
+    margin-bottom:10px;
+}
+
+.menu{
+    margin-top:30px;
+}
+
+.menu button{
+    width:100%;
+    margin:6px 0;
+    padding:10px;
+    border:none;
+    border-radius:10px;
+    background:#111a33;
+    color:white;
+    cursor:pointer;
+}
+
+.menu button:hover{
+    background:#00d4ff;
+    color:black;
 }
 
 /* LOGIN */
@@ -36,20 +73,50 @@ input{
     border:none;
 }
 
-/* GAME */
+/* GAME LAYOUT */
 #gamePage{
     display:none;
-    padding:20px;
     margin-left:260px;
+    padding:20px;
 }
 
+/* HERO HEADER */
+.hero{
+    background:linear-gradient(90deg,#0d1b3d,#1a2a5a);
+    padding:20px;
+    border-radius:15px;
+    box-shadow:0 0 20px rgba(0,200,255,0.2);
+}
+
+.hero h2{
+    margin:0;
+    color:#00d4ff;
+}
+
+/* CARD STYLE */
 .card{
-    background:#11182d;
+    background:#111a33;
     padding:15px;
     margin:10px 0;
     border-radius:12px;
+    box-shadow:0 0 10px rgba(0,0,0,0.4);
 }
 
+/* HUD GRID */
+.hud{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:10px;
+}
+
+.hud div{
+    background:#0f1730;
+    padding:15px;
+    border-radius:12px;
+    text-align:center;
+}
+
+/* BUTTON */
 button{
     padding:10px 14px;
     border:none;
@@ -58,19 +125,23 @@ button{
 }
 
 .action{
-    background:#00bfff;
+    background:#00d4ff;
     color:black;
+    font-weight:bold;
 }
 
-/* SIDEBAR */
-.sidebar{
-    width:240px;
-    height:100vh;
-    position:fixed;
-    left:0;
-    top:0;
-    background:#0b1020;
-    padding:15px;
+.action:hover{
+    box-shadow:0 0 15px #00d4ff;
+}
+
+/* RANK */
+.rank{
+    display:inline-block;
+    padding:5px 10px;
+    border-radius:10px;
+    background:gold;
+    color:black;
+    font-weight:bold;
 }
 </style>
 </head>
@@ -80,12 +151,19 @@ button{
 <!-- SIDEBAR -->
 <div class="sidebar">
 <h2>NEXORA</h2>
-<p>Crypto Mining</p>
+<p>Crypto Arena</p>
+
+<div class="menu">
+<button>🏠 Home</button>
+<button>⛏ Mining</button>
+<button>📈 Market</button>
+<button>🏆 Rank</button>
+<button>💼 Wallet</button>
+</div>
 </div>
 
 <!-- LOGIN -->
 <div id="loginPage">
-
 <h2>NEXORA LOGIN</h2>
 
 <input id="email" placeholder="Email">
@@ -94,37 +172,39 @@ button{
 <button class="action" onclick="loginEmail()">Login</button>
 <button class="action" onclick="registerEmail()">Register</button>
 <button class="action" onclick="loginGoogle()" style="background:white;color:black">Google</button>
-
 </div>
 
 <!-- GAME -->
 <div id="gamePage">
 
-<h2>NEXORA PRO STABLE</h2>
+<div class="hero">
+<h2>🔥 Nexora Arena</h2>
+<p>Player: <span id="playerName">-</span> | Rank: <span class="rank">BRONZE</span></p>
+</div>
 
-<p>Player: <span id="playerName">-</span></p>
+<div class="hud">
+<div>💰 NXR<br><span id="nxr">0</span></div>
+<div>💵 Balance<br><span id="balance">1000</span></div>
+<div>⚡ Power<br><span id="power">1</span></div>
+<div>🛠 Durability<br><span id="durability">100</span></div>
+</div>
 
-<div class="card">NXR: <span id="nxr">0</span></div>
-<div class="card">Balance: <span id="balance">1000</span></div>
-<div class="card">Power: <span id="power">1</span></div>
-<div class="card">Durability: <span id="durability">100</span></div>
-
-<button class="action" onclick="mine()">⛏ Mine</button>
+<div class="card">
+<h3>⛏ Mining Control</h3>
+<button class="action" onclick="mine()">START MINING</button>
 <button onclick="logout()">Logout</button>
+</div>
 
 </div>
 
 <script>
 
-// ================= FIREBASE CONFIG =================
+// FIREBASE
 const firebaseConfig = {
   apiKey: "AIzaSyC5L5hxVSYOl_R5NH3Dnm-ta0L9pkfDN_w",
   authDomain: "nexora-35f82.firebaseapp.com",
   databaseURL: "https://nexora-35f82-default-rtdb.firebaseio.com",
   projectId: "nexora-35f82",
-  storageBucket: "nexora-35f82.appspot.com",
-  messagingSenderId: "10460502194",
-  appId: "1:10460502194:web:5f00eb22b1caf2519191ab"
 };
 
 firebase.initializeApp(firebaseConfig);
@@ -132,130 +212,105 @@ firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
 const auth = firebase.auth();
 
-// ================= VARIABLES =================
-let playerId = null;
-let playerName = "Player";
-let nxr = 0;
-let power = 1;
-let balance = 1000;
-let durability = 100;
+let playerId=null;
+let playerName="Player";
+let nxr=0,power=1,balance=1000,durability=100;
 
-// ================= AUTO SESSION =================
-auth.onAuthStateChanged(user => {
-    if (user) {
-        playerId = user.uid;
-        playerName = user.displayName || user.email;
-
-        startGame();
-    } else {
-        document.getElementById("loginPage").style.display = "flex";
-        document.getElementById("gamePage").style.display = "none";
-    }
+// AUTO LOGIN
+auth.onAuthStateChanged(user=>{
+if(user){
+playerId=user.uid;
+playerName=user.displayName||user.email;
+startGame();
+}else{
+document.getElementById("loginPage").style.display="flex";
+document.getElementById("gamePage").style.display="none";
+}
 });
 
-// ================= LOGIN GOOGLE =================
+// GOOGLE LOGIN
 function loginGoogle(){
-    const provider = new firebase.auth.GoogleAuthProvider();
-
-    auth.signInWithPopup(provider)
-    .then(res=>{
-        playerId = res.user.uid;
-        playerName = res.user.displayName || "Player";
-        startGame();
-    })
-    .catch(err=>{
-        alert(err.message);
-    });
+auth.signInWithPopup(new firebase.auth.GoogleAuthProvider())
+.then(res=>{
+playerId=res.user.uid;
+playerName=res.user.displayName;
+startGame();
+});
 }
 
-// ================= REGISTER =================
+// REGISTER
 function registerEmail(){
-auth.createUserWithEmailAndPassword(email.value, password.value)
+auth.createUserWithEmailAndPassword(email.value,password.value)
 .then(res=>{
-    playerId = res.user.uid;
-    playerName = res.user.email;
-    startGame();
-})
-.catch(err=>{
-    alert(err.message);
+playerId=res.user.uid;
+playerName=res.user.email;
+startGame();
 });
 }
 
-// ================= LOGIN =================
+// LOGIN
 function loginEmail(){
-auth.signInWithEmailAndPassword(email.value, password.value)
+auth.signInWithEmailAndPassword(email.value,password.value)
 .then(res=>{
-    playerId = res.user.uid;
-    playerName = res.user.email;
-    startGame();
-})
-.catch(err=>{
-    alert(err.message);
+playerId=res.user.uid;
+playerName=res.user.email;
+startGame();
 });
 }
 
-// ================= START GAME =================
+// START
 function startGame(){
-
-document.getElementById("loginPage").style.display = "none";
-document.getElementById("gamePage").style.display = "block";
-
-document.getElementById("playerName").innerText = playerName;
-
+document.getElementById("loginPage").style.display="none";
+document.getElementById("gamePage").style.display="block";
+document.getElementById("playerName").innerText=playerName;
 loadPlayer();
-
 }
 
-// ================= LOAD PLAYER =================
+// LOAD
 function loadPlayer(){
-db.ref("players/"+playerId).once("value")
-.then(snap=>{
-    if(snap.exists()){
-        let d = snap.val();
-        nxr = d.nxr || 0;
-        power = d.power || 1;
-        balance = d.balance || 1000;
-        durability = d.durability || 100;
-    }
-    updateUI();
+db.ref("players/"+playerId).once("value").then(s=>{
+if(s.exists()){
+let d=s.val();
+nxr=d.nxr||0;
+power=d.power||1;
+balance=d.balance||1000;
+durability=d.durability||100;
+}
+updateUI();
 });
 }
 
-// ================= MINE =================
+// MINE (core gameplay)
 function mine(){
-if(durability <= 0){
-    alert("Rig rusak");
-    return;
+if(durability<=0){
+alert("Rig rusak!");
+return;
 }
 
-nxr += power;
-balance -= 1;
-durability -= 0.5;
+nxr+=power;
+balance-=1;
+durability-=0.5;
 
 updateUI();
 savePlayer();
 }
 
-// ================= UI =================
+// UI
 function updateUI(){
-document.getElementById("nxr").innerText = nxr.toFixed(2);
-document.getElementById("balance").innerText = balance.toFixed(2);
-document.getElementById("power").innerText = power;
-document.getElementById("durability").innerText = durability.toFixed(1);
+document.getElementById("nxr").innerText=nxr.toFixed(2);
+document.getElementById("balance").innerText=balance.toFixed(2);
+document.getElementById("power").innerText=power;
+document.getElementById("durability").innerText=durability.toFixed(1);
 }
 
-// ================= SAVE =================
+// SAVE
 function savePlayer(){
 db.ref("players/"+playerId).set({
-    nxr,
-    power,
-    balance,
-    durability,
-    name:playerName
+nxr,power,balance,durability,name:playerName
 });
 }
 
-// ================= LOGOUT =================
+// LOGOUT
 function logout(){
 auth.signOut();
 location.reload();
