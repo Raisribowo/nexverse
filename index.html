@@ -423,8 +423,6 @@ const firebaseConfig = {
   "1:10460502194:web:5f00eb22b1caf2519191ab"
 
 };
-};
-
 // ================= INIT FIREBASE =================
 
 firebase.initializeApp(firebaseConfig);
@@ -466,6 +464,13 @@ function loginGoogle(){
 const provider =
 new firebase.auth.GoogleAuthProvider();
 
+auth.signInWithRedirect(provider);
+
+}function loginGoogle(){
+
+const provider =
+new firebase.auth.GoogleAuthProvider();
+
 auth.signInWithPopup(provider)
 
 .then(res=>{
@@ -476,21 +481,13 @@ playerName = res.user.displayName;
 
 startGame();
 
-})
-
-.catch(err=>{
-
-alert(err.message);
-
-});
-
-}
+.catch(err
 
 // ================= REGISTER =================
 
-function registerEmail(){
+function registerEmaile
 
-auth.createUserWithEmailAndPassword(
+auer createUserWithEmailAndPassword(
 email.value,
 password.value
 )
@@ -501,7 +498,7 @@ playerId = res.user.uid;
 
 playerName = res.user.email;
 
-startGame();
+staralert();
 
 })
 
