@@ -69,16 +69,204 @@ justify-content:space-between;
 align-items:center;
 }
 
-/* SIDEBAR SIMPLE */
-.menu{
-display:flex;
-gap:10px;
-flex-wrap:wrap;
-}
-</style>
-</head>
+<!-- SIDEBAR NEXORA -->
+<div class="sidebar">
 
-<body>
+    <div class="logo">
+        <h2>NEXORA</h2>
+        <span>CRYPTO MINING</span>
+    </div>
+
+    <div class="menu">
+
+        <button class="menu-btn active">
+            🏠 <span>Home</span>
+        </button>
+
+        <button class="menu-btn">
+            ⛏️ <span>Mining</span>
+        </button>
+
+        <button class="menu-btn">
+            📈 <span>Market</span>
+        </button>
+
+        <button class="menu-btn">
+            💰 <span>Wallet</span>
+        </button>
+
+        <button class="menu-btn">
+            🖼️ <span>NFT Rig</span>
+        </button>
+
+        <button class="menu-btn">
+            🏆 <span>Leaderboard</span>
+        </button>
+
+        <button class="menu-btn">
+            ⚔️ <span>Clan</span>
+        </button>
+
+        <button class="menu-btn">
+            ⚙️ <span>Settings</span>
+        </button>
+
+    </div>
+
+    <div class="player-box">
+
+        <img src="https://i.imgur.com/8Km9tLL.png" class="avatar">
+
+        <h3>ABI MINER</h3>
+
+        <p>Quantum Rank</p>
+
+    </div>
+
+</div>
+
+  /* ===== SIDEBAR ===== */
+
+body{
+    margin:0;
+    font-family:Arial, sans-serif;
+    background:#070b1a;
+    color:white;
+}
+
+/* Sidebar */
+
+.sidebar{
+    width:260px;
+    height:100vh;
+    position:fixed;
+    left:0;
+    top:0;
+
+    background:rgba(10,15,35,0.95);
+
+    border-right:1px solid rgba(0,255,255,0.3);
+
+    box-shadow:0 0 25px rgba(0,255,255,0.2);
+
+    backdrop-filter:blur(10px);
+
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+
+    padding:20px;
+}
+
+/* Logo */
+
+.logo h2{
+    margin:0;
+    font-size:28px;
+    color:#00ffff;
+
+    text-shadow:0 0 10px cyan;
+}
+
+.logo span{
+    font-size:12px;
+    color:#7aa2ff;
+}
+
+/* Menu */
+
+.menu{
+    margin-top:30px;
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+}
+
+/* Button */
+
+.menu-btn{
+    background:rgba(255,255,255,0.05);
+
+    border:1px solid rgba(0,255,255,0.2);
+
+    color:white;
+
+    padding:14px;
+
+    border-radius:15px;
+
+    cursor:pointer;
+
+    font-size:16px;
+
+    text-align:left;
+
+    transition:0.3s;
+
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+/* Hover */
+
+.menu-btn:hover{
+    background:rgba(0,255,255,0.15);
+
+    transform:translateX(5px);
+
+    box-shadow:0 0 15px cyan;
+}
+
+/* Active Menu */
+
+.menu-btn.active{
+    background:linear-gradient(
+        90deg,
+        rgba(0,255,255,0.3),
+        rgba(0,100,255,0.3)
+    );
+
+    border:1px solid cyan;
+
+    box-shadow:0 0 20px cyan;
+}
+
+/* Player Box */
+
+.player-box{
+    background:rgba(255,255,255,0.05);
+
+    border:1px solid rgba(0,255,255,0.2);
+
+    border-radius:20px;
+
+    padding:15px;
+
+    text-align:center;
+}
+
+/* Avatar */
+
+.avatar{
+    width:80px;
+    height:80px;
+
+    border-radius:50%;
+
+    border:2px solid cyan;
+
+    box-shadow:0 0 20px cyan;
+}
+
+.player-box h3{
+    margin:10px 0 5px;
+}
+
+.player-box p{
+    color:#00ffff;
+    font-size:14px;
+}
 
 <!-- ================= LOGIN PAGE ================= -->
 <div id="loginPage">
