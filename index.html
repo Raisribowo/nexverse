@@ -375,11 +375,16 @@ Balance :
 /* FIREBASE */
 
 const firebaseConfig = {
+apiKey: "AIzaSyC5L5hxVSYOl_R5NH3Dnm-ta0L9pkfDN_w",
+  authDomain: "nexora-35f82.firebaseapp.com",
 
-apiKey: "YOUR_API_KEY",
-authDomain: "YOUR_AUTH_DOMAIN",
-databaseURL: "YOUR_DATABASE_URL",
-projectId: "YOUR_PROJECT_ID"
+  databaseURL: "https://nexora-35f82-default-rtdb.asia-southeast1.firebasedatabase.app",
+
+  projectId: "nexora-35f82",
+  storageBucket: "nexora-35f82.firebasestorage.app",
+  messagingSenderId: "10460502194",
+  appId: "1:10460502194:web:5f00eb22b1caf2519191ab",
+  measurementId: "G-9BBWJS1GDS"
 
 };
 
@@ -419,7 +424,7 @@ document.getElementById(page + "Page").style.display = "block";
 function registerEmail(){
 
 const email = document.getElementById("email").value;
-const password = document.getElementById("password").value;
+const password = document.getElementById("password").valuI
 
 if(password.length < 6){
 
