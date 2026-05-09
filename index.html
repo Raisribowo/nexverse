@@ -153,8 +153,10 @@ button{
 <h2>NEXORA</h2>
 <p>Crypto Arena</p>
 
-<div class="menu">
-<button>🏠 Home</button>
+<div>
+    <div id="homePage" class="page">
+
+<button onclick="showPage('home')">🏠 Home</button>
 <button>⛏ Mining</button>
 <button>📈 Market</button>
 <button>🏆 Rank</button>
@@ -216,6 +218,23 @@ let playerId=null;
 let playerName="Player";
 let nxr=0,power=1,balance=1000,durability=100;
 
+function showPage(page){
+
+// sembunyikan login juga kalau masih muncul
+document.getElementById("loginPage").style.display = "none";
+
+// sembunyikan semua page game
+document.querySelectorAll(".page").forEach(p=>{
+    p.style.display = "none";
+});
+
+// tampilkan page yang dipilih
+const target = document.getElementById(page + "Page");
+if(target){
+    target.style.display = "block";
+}
+
+    }
 // AUTO LOGIN
 auth.onAuthStateChanged(user=>{
 if(user){
@@ -259,6 +278,11 @@ startGame();
 }
 
 // START
+function startGame(){
+
+document.getElementById("loginPage").style.display = "none";
+
+// ⭐ AUTO BUKA HOME
 function startGame(){
 document.getElementById("loginPage").style.display="none";
 document.getElementById("gamePage").style.display="block";
