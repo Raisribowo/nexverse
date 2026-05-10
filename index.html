@@ -1,617 +1,795 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Nexora v1</title>
-
-<!-- GOOGLE FONT -->
-<link rel="preconnect" href="https://fonts.googleapis.com">
-
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<title>Nexora Pro Stable</title>
 
 <!-- FIREBASE -->
-
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
-
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
-
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
 
 <style>
-
 *{
 margin:0;
 padding:0;
 box-sizing:border-box;
-font-family:'Poppins',sans-serif;
+font-family:Arial,sans-serif;
 }
 
 body{
-background:#0b1020;
+background:#0f172a;
 color:white;
-overflow-x:hidden;
-display:flex;
-}
-
-/* SIDEBAR */
-
-.sidebar{
-position:fixed;
-left:0;
-top:0;
-width:220px;
-height:100%;
-background:#111827;
-padding:20px;
-border-right:1px solid rgba(255,255,255,0.05);
-}
-
-.sidebar h2{
-color:#00f5ff;
-margin-bottom:5px;
-}
-
-.sidebar p{
-opacity:0.7;
-font-size:14px;
-margin-bottom:30px;
-}
-
-.menu{
-display:flex;
-flex-direction:column;
-gap:12px;
-}
-
-.menu button{
-padding:15px;
-border:none;
-border-radius:12px;
-background:#1f2937;
-color:white;
-font-size:15px;
-cursor:pointer;
-transition:0.3s;
-}
-
-.menu button:hover{
-background:#00f5ff;
-color:black;
-}
-
-/* MAIN */
-
-.main{
-margin-left:220px;
-width:100%;
-padding:20px;
-}
-
-/* LOGIN */
-
-.login-page{
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:#0b1020;
 display:flex;
 justify-content:center;
 align-items:center;
-z-index:999;
+height:100vh;
 }
 
-.login-box{
-width:90%;
-max-width:350px;
-background:#151d35;
-padding:30px;
-border-radius:20px;
-}
-
-.login-title{
-text-align:center;
-font-size:28px;
-margin-bottom:20px;
-color:#00f5ff;
-}
-
-.input-box{
-width:100%;
-padding:15px;
-margin-bottom:15px;
-border:none;
-border-radius:12px;
-background:#1f2947;
-color:white;
-font-size:15px;
-}
-
-.login-btn{
-width:100%;
-padding:15px;
-margin-bottom:10px;
-border:none;
-border-radius:12px;
-background:#00f5ff;
-color:black;
-font-weight:600;
-cursor:pointer;
-}
-
-/* PAGE */
-
-.page{
-display:none;
-}
-
-/* HERO */
-
-.hero{
-background:linear-gradient(135deg,#16213e,#1f4068);
+.container{
+width:95%;
+max-width:400px;
+background:#111827;
 padding:25px;
 border-radius:20px;
-margin-bottom:20px;
-box-shadow:0 0 20px rgba(0,255,255,0.1);
+box-shadow:0 0 25px rgba(0,0,0,0.5);
 }
 
-.hero h2{
-margin-bottom:10px;
-}
-
-/* HUD */
-
-.hud{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:15px;
-margin-bottom:20px;
-}
-
-.hud div{
-background:#151d35;
-padding:20px;
-border-radius:20px;
+h1{
 text-align:center;
-font-size:18px;
+margin-bottom:20px;
+color:#38bdf8;
 }
 
-/* CARD */
+input{
+width:100%;
+padding:14px;
+margin-bottom:15px;
+border:none;
+border-radius:10px;
+background:#1e293b;
+color:white;
+font-size:16px;
+}
+
+button{
+width:100%;
+padding:14px;
+border:none;
+border-radius:10px;
+background:#38bdf8;
+color:white;
+font-size:16px;
+font-weight:bold;
+cursor:pointer;
+margin-top:10px;
+transition:0.3s;
+}
+
+button:hover{
+background:#0ea5e9;
+}
+
+#status{
+margin-top:15px;
+text-align:center;
+font-size:14px;
+color:#22c55e;
+}
+
+.dashboard{
+display:none;
+margin-top:20px;
+padding:15px;
+background:#1e293b;
+border-radius:15px;
+text-align:center;
+}
 
 .card{
-background:#151d35;
-padding:20px;
-border-radius:20px;
-margin-bottom:20px;
+background:#0f172a;
+padding:15px;
+border-radius:12px;
+margin-top:10px;
+}
+
+.logout{
+background:#ef4444;
+}
+
+.logout:hover{
+background:#dc2626;
+}
+.card{
+background:#0f172a;
+padding:15px;
+border-radius:15px;
+margin-top:12px;
+border:1px solid rgba(255,255,255,0.05);
+box-shadow:0 0 15px rgba(0,0,0,0.3);
 }
 
 .card h3{
-margin-bottom:15px;
+font-size:16px;
+margin-bottom:8px;
+color:#38bdf8;
 }
 
-/* BUTTON */
-
-.action{
-padding:15px 20px;
-border:none;
-border-radius:12px;
-background:#00f5ff;
-color:black;
-font-weight:600;
-cursor:pointer;
+.card p{
+font-size:18px;
+font-weight:bold;
 }
 
+.dashboard button{
+margin-top:12px;
+}
+.mining-room{
+display:none;
+margin-top:20px;
+padding:20px;
+background:#0f172a;
+border-radius:20px;
+}
+
+.mining-room h2{
+text-align:center;
+margin-bottom:20px;
+color:#38bdf8;
+}
+
+.mining-grid{
+display:grid;
+grid-template-columns:1fr;
+gap:15px;
+}
+
+.mining-card{
+background:#111827;
+padding:15px;
+border-radius:15px;
+text-align:center;
+box-shadow:0 0 20px rgba(0,0,0,0.4);
+}
+
+.mining-card img{
+width:80px;
+height:80px;
+margin-bottom:10px;
+}
+
+.mining-card h3{
+margin-bottom:8px;
+color:#38bdf8;
+}
+
+.mining-stats{
+margin-top:20px;
+display:grid;
+grid-template-columns:1fr;
+gap:12px;
+}
+
+.stat-box{
+background:#111827;
+padding:15px;
+border-radius:15px;
+text-align:center;
+}
+
+.stat-box h3{
+margin-bottom:6px;
+color:#38bdf8;
+}
 </style>
-
 </head>
-
 <body>
 
-<!-- LOGIN -->
+<div class="container">
 
-<div class="login-page" id="loginPage">
+<h1>NEXORA PRO</h1>
 
-<div class="login-box">
+<input type="email" id="email" placeholder="Email">
+<input type="password" id="password" placeholder="Password">
 
-<div class="login-title">
-NEXORA
+<button onclick="register()">DAFTAR</button>
+<button onclick="login()">LOGIN</button>
+
+<div id="status"></div>
+
+<div class="dashboard" id="dashboard">
+<div class="mining-room" id="miningRoom">
+
+<h2>RUANG MINING NEXORA</h2>
+
+<div class="mining-grid">
+
+<div class="mining-card">
+<img src="https://cdn-icons-png.flaticon.com/512/2906/2906274.png">
+<h3>Mining Rig</h3>
+<p>Rig aktif menghasilkan NXR</p>
 </div>
 
-<input type="email" id="email" class="input-box" placeholder="Email">
+<div class="mining-card">
+<img src="https://cdn-icons-png.flaticon.com/512/3103/3103446.png">
+<h3>Energi</h3>
+<p id="energyText">100%</p>
+</div>
 
-<input type="password" id="password" class="input-box" placeholder="Password">
+<div class="mining-card">
+<img src="https://cdn-icons-png.flaticon.com/512/1046/1046784.png">
+<h3>Listrik</h3>
+<p>240 Volt Stabil</p>
+</div>
 
-<button class="login-btn" onclick="loginEmail()">
-LOGIN
+</div>
+
+<div class="mining-stats">
+  <div class="stat-box">
+<h3>Biaya Rig</h3>
+<p id="rigCost">1 NXR/detik</p>
+</div>
+
+<div class="stat-box">
+<h3>Biaya Listrik</h3>
+<p id="electricCost">1 NXR/detik</p>
+</div>
+
+<div class="stat-box">
+<h3>Biaya Energi</h3>
+<p id="energyCost">1 NXR/detik</p>
+</div>
+
+<div class="stat-box">
+<h3>Profit Bersih</h3>
+<p id="profitText">0 NXR</p>
+</div>
+
+<div class="stat-box">
+<h3>Kecepatan Mining</h3>
+<p>120 Hash/s</p>
+</div>
+
+<div class="stat-box">
+<h3>Rig Aktif</h3>
+<p>1 Rig</p>
+</div>
+
+<div class="stat-box">
+<h3>Pendingin</h3>
+<p>Normal</p>
+</div>
+
+</div>
+
+<button onclick="startMiningRealtime()">
+AKTIFKAN MINING
 </button>
 
-<button class="login-btn" onclick="registerEmail()">
-REGISTER
+<button onclick="closeMiningRoom()">
+KEMBALI
 </button>
 
 </div>
 
-</div>
-
-<!-- SIDEBAR -->
-
-<div class="sidebar">
-
-<h2>NEXORA</h2>
-
-<p>Crypto Arena</p>
-
-<div class="menu">
-
-<button onclick="showPage('home')">
-🏠 Home
-</button>
-
-<button onclick="showPage('mining')">
-⛏ Mining
-</button>
-
-<button onclick="showPage('market')">
-📈 Market
-</button>
-
-<button onclick="showPage('wallet')">
-💼 Wallet
-</button>
-
-<button onclick="logout()">
-🚪 Logout
-</button>
-
-</div>
-
-</div>
-
-<!-- MAIN -->
-
-<div class="main">
-
-<!-- HOME -->
-
-<div id="homePage" class="page">
-
-<div class="hero">
-
-<h2>🔥 Nexora Arena</h2>
-
-<p>
-Player:
-<span id="playerName">
-Player
-</span>
-</p>
-
-</div>
-
-<div class="hud">
-
-<div>
-💰 NXR
-<br><br>
-<span id="nxr">0</span>
-</div>
-
-<div>
-💵 Balance
-<br><br>
-<span id="balance">1000</span>
-</div>
-
-</div>
-
-</div>
-
-<!-- MINING -->
-
-<div id="miningPage" class="page">
+<h2>Dashboard Nexora</h2>
 
 <div class="card">
+<h3>Saldo NXR</h3>
+<p id="saldo">0 NXR</p>
+</div>
 
-<h3>⛏ Mining Rig</h3>
+<div class="card">
+<h3>Total Mining</h3>
+<p id="miningTotal">0 NXR</p>
+</div>
 
-<p id="miningStatus">
-Status : Idle
-</p>
+<div class="card">
+<h3>Status Mining</h3>
+<p id="miningStatus">Mining Aktif</p>
+</div>
 
-<br>
+<div class="card">
+<h3>Harga NXR</h3>
+<p id="hargaNXR">Rp 1</p>
+</div>
 
-<button class="action" onclick="mine()">
+<div class="card">
+<h3>Level Akun</h3>
+<p id="levelUser">Beginner Miner</p>
+</div>
+
+<div class="card">
+<h3>Wallet Address</h3>
+<p id="walletAddress">NXR-0000</p>
+</div>
+
+<button onclick="openMiningRoom()">
 START MINING
 </button>
 
-</div>
+<button onclick="stopMining()">
+STOP MINING
+</button>
 
-</div>
+<button onclick="claimMining()">
+CLAIM REWARD
+</button>
 
-<!-- MARKET -->
+<button onclick="depositNXR()">
+DEPOSIT
+</button>
 
-<div id="marketPage" class="page">
+<button onclick="withdrawNXR()">
+WITHDRAW
+</button>
 
-<div class="card">
+<button onclick="openMarket()">
+MARKET
+</button>
 
-<h3>📈 Market</h3>
+<button onclick="openNFT()">
+NFT MINING RIG
+</button>
 
-<p>
-NXR Price :
-$1.25
-</p>
+<button onclick="openLeaderboard()">
+LEADERBOARD
+</button>
 
-</div>
-
-</div>
-
-<!-- WALLET -->
-
-<div id="walletPage" class="page">
-
-<div class="card">
-
-<h3>💼 Wallet</h3>
-
-<p>
-Balance :
-<span id="balance2">
-1000
-</span>
-</p>
-
-</div>
-
-</div>
+<button class="logout" onclick="logout()">
+LOGOUT
+</button>
 
 </div>
 
 <script>
 
-/* FIREBASE */
-
+// FIREBASE CONFIG
 const firebaseConfig = {
 apiKey: "AIzaSyC5L5hxVSYOl_R5NH3Dnm-ta0L9pkfDN_w",
 authDomain: "nexora-35f82.firebaseapp.com",
 databaseURL: "https://nexora-35f82-default-rtdb.asia-southeast1.firebasedatabase.app",
 projectId: "nexora-35f82",
-storageBucket: "nexora-35f82.firebasestorage.app",
+storageBucket: "nexora-35f82.appspot.com",
 messagingSenderId: "10460502194",
 appId: "1:10460502194:web:5f00eb22b1caf2519191ab",
 measurementId: "G-9BBWJS1GDS"
 };
 
+// INIT FIREBASE
 firebase.initializeApp(firebaseConfig);
 
 const auth = firebase.auth();
 const db = firebase.database();
 
-/* PLAYER DATA */
+const statusBox = document.getElementById("status");
+const dashboard = document.getElementById("dashboard");
 
-let currentUser = null;
-
-let playerData = {
-
-nxr: 0,
-balance: 1000,
-level: 1
-
-};
-
-/* NAVIGATION */
-
-function showPage(page){
-
-document.querySelectorAll(".page").forEach((p)=>{
-
-p.style.display = "none";
-
-});
-
-document.getElementById(page + "Page").style.display = "block";
-
-}
-
-/* REGISTER */
-
-function registerEmail(){
+// REGISTER
+function register(){
 
 const email = document.getElementById("email").value;
-const password = document.getElementById("password").valuI
+const password = document.getElementById("password").value;
 
-if(password.length < 6){
-
-alert("Password minimal 6 karakter");
+if(email === "" || password === ""){
+statusBox.innerHTML = "Isi email dan password";
 return;
-
 }
 
 auth.createUserWithEmailAndPassword(email,password)
-
 .then((userCredential)=>{
 
-currentUser = userCredential.user;
+const uid = userCredential.user.uid;
 
-db.ref("users/" + currentUser.uid).set({
-
+db.ref("users/" + uid).set({
 email: email,
-nxr: 0,
-balance: 1000,
-level: 1
-
+saldo: 100,
+createdAt: Date.now()
 });
 
-alert("Register berhasil");
+statusBox.innerHTML = "Pendaftaran berhasil";
 
 })
-
 .catch((error)=>{
-
-alert(error.message);
-
+statusBox.innerHTML = error.message;
 });
 
 }
 
-/* LOGIN */
-
-function loginEmail(){
+// LOGIN
+function login(){
 
 const email = document.getElementById("email").value;
 const password = document.getElementById("password").value;
 
 auth.signInWithEmailAndPassword(email,password)
-
 .then((userCredential)=>{
 
-currentUser = userCredential.user;
+statusBox.innerHTML = "Login berhasil";
 
-alert("Login berhasil");
-
-document.getElementById("loginPage").style.display = "none";
-
-showPage("home");
+loadDashboard(userCredential.user.uid);
 
 })
-
 .catch((error)=>{
+statusBox.innerHTML = error.message;
+});
 
-alert(error.message);
+}
+// START MINING REALTIME
+function startMining(){
 
+  const user = auth.currentUser;
+
+  if(!user){
+
+    statusBox.innerHTML =
+    "Login terlebih dahulu";
+
+    return;
+  }
+
+  const userRef =
+  db.ref("users/" + user.uid);
+
+  // AKTIFKAN STATUS MINING
+  userRef.update({
+
+    miningActive: true
+
+  });
+
+  statusBox.innerHTML =
+  "Mining dimulai";
+
+  // LOOP MINING
+  setInterval(()=>{
+
+    userRef.once("value")
+
+    .then((snapshot)=>{
+
+      const data = snapshot.val();
+
+      // CEK JIKA MINING MASIH AKTIF
+      if(data.miningActive){
+
+        let saldoBaru =
+        (data.saldo || 0) + 1;
+
+        let miningBaru =
+        (data.miningTotal || 0) + 1;
+
+        let levelBaru =
+        "Beginner Miner";
+
+        // LEVEL SYSTEM
+        if(miningBaru >= 100){
+
+          levelBaru =
+          "Advanced Miner";
+
+        }
+
+        if(miningBaru >= 500){
+
+          levelBaru =
+          "Pro Miner";
+
+        }
+
+        if(miningBaru >= 1000){
+
+          levelBaru =
+          "Legend Miner";
+
+        }
+
+        userRef.update({
+
+          saldo: saldoBaru,
+          miningTotal: miningBaru,
+          level: levelBaru
+
+        });
+
+      }
+
+    });
+
+  },3000); // tiap 3 detik
+
+}
+
+// STOP MINING
+function stopMining(){
+
+  const user = auth.currentUser;
+
+  if(!user) return;
+
+  db.ref("users/" + user.uid).update({
+
+    miningActive: false
+
+  });
+
+  statusBox.innerHTML =
+  "Mining dihentikan";
+
+}
+
+// CLAIM
+function claimMining(){
+
+  statusBox.innerHTML =
+  "+10 NXR berhasil diklaim";
+
+}
+
+// DEPOSIT
+function depositNXR(){
+
+  alert("Deposit segera hadir");
+
+}
+
+// WITHDRAW
+function withdrawNXR(){
+
+  alert("Withdraw segera hadir");
+
+}
+
+// MARKET
+function openMarket(){
+
+  alert("Market Nexora");
+
+}
+
+// NFT
+function openNFT(){
+
+  alert("NFT Mining Rig");
+
+}
+
+// LEADERBOARD
+function openLeaderboard(){
+
+  alert("Leaderboard Nexora");
+
+}
+// LOAD DASHBOARD
+function loadDashboard(uid){
+
+  dashboard.style.display = "block";
+
+  db.ref("users/" + uid).on("value",(snapshot)=>{
+
+    let data = snapshot.val();
+
+    if(!data){
+
+      data = {
+        saldo: 100,
+        miningTotal: 0,
+        miningActive: false,
+        level: "Beginner Miner",
+        wallet: "NXR-" + Math.floor(Math.random()*999999)
+      };
+
+      db.ref("users/" + uid).set(data);
+
+    }
+    document.getElementById("saldo").innerHTML =
+(data.saldo || 0) + " NXR";
+
+    document.getElementById("miningTotal").innerHTML =
+    data.miningTotal + " NXR";
+
+    document.getElementById("miningStatus").innerHTML =
+    data.miningActive
+    ? "Mining Aktif"
+    : "Mining Tidak Aktif";
+
+    document.getElementById("levelUser").innerHTML =
+    data.level;
+
+    document.getElementById("walletAddress").innerHTML =
+    data.wallet;
+
+  });
+
+}
+// BUKA RUANG MINING
+function openMiningRoom(){
+
+  document.getElementById("miningRoom")
+  .style.display = "block";
+
+  dashboard.style.display = "none";
+
+}
+
+// TUTUP RUANG MINING
+function closeMiningRoom(){
+
+  document.getElementById("miningRoom")
+  .style.display = "none";
+
+  dashboard.style.display = "block";
+
+}
+
+// MINING REALTIME + BIAYA OPERASIONAL
+function startMiningRealtime(){
+
+  const user = auth.currentUser;
+
+  if(!user){
+
+    statusBox.innerHTML =
+    "Login terlebih dahulu";
+
+    return;
+  }
+
+  const userRef =
+  db.ref("users/" + user.uid);
+
+  statusBox.innerHTML =
+  "Mining Nexora aktif";
+
+  let energy = 100;
+
+  setInterval(()=>{
+
+    userRef.once("value")
+
+    .then((snapshot)=>{
+
+      const data = snapshot.val();
+
+      // DATA USER
+      let saldo =
+      data.saldo || 0;
+
+      let miningTotal =
+      data.miningTotal || 0;
+
+      // BIAYA OPERASIONAL
+      let biayaRig = 1;
+      let biayaListrik = 1;
+      let biayaEnergi = 1;
+
+      let totalBiaya =
+      biayaRig +
+      biayaListrik +
+      biayaEnergi;
+      
+      document.getElementById("rigCost")
+.innerHTML =
+biayaRig + " NXR/detik";
+
+document.getElementById("electricCost")
+.innerHTML =
+biayaListrik + " NXR/detik";
+
+document.getElementById("energyCost")
+.innerHTML =
+biayaEnergi + " NXR/detik";
+
+      // HASIL MINING
+      let hasilMining = 5;
+
+      // KEUNTUNGAN BERSIH
+      let profit =
+      hasilMining - totalBiaya;
+      
+      document.getElementById("profitText")
+.innerHTML =
+profit + " NXR";
+
+      // JIKA SALDO HABIS
+      if(saldo <= 0){
+
+        statusBox.innerHTML =
+        "Saldo habis, mining berhenti";
+
+        return;
+      }
+
+      // UPDATE SALDO
+      let saldoBaru =
+      saldo + profit;
+
+      let miningBaru =
+      miningTotal + hasilMining;
+
+      // ENERGY SYSTEM
+      energy -= 1;
+
+      if(energy <= 0){
+
+        energy = 100;
+
+      }
+
+      document.getElementById("energyText")
+      .innerHTML =
+      energy + "%";
+
+      // LEVEL SYSTEM
+      let levelBaru =
+      "Beginner Miner";
+
+      if(miningBaru >= 100){
+
+        levelBaru =
+        "Advanced Miner";
+
+      }
+
+      if(miningBaru >= 500){
+
+        levelBaru =
+        "Pro Miner";
+
+      }
+
+      if(miningBaru >= 1000){
+
+        levelBaru =
+        "Legend Miner";
+
+      }
+
+      // UPDATE DATABASE
+      userRef.update({
+
+        saldo: saldoBaru,
+        miningTotal: miningBaru,
+        miningActive: true,
+        level: levelBaru
+
+      });
+
+      // STATUS
+      statusBox.innerHTML =
+      "+ " + profit +
+      " NXR | Biaya: " +
+      totalBiaya +
+      " NXR";
+
+    });
+
+  },3000);
+
+}
+
+// LOGOUT
+function logout(){
+
+auth.signOut()
+.then(()=>{
+dashboard.style.display = "none";
+statusBox.innerHTML = "Logout berhasil";
 });
 
 }
 
-/* AUTO LOGIN */
-
+// AUTO LOGIN
 auth.onAuthStateChanged((user)=>{
 
 if(user){
-
-currentUser = user;
-
-document.getElementById("loginPage").style.display = "none";
-
-showPage("home");
-
-loadPlayerData();
-
-}else{
-
-document.getElementById("loginPage").style.display = "flex";
-
+loadDashboard(user.uid);
 }
 
 });
-
-/* LOAD DATA */
-
-function loadPlayerData(){
-
-db.ref("users/" + currentUser.uid)
-
-.on("value",(snapshot)=>{
-
-if(snapshot.exists()){
-
-playerData = snapshot.val();
-
-updateUI();
-
-}
-
-});
-
-}
-
-/* UPDATE UI */
-
-function updateUI(){
-
-document.getElementById("nxr").innerText =
-playerData.nxr;
-
-document.getElementById("balance").innerText =
-playerData.balance;
-
-document.getElementById("balance2").innerText =
-playerData.balance;
-
-document.getElementById("playerName").innerText =
-currentUser.email;
-
-}
-
-/* SAVE DATA */
-
-function saveData(){
-
-db.ref("users/" + currentUser.uid)
-
-.update({
-
-nxr: playerData.nxr,
-balance: playerData.balance,
-level: playerData.level
-
-});
-
-}
-
-/* MINING */
-
-function mine(){
-
-if(playerData.balance <= 0){
-
-alert("Balance habis");
-return;
-
-}
-
-playerData.nxr += 1;
-playerData.balance -= 1;
-
-document.getElementById("miningStatus").innerText =
-"Status : Mining...";
-
-updateUI();
-saveData();
-
-}
-
-/* AUTO MINING */
-
-setInterval(()=>{
-
-if(currentUser){
-
-playerData.nxr += 1;
-
-updateUI();
-saveData();
-
-}
-
-},5000);
-
-/* LOGOUT */
-
-function logout(){
-
-auth.signOut();
-
-}
-
-/* START */
-
-showPage("home");
 
 </script>
 
 </body>
-  </html>
+</html>
