@@ -1,371 +1,119 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+<title>Nexora Pro Stable</title>
+
+<!-- FIREBASE -->
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
 }
 
+body{
+background:linear-gradient(180deg,#050505,#0D0D0D,#111111);
+color:#EAEAEA;
+font-family:Arial,sans-serif;
+overflow-x:hidden;
+padding:20px;
+display:flex;
+justify-content:center;
+}
+
+/* =========================
+   LOGIN
+========================= */
+
 .container{
-width:95%;
+width:100%;
 max-width:420px;
-
-background:
-rgba(15,15,15,0.95);
-
+background:rgba(15,15,15,0.95);
 padding:25px;
-
 border-radius:25px;
-
 border:1px solid #00F0FF33;
-
 box-shadow:
 0 0 30px #00F0FF22,
 inset 0 0 20px #00F0FF11;
-
 backdrop-filter:blur(10px);
 }
 
 h1{
 text-align:center;
 margin-bottom:20px;
-
 color:#00F0FF;
-
 font-size:30px;
-
-letter-spacing:3px;
-
-text-shadow:
-0 0 10px #00F0FF,
-0 0 20px #00F0FF;
+letter-spacing:2px;
+text-shadow:0 0 10px #00F0FF;
 }
 
 input{
 width:100%;
-
 padding:14px;
-
 margin-bottom:15px;
-
 border:1px solid #222;
-
 border-radius:12px;
-
 background:#111;
-
 color:#EAEAEA;
-
 font-size:16px;
-
 outline:none;
-
 transition:0.3s;
 }
 
 input:focus{
-
 border-color:#00F0FF;
-
-box-shadow:
-0 0 15px #00F0FF55;
-
+box-shadow:0 0 15px #00F0FF55;
 }
 
 button{
 width:100%;
 padding:14px;
 border:none;
-border-radius:10px;
-background:#38bdf8;
-color:white;
-font-size:16px;
-font-weight:bold;
-cursor:pointer;
-margin-top:10px;
-transition:0.3s;
-}
-
-button{
-width:100%;
-
-padding:14px;
-
-border:none;
-
 border-radius:14px;
-
-background:
-linear-gradient(
-90deg,
-#00F0FF,
-#0066FF
-);
-
+background:linear-gradient(90deg,#00F0FF,#0066FF);
 color:white;
-
-font-size:16px;
-
+font-size:15px;
 font-weight:bold;
-
 cursor:pointer;
-
 margin-top:10px;
-
 transition:0.3s;
-
-box-shadow:
-0 0 15px #00F0FF44;
+box-shadow:0 0 15px #00F0FF44;
 }
 
 button:hover{
+transform:translateY(-2px);
+box-shadow:0 0 25px #00F0FF99;
+}
 
-transform:translateY(-3px);
-
-box-shadow:
-0 0 25px #00F0FF99;
-
+.logout-btn{
+background:linear-gradient(90deg,#aa0000,#ff0000);
 }
 
 #status{
 margin-top:15px;
 text-align:center;
 font-size:14px;
-color:#22c55e;
-}
-
-.dashboard{
-display:none;
-margin-top:20px;
-padding:15px;
-background:#1e293b;
-border-radius:15px;
-text-align:center;
-}
-
-.card{
-background:
-rgba(20,20,20,0.95);
-
-padding:15px;
-
-border-radius:18px;
-
-margin-top:12px;
-
-border:1px solid #222;
-
-box-shadow:
-0 0 20px #000,
-inset 0 0 10px #00F0FF11;
-
-transition:0.3s;
-}
-
-.card:hover{
-
-transform:translateY(-4px);
-
-border-color:#00F0FF55;
-
-box-shadow:
-0 0 20px #00F0FF33;
-
-}
-
-.logout{
-background:#ef4444;
-}
-
-.logout:hover{
-background:#dc2626;
-}
-.card{
-background:#0f172a;
-padding:15px;
-border-radius:15px;
-margin-top:12px;
-border:1px solid rgba(255,255,255,0.05);
-box-shadow:0 0 15px rgba(0,0,0,0.3);
-}
-
-.card h3{
-font-size:16px;
-margin-bottom:8px;
-color:#38bdf8;
-}
-
-.card p{
-font-size:18px;
-font-weight:bold;
-}
-
-.dashboard button{
-margin-top:12px;
-}
-.mining-room{
-display:none;
-margin-top:20px;
-padding:20px;
-background:#0f172a;
-border-radius:20px;
-}
-
-.mining-room h2{
-text-align:center;
-margin-bottom:20px;
-color:#38bdf8;
-}
-
-.mining-grid{
-display:grid;
-grid-template-columns:1fr;
-gap:15px;
-}
-
-.mining-card{
-background:#111827;
-padding:15px;
-border-radius:15px;
-text-align:center;
-box-shadow:0 0 20px rgba(0,0,0,0.4);
-}
-
-.mining-card img{
-width:80px;
-height:80px;
-margin-bottom:10px;
-}
-
-.mining-card h3{
-margin-bottom:8px;
-color:#38bdf8;
-}
-
-.mining-stats{
-margin-top:20px;
-display:grid;
-grid-template-columns:1fr;
-gap:12px;
-}
-
-.stat-box{
-background:#111827;
-padding:15px;
-border-radius:15px;
-text-align:center;
-}
-
-.stat-box h3{
-margin-bottom:6px;
-color:#38bdf8;
-}
-/* =========================
-   AI LOADING SCREEN
-========================== */
-#aiLoader{
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100vh;
-background:#050505;
-display:flex;
-justify-content:center;
-align-items:center;
-z-index:99999;
-overflow:hidden;
-}
-
-.ai-box{
-width:320px;
-background:rgba(15,15,15,0.95);
-border:1px solid #00F0FF55;
-border-radius:20px;
-padding:30px;
-text-align:center;
-position:relative;
-overflow:hidden;
-box-shadow:
-0 0 20px #00F0FF33,
-inset 0 0 20px #00F0FF11;
-backdrop-filter:blur(10px);
-}
-
-.ai-logo{
-color:#00F0FF;
-font-size:28px;
-font-weight:bold;
-margin-bottom:30px;
-letter-spacing:3px;
-text-shadow:0 0 15px #00F0FF;
-}
-
-.scan-line{
-position:absolute;
-top:-100px;
-left:0;
-width:100%;
-height:100px;
-background:linear-gradient(
-to bottom,
-transparent,
-#00F0FF22,
-transparent
-);
-animation:scan 2s linear infinite;
-}
-
-@keyframes scan{
-0%{
-top:-100px;
-}
-100%{
-top:100%;
-}
-}
-
-.loading-text{
-color:#EAEAEA;
-margin-bottom:20px;
-font-size:14px;
-letter-spacing:1px;
-}
-
-.loading-bar{
-width:100%;
-height:14px;
-background:#111;
-border-radius:20px;
-overflow:hidden;
-border:1px solid #222;
-}
-
-.loading-fill{
-width:0%;
-height:100%;
-background:linear-gradient(
-90deg,
-#00F0FF,
-#0066FF,
-#00FF88
-);
-box-shadow:0 0 20px #00F0FF;
-transition:0.3s;
-}
-
-.loading-percent{
 color:#00FF88;
-margin-top:15px;
-font-size:18px;
-text-shadow:0 0 10px #00FF88;
 }
+
 /* =========================
-   NEXORA PREMIUM DASHBOARD
-========================== */
+   DASHBOARD
+========================= */
 
 .dashboard{
 display:none;
 width:100%;
 max-width:420px;
-margin:auto;
 }
 
-/* TOPBAR */
 .topbar{
 display:flex;
 justify-content:space-between;
@@ -374,16 +122,9 @@ margin-bottom:20px;
 }
 
 .logo-text{
-font-size:32px;
+font-size:30px;
 color:#00F0FF;
-text-shadow:
-0 0 10px #00F0FF;
-}
-
-.sub-text{
-font-size:12px;
-color:#888;
-margin-top:5px;
+text-shadow:0 0 10px #00F0FF;
 }
 
 .online-box{
@@ -393,52 +134,28 @@ border:1px solid #00FF88;
 border-radius:30px;
 font-size:12px;
 color:#00FF88;
-box-shadow:
-0 0 15px #00FF8844;
 }
 
-/* PROFILE */
 .profile-card{
 display:flex;
 align-items:center;
 gap:15px;
-
-background:
-rgba(20,20,20,0.9);
-
+background:#111;
 padding:20px;
-
 border-radius:20px;
-
 border:1px solid #222;
-
 margin-bottom:20px;
-
-box-shadow:
-0 0 20px #00F0FF11;
 }
 
 .avatar{
 width:70px;
 height:70px;
-
 border-radius:50%;
-
 display:flex;
 justify-content:center;
 align-items:center;
-
-font-size:30px;
-
-background:
-linear-gradient(
-135deg,
-#00F0FF,
-#0066FF
-);
-
-box-shadow:
-0 0 20px #00F0FF55;
+font-size:28px;
+background:linear-gradient(135deg,#00F0FF,#0066FF);
 }
 
 .profile-info h2{
@@ -451,25 +168,12 @@ font-size:12px;
 color:#999;
 }
 
-/* BALANCE */
 .balance-card{
-background:
-linear-gradient(
-135deg,
-#00F0FF22,
-#0066FF22
-);
-
+background:linear-gradient(135deg,#00F0FF22,#0066FF22);
 padding:25px;
-
 border-radius:25px;
-
 margin-bottom:20px;
-
 border:1px solid #00F0FF33;
-
-box-shadow:
-0 0 30px #00F0FF22;
 }
 
 .balance-card p{
@@ -487,7 +191,6 @@ color:#00F0FF;
 color:#00FF88;
 }
 
-/* STATS */
 .stats-grid{
 display:grid;
 grid-template-columns:1fr 1fr;
@@ -501,16 +204,6 @@ padding:18px;
 border-radius:18px;
 border:1px solid #222;
 text-align:center;
-transition:0.3s;
-}
-
-.stat-card:hover{
-transform:translateY(-4px);
-
-border-color:#00F0FF55;
-
-box-shadow:
-0 0 20px #00F0FF22;
 }
 
 .stat-card h3{
@@ -525,7 +218,6 @@ color:#00F0FF;
 font-weight:bold;
 }
 
-/* MENU */
 .menu-grid{
 display:grid;
 grid-template-columns:1fr 1fr;
@@ -535,62 +227,14 @@ margin-bottom:20px;
 
 .menu-grid button{
 height:60px;
-
-border:none;
-
-border-radius:18px;
-
-background:
-linear-gradient(
-135deg,
-#111,
-#1A1A1A
-);
-
-color:white;
-
-font-size:14px;
-
-font-weight:bold;
-
-border:1px solid #222;
-
-transition:0.3s;
+font-size:13px;
 }
 
-.menu-grid button:hover{
-transform:translateY(-3px);
-
-border-color:#00F0FF55;
-
-box-shadow:
-0 0 20px #00F0FF33;
-}
-
-/* LOGOUT */
-.logout-btn{
-background:
-linear-gradient(
-135deg,
-#3a0000,
-#660000
-)!important;
-
-border:1px solid #ff000055!important;
-}
-
-/* LIVE */
 .live-box{
 background:#111;
-
 padding:20px;
-
 border-radius:20px;
-
 border:1px solid #222;
-
-box-shadow:
-0 0 20px #00F0FF11;
 }
 
 .live-header{
@@ -600,66 +244,153 @@ align-items:center;
 margin-bottom:15px;
 }
 
-.live-header h3{
-color:#00F0FF;
-}
-
 .live-dot{
 width:12px;
 height:12px;
 border-radius:50%;
 background:#00FF88;
-
-box-shadow:
-0 0 15px #00FF88;
-
 animation:pulse 1s infinite;
 }
 
 @keyframes pulse{
-0%{
-opacity:1;
-transform:scale(1);
-}
-50%{
-opacity:0.5;
-transform:scale(1.3);
-}
-100%{
-opacity:1;
-transform:scale(1);
-}
+0%{transform:scale(1);}
+50%{transform:scale(1.3);}
+100%{transform:scale(1);}
 }
 
 .live-line{
 display:flex;
 justify-content:space-between;
-
 padding:10px 0;
-
 border-bottom:1px solid #222;
-
 font-size:14px;
 }
 
 .live-line span{
 color:#00FF88;
 }
+
+/* =========================
+   MINING ROOM
+========================= */
+
+.mining-room{
+display:none;
+width:100%;
+max-width:420px;
+}
+
+.mining-room h2{
+text-align:center;
+margin-bottom:20px;
+color:#00F0FF;
+}
+
+.mining-grid{
+display:grid;
+gap:15px;
+}
+
+.mining-card{
+background:#111827;
+padding:15px;
+border-radius:15px;
+text-align:center;
+}
+
+.mining-card img{
+width:80px;
+height:80px;
+margin-bottom:10px;
+}
+
+.mining-card h3{
+margin-bottom:8px;
+color:#38bdf8;
+}
+
+.mining-stats{
+margin-top:20px;
+display:grid;
+gap:12px;
+}
+
+.stat-box{
+background:#111827;
+padding:15px;
+border-radius:15px;
+text-align:center;
+}
+
+/* =========================
+   LOADING
+========================= */
+
+#aiLoader{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100vh;
+background:#050505;
+display:flex;
+justify-content:center;
+align-items:center;
+z-index:99999;
+}
+
+.ai-box{
+width:320px;
+background:rgba(15,15,15,0.95);
+border:1px solid #00F0FF55;
+border-radius:20px;
+padding:30px;
+text-align:center;
+box-shadow:0 0 20px #00F0FF33;
+}
+
+.ai-logo{
+color:#00F0FF;
+font-size:28px;
+font-weight:bold;
+margin-bottom:30px;
+}
+
+.loading-bar{
+width:100%;
+height:14px;
+background:#111;
+border-radius:20px;
+overflow:hidden;
+margin-top:20px;
+}
+
+.loading-fill{
+width:0%;
+height:100%;
+background:linear-gradient(90deg,#00F0FF,#0066FF,#00FF88);
+transition:0.3s;
+}
+
+.loading-percent{
+margin-top:15px;
+font-size:18px;
+color:#00FF88;
+}
+
 </style>
 </head>
 <body>
-<!-- AI LOADING -->
-<div id="aiLoader">
 
+<!-- LOADING -->
+<div id="aiLoader">
 <div class="ai-box">
 
 <div class="ai-logo">
 NEXORA AI
 </div>
 
-<div class="scan-line"></div>
-
-<div class="loading-text" id="loadingText">
+<div id="loadingText">
 Initializing System...
 </div>
 
@@ -672,10 +403,9 @@ Initializing System...
 </div>
 
 </div>
-
 </div>
 
-<!-- LOGIN SCREEN -->
+<!-- LOGIN -->
 <div class="container" id="loginScreen">
 
 <h1>NEXORA PRO</h1>
@@ -690,19 +420,14 @@ Initializing System...
 
 </div>
 
-<!-- DASHBOARD SCREEN -->
+<!-- DASHBOARD -->
 <div class="dashboard" id="dashboard">
 
-<!-- TOP HEADER -->
 <div class="topbar">
 
-<div>
-<h1 class="logo-text">NEXORA</h1>
-
-<p class="sub-text">
-AI Blockchain Mining System
-</p>
-</div>
+<h1 class="logo-text">
+NEXORA
+</h1>
 
 <div class="online-box">
 🟢 ONLINE
@@ -710,7 +435,6 @@ AI Blockchain Mining System
 
 </div>
 
-<!-- PROFILE -->
 <div class="profile-card">
 
 <div class="avatar">
@@ -731,7 +455,6 @@ NXR-0000
 
 </div>
 
-<!-- BALANCE -->
 <div class="balance-card">
 
 <p>Total Balance</p>
@@ -746,21 +469,16 @@ NXR-0000
 
 </div>
 
-<!-- STATS -->
 <div class="stats-grid">
 
 <div class="stat-card">
 <h3>Total Mining</h3>
-<p id="miningTotal">
-0 NXR
-</p>
+<p id="miningTotal">0 NXR</p>
 </div>
 
 <div class="stat-card">
-<h3>Mining Status</h3>
-<p id="miningStatus">
-OFFLINE
-</p>
+<h3>Status</h3>
+<p id="miningStatus">OFFLINE</p>
 </div>
 
 <div class="stat-card">
@@ -775,11 +493,10 @@ OFFLINE
 
 </div>
 
-<!-- MENU -->
 <div class="menu-grid">
 
 <button onclick="openMiningRoom()">
-⛏ START MINING
+⛏ START
 </button>
 
 <button onclick="claimMining()">
@@ -799,7 +516,7 @@ OFFLINE
 </button>
 
 <button onclick="openNFT()">
-🖼 NFT RIG
+🖼 NFT
 </button>
 
 <button onclick="openLeaderboard()">
@@ -812,14 +529,11 @@ OFFLINE
 
 </div>
 
-<!-- LIVE MINING -->
 <div class="live-box">
 
 <div class="live-header">
 
-<h3>
-LIVE MINING
-</h3>
+<h3>LIVE MINING</h3>
 
 <div class="live-dot"></div>
 
@@ -827,37 +541,29 @@ LIVE MINING
 
 <div class="live-line">
 Energy :
-<span id="energyText">
-100%
-</span>
+<span id="energyText">100%</span>
 </div>
 
 <div class="live-line">
 Profit :
-<span id="profitText">
-0 NXR
-</span>
+<span id="profitText">0 NXR</span>
 </div>
 
 <div class="live-line">
 Rig Cost :
-<span id="rigCost">
-1 NXR/s
-</span>
+<span id="rigCost">1 NXR/s</span>
 </div>
 
 <div class="live-line">
 Electric :
-<span id="electricCost">
-1 NXR/s
-</span>
+<span id="electricCost">1 NXR/s</span>
 </div>
 
 </div>
 
 </div>
 
-<!-- MINING SCREEN -->
+<!-- MINING ROOM -->
 <div class="container mining-room" id="miningRoom">
 
 <h2>RUANG MINING NEXORA</h2>
@@ -873,7 +579,7 @@ Electric :
 <div class="mining-card">
 <img src="https://cdn-icons-png.flaticon.com/512/3103/3103446.png">
 <h3>Energi</h3>
-<p id="energyText">100%</p>
+<p id="energyMining">100%</p>
 </div>
 
 <div class="mining-card">
@@ -885,39 +591,15 @@ Electric :
 </div>
 
 <div class="mining-stats">
-  <div class="stat-box">
-<h3>Biaya Rig</h3>
-<p id="rigCost">1 NXR/detik</p>
-</div>
-
-<div class="stat-box">
-<h3>Biaya Listrik</h3>
-<p id="electricCost">1 NXR/detik</p>
-</div>
-
-<div class="stat-box">
-<h3>Biaya Energi</h3>
-<p id="energyCost">1 NXR/detik</p>
-</div>
 
 <div class="stat-box">
 <h3>Profit Bersih</h3>
-<p id="profitText">0 NXR</p>
+<p id="profitMining">0 NXR</p>
 </div>
 
 <div class="stat-box">
-<h3>Kecepatan Mining</h3>
-<p>120 Hash/s</p>
-</div>
-
-<div class="stat-box">
-<h3>Rig Aktif</h3>
-<p>1 Rig</p>
-</div>
-
-<div class="stat-box">
-<h3>Pendingin</h3>
-<p>Normal</p>
+<h3>Biaya Operasional</h3>
+<p>3 NXR/detik</p>
 </div>
 
 </div>
@@ -926,137 +608,111 @@ Electric :
 AKTIFKAN MINING
 </button>
 
+<button onclick="stopMining()">
+STOP MINING
+</button>
+
 <button onclick="closeMiningRoom()">
 KEMBALI
 </button>
 
 </div>
 
-<h2>Dashboard Nexora</h2>
-
-<div class="card">
-<h3>Saldo NXR</h3>
-<p id="saldo">0 NXR</p>
-</div>
-
-<div class="card">
-<h3>Total Mining</h3>
-<p id="miningTotal">0 NXR</p>
-</div>
-
-<div class="card">
-<h3>Status Mining</h3>
-<p id="miningStatus">Mining Aktif</p>
-</div>
-
-<div class="card">
-<h3>Harga NXR</h3>
-<p id="hargaNXR">Rp 1</p>
-</div>
-
-<div class="card">
-<h3>Level Akun</h3>
-<p id="levelUser">Beginner Miner</p>
-</div>
-
-<div class="card">
-<h3>Wallet Address</h3>
-<p id="walletAddress">NXR-0000</p>
-</div>
-
-<button onclick="openMiningRoom()">
-START MINING
-</button>
-
-<button onclick="stopMining()">
-STOP MINING
-</button>
-
-<button onclick="claimMining()">
-CLAIM REWARD
-</button>
-
-<button onclick="depositNXR()">
-DEPOSIT
-</button>
-
-<button onclick="withdrawNXR()">
-WITHDRAW
-</button>
-
-<button onclick="openMarket()">
-MARKET
-</button>
-
-<button onclick="openNFT()">
-NFT MINING RIG
-</button>
-
-<button onclick="openLeaderboard()">
-LEADERBOARD
-</button>
-
-<button class="logout" onclick="logout()">
-LOGOUT
-</button>
-
-</div>
-
 <script>
 
-// FIREBASE CONFIG
+/* =========================
+   FIREBASE CONFIG
+========================= */
+
 const firebaseConfig = {
+
 apiKey: "AIzaSyC5L5hxVSYOl_R5NH3Dnm-ta0L9pkfDN_w",
+
 authDomain: "nexora-35f82.firebaseapp.com",
+
 databaseURL: "https://nexora-35f82-default-rtdb.asia-southeast1.firebasedatabase.app",
+
 projectId: "nexora-35f82",
+
 storageBucket: "nexora-35f82.appspot.com",
+
 messagingSenderId: "10460502194",
-appId: "1:10460502194:web:5f00eb22b1caf2519191ab",
-measurementId: "G-9BBWJS1GDS"
+
+appId: "1:10460502194:web:5f00eb22b1caf2519191ab"
+
 };
 
-// INIT FIREBASE
 firebase.initializeApp(firebaseConfig);
 
 const auth = firebase.auth();
 const db = firebase.database();
 
-const statusBox = document.getElementById("status");
-const dashboard = document.getElementById("dashboard");
+const statusBox =
+document.getElementById("status");
 
-// REGISTER
+const dashboard =
+document.getElementById("dashboard");
+
+let miningInterval = null;
+
+/* =========================
+   REGISTER
+========================= */
+
 function register(){
 
-const email = document.getElementById("email").value;
-const password = document.getElementById("password").value;
+const email =
+document.getElementById("email").value;
+
+const password =
+document.getElementById("password").value;
 
 if(email === "" || password === ""){
-statusBox.innerHTML = "Isi email dan password";
+
+statusBox.innerHTML =
+"Isi email dan password";
+
 return;
+
 }
 
 auth.createUserWithEmailAndPassword(email,password)
+
 .then((userCredential)=>{
 
-const uid = userCredential.user.uid;
+const uid =
+userCredential.user.uid;
 
 db.ref("users/" + uid).set({
+
 email: email,
 saldo: 100,
-createdAt: Date.now()
+miningTotal: 0,
+miningActive: false,
+level: "Beginner Miner",
+wallet:
+"NXR-" + Math.floor(Math.random()*999999)
+
 });
 
-statusBox.innerHTML = "Pendaftaran berhasil";
+statusBox.innerHTML =
+"Pendaftaran berhasil";
 
 })
+
 .catch((error)=>{
-statusBox.innerHTML = error.message;
+
+statusBox.innerHTML =
+error.message;
+
 });
 
 }
 
-// LOGIN
+/* =========================
+   LOGIN
+========================= */
+
 function login(){
 
 const email =
@@ -1069,16 +725,15 @@ auth.signInWithEmailAndPassword(email,password)
 
 .then((userCredential)=>{
 
-statusBox.innerHTML =
-"Login berhasil";
-
 document.getElementById("loginScreen")
 .style.display = "none";
 
-dashboard.style.display =
-"block";
+dashboard.style.display = "block";
 
 loadDashboard(userCredential.user.uid);
+
+statusBox.innerHTML =
+"Login berhasil";
 
 })
 
@@ -1090,365 +745,294 @@ error.message;
 });
 
 }
-// START MINING REALTIME
-function startMining(){
 
-  const user = auth.currentUser;
+/* =========================
+   LOAD DASHBOARD
+========================= */
 
-  if(!user){
-
-    statusBox.innerHTML =
-    "Login terlebih dahulu";
-
-    return;
-  }
-
-  const userRef =
-  db.ref("users/" + user.uid);
-
-  // AKTIFKAN STATUS MINING
-  userRef.update({
-
-    miningActive: true
-
-  });
-
-  statusBox.innerHTML =
-  "Mining dimulai";
-
-  // LOOP MINING
-  setInterval(()=>{
-
-    userRef.once("value")
-
-    .then((snapshot)=>{
-
-      const data = snapshot.val();
-
-      // CEK JIKA MINING MASIH AKTIF
-      if(data.miningActive){
-
-        let saldoBaru =
-        (data.saldo || 0) + 1;
-
-        let miningBaru =
-        (data.miningTotal || 0) + 1;
-
-        let levelBaru =
-        "Beginner Miner";
-
-        // LEVEL SYSTEM
-        if(miningBaru >= 100){
-
-          levelBaru =
-          "Advanced Miner";
-
-        }
-
-        if(miningBaru >= 500){
-
-          levelBaru =
-          "Pro Miner";
-
-        }
-
-        if(miningBaru >= 1000){
-
-          levelBaru =
-          "Legend Miner";
-
-        }
-
-        userRef.update({
-
-          saldo: saldoBaru,
-          miningTotal: miningBaru,
-          level: levelBaru
-
-        });
-
-      }
-
-    });
-
-  },3000); // tiap 3 detik
-
-}
-
-// STOP MINING
-function stopMining(){
-
-  const user = auth.currentUser;
-
-  if(!user) return;
-
-  db.ref("users/" + user.uid).update({
-
-    miningActive: false
-
-  });
-
-  statusBox.innerHTML =
-  "Mining dihentikan";
-
-}
-
-// CLAIM
-function claimMining(){
-
-  statusBox.innerHTML =
-  "+10 NXR berhasil diklaim";
-
-}
-
-// DEPOSIT
-function depositNXR(){
-
-  alert("Deposit segera hadir");
-
-}
-
-// WITHDRAW
-function withdrawNXR(){
-
-  alert("Withdraw segera hadir");
-
-}
-
-// MARKET
-function openMarket(){
-
-  alert("Market Nexora");
-
-}
-
-// NFT
-function openNFT(){
-
-  alert("NFT Mining Rig");
-
-}
-
-// LEADERBOARD
-function openLeaderboard(){
-
-  alert("Leaderboard Nexora");
-
-}
-// LOAD DASHBOARD
 function loadDashboard(uid){
 
-  dashboard.style.display = "block";
+db.ref("users/" + uid)
 
-  db.ref("users/" + uid).on("value",(snapshot)=>{
+.on("value",(snapshot)=>{
 
-    let data = snapshot.val();
+const data = snapshot.val();
 
-    if(!data){
+if(!data) return;
 
-      data = {
-        saldo: 100,
-        miningTotal: 0,
-        miningActive: false,
-        level: "Beginner Miner",
-        wallet: "NXR-" + Math.floor(Math.random()*999999)
-      };
-
-      db.ref("users/" + uid).set(data);
-
-    }
-    document.getElementById("saldo").innerHTML =
+document.getElementById("saldo")
+.innerHTML =
 (data.saldo || 0) + " NXR";
 
-    document.getElementById("miningTotal").innerHTML =
-    data.miningTotal + " NXR";
+document.getElementById("miningTotal")
+.innerHTML =
+(data.miningTotal || 0) + " NXR";
 
-    document.getElementById("miningStatus").innerHTML =
-    data.miningActive
-    ? "Mining Aktif"
-    : "Mining Tidak Aktif";
+document.getElementById("miningStatus")
+.innerHTML =
+data.miningActive
+? "ONLINE"
+: "OFFLINE";
 
-    document.getElementById("levelUser").innerHTML =
-    data.level;
+document.getElementById("levelUser")
+.innerHTML =
+data.level;
 
-    document.getElementById("walletAddress").innerHTML =
-    data.wallet;
+document.getElementById("walletAddress")
+.innerHTML =
+data.wallet;
 
-  });
+});
 
 }
-// BUKA RUANG MINING
+
+/* =========================
+   OPEN ROOM
+========================= */
+
 function openMiningRoom(){
 
-dashboard.style.display =
-"none";
+dashboard.style.display = "none";
 
 document.getElementById("miningRoom")
-.style.display =
-"block";
+.style.display = "block";
 
 }
 
-// TUTUP RUANG MINING
 function closeMiningRoom(){
 
 document.getElementById("miningRoom")
-.style.display =
-"none";
+.style.display = "none";
 
-dashboard.style.display =
-"block";
+dashboard.style.display = "block";
 
 }
 
-// MINING REALTIME + BIAYA OPERASIONAL
+/* =========================
+   START MINING
+========================= */
+
 function startMiningRealtime(){
 
-  const user = auth.currentUser;
+if(miningInterval) return;
 
-  if(!user){
+const user = auth.currentUser;
 
-    statusBox.innerHTML =
-    "Login terlebih dahulu";
+if(!user){
 
-    return;
-  }
+statusBox.innerHTML =
+"Login terlebih dahulu";
 
-  const userRef =
-  db.ref("users/" + user.uid);
+return;
 
-  statusBox.innerHTML =
-  "Mining Nexora aktif";
+}
 
-  let energy = 100;
+const userRef =
+db.ref("users/" + user.uid);
 
-  setInterval(()=>{
+let energy = 100;
 
-    userRef.once("value")
+miningInterval = setInterval(()=>{
 
-    .then((snapshot)=>{
+userRef.once("value")
 
-      const data = snapshot.val();
+.then((snapshot)=>{
 
-      // DATA USER
-      let saldo =
-      data.saldo || 0;
+const data = snapshot.val();
 
-      let miningTotal =
-      data.miningTotal || 0;
+let saldo =
+data.saldo || 0;
 
-      // BIAYA OPERASIONAL
-      let biayaRig = 1;
-      let biayaListrik = 1;
-      let biayaEnergi = 1;
+let miningTotal =
+data.miningTotal || 0;
 
-      let totalBiaya =
-      biayaRig +
-      biayaListrik +
-      biayaEnergi;
-      
-      document.getElementById("rigCost")
-.innerHTML =
-biayaRig + " NXR/detik";
+const biaya = 3;
+const hasilMining = 5;
+const profit = hasilMining - biaya;
 
-document.getElementById("electricCost")
-.innerHTML =
-biayaListrik + " NXR/detik";
+if(saldo <= 0){
 
-document.getElementById("energyCost")
-.innerHTML =
-biayaEnergi + " NXR/detik";
+stopMining();
 
-      // HASIL MINING
-      let hasilMining = 5;
+statusBox.innerHTML =
+"Saldo habis";
 
-      // KEUNTUNGAN BERSIH
-      let profit =
-      hasilMining - totalBiaya;
-      
-      document.getElementById("profitText")
+return;
+
+}
+
+saldo += profit;
+miningTotal += hasilMining;
+
+energy--;
+
+if(energy <= 0){
+
+energy = 100;
+
+}
+
+let level =
+"Beginner Miner";
+
+if(miningTotal >= 100){
+
+level = "Advanced Miner";
+
+}
+
+if(miningTotal >= 500){
+
+level = "Pro Miner";
+
+}
+
+if(miningTotal >= 1000){
+
+level = "Legend Miner";
+
+}
+
+userRef.update({
+
+saldo: saldo,
+miningTotal: miningTotal,
+miningActive: true,
+level: level
+
+});
+
+document.getElementById("profitText")
 .innerHTML =
 profit + " NXR";
 
-      // JIKA SALDO HABIS
-      if(saldo <= 0){
+document.getElementById("profitMining")
+.innerHTML =
+profit + " NXR";
 
-        statusBox.innerHTML =
-        "Saldo habis, mining berhenti";
+document.getElementById("energyText")
+.innerHTML =
+energy + "%";
 
-        return;
-      }
+document.getElementById("energyMining")
+.innerHTML =
+energy + "%";
 
-      // UPDATE SALDO
-      let saldoBaru =
-      saldo + profit;
+statusBox.innerHTML =
+"Mining aktif +" + profit + " NXR";
 
-      let miningBaru =
-      miningTotal + hasilMining;
+});
 
-      // ENERGY SYSTEM
-      energy -= 1;
-
-      if(energy <= 0){
-
-        energy = 100;
-
-      }
-
-      document.getElementById("energyText")
-      .innerHTML =
-      energy + "%";
-
-      // LEVEL SYSTEM
-      let levelBaru =
-      "Beginner Miner";
-
-      if(miningBaru >= 100){
-
-        levelBaru =
-        "Advanced Miner";
-
-      }
-
-      if(miningBaru >= 500){
-
-        levelBaru =
-        "Pro Miner";
-
-      }
-
-      if(miningBaru >= 1000){
-
-        levelBaru =
-        "Legend Miner";
-
-      }
-
-      // UPDATE DATABASE
-      userRef.update({
-
-        saldo: saldoBaru,
-        miningTotal: miningBaru,
-        miningActive: true,
-        level: levelBaru
-
-      });
-
-      // STATUS
-      statusBox.innerHTML =
-      "+ " + profit +
-      " NXR | Biaya: " +
-      totalBiaya +
-      " NXR";
-
-    });
-
-  },3000);
+},3000);
 
 }
 
-// LOGOUT
+/* =========================
+   STOP MINING
+========================= */
+
+function stopMining(){
+
+const user = auth.currentUser;
+
+if(!user) return;
+
+db.ref("users/" + user.uid).update({
+
+miningActive: false
+
+});
+
+clearInterval(miningInterval);
+
+miningInterval = null;
+
+statusBox.innerHTML =
+"Mining dihentikan";
+
+}
+
+/* =========================
+   CLAIM
+========================= */
+
+function claimMining(){
+
+const user = auth.currentUser;
+
+if(!user) return;
+
+const userRef =
+db.ref("users/" + user.uid);
+
+userRef.once("value")
+
+.then((snapshot)=>{
+
+const data = snapshot.val();
+
+const saldoBaru =
+(data.saldo || 0) + 10;
+
+userRef.update({
+
+saldo: saldoBaru
+
+});
+
+statusBox.innerHTML =
+"+10 NXR berhasil diklaim";
+
+});
+
+}
+
+/* =========================
+   MENU
+========================= */
+
+function depositNXR(){
+
+statusBox.innerHTML =
+"Deposit segera hadir";
+
+}
+
+function withdrawNXR(){
+
+statusBox.innerHTML =
+"Withdraw segera hadir";
+
+}
+
+function openMarket(){
+
+statusBox.innerHTML =
+"Market Nexora segera hadir";
+
+}
+
+function openNFT(){
+
+statusBox.innerHTML =
+"NFT Mining segera hadir";
+
+}
+
+function openLeaderboard(){
+
+statusBox.innerHTML =
+"Leaderboard segera hadir";
+
+}
+
+/* =========================
+   LOGOUT
+========================= */
+
 function logout(){
+
+stopMining();
 
 auth.signOut()
 
@@ -1472,7 +1056,10 @@ statusBox.innerHTML =
 
 }
 
-// AUTO LOGIN
+/* =========================
+   AUTO LOGIN
+========================= */
+
 auth.onAuthStateChanged((user)=>{
 
 if(user){
@@ -1493,24 +1080,24 @@ document.getElementById("loginScreen")
 dashboard.style.display =
 "none";
 
-document.getElementById("miningRoom")
-.style.display =
-"none";
-
 }
 
 });
-// AI LOADING SYSTEM
+
+/* =========================
+   LOADING
+========================= */
+
 let percent = 0;
 
 const fill =
 document.getElementById("loadingFill");
 
-const text =
-document.getElementById("loadingText");
-
 const percentText =
 document.getElementById("loadingPercent");
+
+const text =
+document.getElementById("loadingText");
 
 const messages = [
 
@@ -1518,12 +1105,11 @@ const messages = [
 "Connecting Blockchain...",
 "Loading Mining Core...",
 "Sync Wallet...",
-"Activating AI Engine...",
 "Launching Nexora..."
 
 ];
 
-let msgIndex = 0;
+let msg = 0;
 
 const loading = setInterval(()=>{
 
@@ -1536,12 +1122,12 @@ percentText.innerHTML =
 percent + "%";
 
 if(percent % 20 === 0 &&
-msgIndex < messages.length){
+msg < messages.length){
 
 text.innerHTML =
-messages[msgIndex];
+messages[msg];
 
-msgIndex++;
+msg++;
 
 }
 
@@ -1549,15 +1135,12 @@ if(percent >= 100){
 
 clearInterval(loading);
 
-text.innerHTML =
-"SYSTEM ONLINE";
-
 setTimeout(()=>{
 
 document.getElementById("aiLoader")
 .style.display = "none";
 
-},1000);
+},800);
 
 }
 
