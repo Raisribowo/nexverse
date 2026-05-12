@@ -229,19 +229,6 @@ margin-bottom:20px;
 height:60px;
 font-size:13px;
 }
-.economy-box{
-background:#111827;
-padding:20px;
-border-radius:20px;
-margin-bottom:20px;
-border:1px solid #222;
-}
-
-.economy-box h2{
-text-align:center;
-margin-bottom:15px;
-color:#00F0FF;
-}
 
 .live-box{
 background:#111;
@@ -428,9 +415,6 @@ Initializing System...
 
 <button onclick="register()">DAFTAR</button>
 <button onclick="login()">LOGIN</button>
-<button onclick="loginGoogle()">
-🔵 LOGIN GOOGLE
-</button>
 
 <div id="status"></div>
 
@@ -523,20 +507,16 @@ NXR-0000
 ⬇ DEPOSIT
 </button>
 
-<button onclick="openShop()">
-🛒 SHOP
-</button>
-
-<button onclick="openVIP()">
-👑 VIP
+<button onclick="withdrawNXR()">
+⬆ WITHDRAW
 </button>
 
 <button onclick="openMarket()">
 📈 MARKET
 </button>
 
-<button onclick="upgradeRig()">
-⚙ UPGRADE RIG
+<button onclick="openNFT()">
+🖼 NFT
 </button>
 
 <button onclick="openLeaderboard()">
@@ -546,46 +526,6 @@ NXR-0000
 <button onclick="logout()" class="logout-btn">
 🚪 LOGOUT
 </button>
-
-</div>
-<div class="economy-box">
-
-<h2>GLOBAL NXR</h2>
-
-<div class="live-line">
-Total Supply :
-<span id="totalSupply">0</span>
-</div>
-
-<div class="live-line">
-Total Ditambang :
-<span id="totalMined">0</span>
-</div>
-
-<div class="live-line">
-Beredar :
-<span id="marketCirculation">0</span>
-</div>
-
-<div class="live-line">
-Vault :
-<span id="vaultSupply">0</span>
-</div>
-
-<div class="live-line">
-Listrik :
-<span id="electricIncome">0</span>
-</div>
-
-<div class="live-line">
-Rig :
-<span id="rigIncome">0</span>
-</div>
-
-<div class="live-line">
-Maintenance :
-<span id="maintenanceIncome">0</span>
-</div>
 
 </div>
 
@@ -714,91 +654,6 @@ const dashboard =
 document.getElementById("dashboard");
 
 let miningInterval = null;
-let isMiningStarted = false;
-
-let currentUserData = null;
-let clickCooldown = false;
-
-const MAX_SUPPLY = 1000000000;
-
-const MINING_INTERVAL = 5000;
-
-const RIG_UPGRADE_COST = {
-
-1: 50,
-2: 120,
-3: 300,
-4: 700,
-5: 1500
-
-};
-/* =========================
-   GLOBAL ECONOMY REALTIME
-========================= */
-
-const GLOBAL_NXR_SUPPLY = 1000000000;
-
-const economyRef = db.ref("globalEconomy");
-
-/* AUTO CREATE */
-
-economyRef.once("value").then((snap)=>{
-
-if(!snap.exists()){
-
-economyRef.set({
-
-totalMined: 0,
-marketCirculation: 0,
-burnedNXR: 0,
-electricityIncome: 0,
-rigRentalIncome: 0,
-maintenanceIncome: 0,
-systemVault: GLOBAL_NXR_SUPPLY
-
-});
-
-}
-
-});
-
-/* REALTIME LISTENER */
-
-economyRef.on("value",(snapshot)=>{
-
-const eco = snapshot.val();
-
-if(!eco) return;
-
-document.getElementById("totalSupply")
-.innerHTML =
-GLOBAL_NXR_SUPPLY.toLocaleString() + " NXR";
-
-document.getElementById("totalMined")
-.innerHTML =
-(eco.totalMined || 0).toFixed(2) + " NXR";
-
-document.getElementById("marketCirculation")
-.innerHTML =
-(eco.marketCirculation || 0).toFixed(2) + " NXR";
-
-document.getElementById("vaultSupply")
-.innerHTML =
-(eco.systemVault || 0).toFixed(2) + " NXR";
-
-document.getElementById("electricIncome")
-.innerHTML =
-(eco.electricityIncome || 0).toFixed(2) + " NXR";
-
-document.getElementById("rigIncome")
-.innerHTML =
-(eco.rigRentalIncome || 0).toFixed(2) + " NXR";
-
-document.getElementById("maintenanceIncome")
-.innerHTML =
-(eco.maintenanceIncome || 0).toFixed(2) + " NXR";
-
-});
 
 /* =========================
    REGISTER
@@ -820,14 +675,6 @@ statusBox.innerHTML =
 return;
 
 }
-if(password.length < 6){
-
-statusBox.innerHTML =
-"Password minimal 6 karakter";
-
-return;
-
-}
 
 auth.createUserWithEmailAndPassword(email,password)
 
@@ -836,44 +683,17 @@ auth.createUserWithEmailAndPassword(email,password)
 const uid =
 userCredential.user.uid;
 
-const newUser = {
+db.ref("users/" + uid).set({
 
 email: email,
-username:
-email.split("@")[0],
-
 saldo: 100,
-
-diamond: 10,
-
-energy: 100,
-
 miningTotal: 0,
-
 miningActive: false,
-
-rigLevel: 1,
-
-rigPower: 1,
-
-vip: false,
-
 level: "Beginner Miner",
-
 wallet:
-"NXR-" + Math.floor(Math.random()*999999),
+"NXR-" + Math.floor(Math.random()*999999)
 
-createdAt: Date.now(),
-
-lastClaim: 0,
-
-online: true,
-
-lastActive: Date.now()
-
-};
-
-db.ref("users/" + uid).set(newUser);
+});
 
 statusBox.innerHTML =
 "Pendaftaran berhasil";
@@ -882,7 +702,8 @@ statusBox.innerHTML =
 
 .catch((error)=>{
 
-showError(error);
+statusBox.innerHTML =
+error.message;
 
 });
 
@@ -918,89 +739,8 @@ statusBox.innerHTML =
 
 .catch((error)=>{
 
-showError(error);
-});
-
-}
-/* =========================
-   LOGIN GOOGLE
-========================= */
-function loginGoogle(){
-
-const provider =
-new firebase.auth.GoogleAuthProvider();
-
-auth.signInWithPopup(provider)
-
-.then((result)=>{
-
-const user = result.user;
-
-const userRef =
-db.ref("users/" + user.uid);
-
-userRef.once("value")
-.then((snapshot)=>{
-
-if(!snapshot.exists()){
-
-userRef.set({
-
-email: user.email,
-
-username:
-user.email.split("@")[0],
-
-saldo: 100,
-
-diamond: 10,
-
-energy: 100,
-
-miningTotal: 0,
-
-miningActive: false,
-
-rigLevel: 1,
-
-rigPower: 1,
-
-vip: false,
-
-level: "Beginner Miner",
-
-wallet:
-"NXR-" + Math.floor(Math.random()*999999),
-
-createdAt: Date.now(),
-
-lastClaim: 0,
-
-online: true,
-
-lastActive: Date.now()
-
-});
-
-}
-
-});
-
-document.getElementById("loginScreen")
-.style.display = "none";
-
-dashboard.style.display = "block";
-
-loadDashboard(user.uid);
-
 statusBox.innerHTML =
-"Login Google berhasil";
-
-})
-
-.catch((error)=>{
-
-showError(error);
+error.message;
 
 });
 
@@ -1009,50 +749,24 @@ showError(error);
 /* =========================
    LOAD DASHBOARD
 ========================= */
+
 function loadDashboard(uid){
 
-const userRef = db.ref("users/" + uid);
+db.ref("users/" + uid)
 
-userRef.on("value",(snapshot)=>{
+.on("value",(snapshot)=>{
 
 const data = snapshot.val();
 
 if(!data) return;
 
-/* FIX DATA USER LAMA */
-
-data.saldo = data.saldo || 0;
-data.energy = data.energy || 100;
-data.miningTotal = data.miningTotal || 0;
-
-data.rigLevel = data.rigLevel || 1;
-data.rigPower = data.rigPower || 1;
-
-data.level = data.level || "Beginner Miner";
-
-currentUserData = data;
-
-let hargaNXR = 150;
-
-if(data.vip){
-hargaNXR += 100;
-}
-
-document.getElementById("hargaNXR")
-.innerHTML =
-"≈ Rp " +
-(data.saldo * hargaNXR)
-.toLocaleString("id-ID");
-
 document.getElementById("saldo")
 .innerHTML =
-(data.saldo || 0).toFixed(2)
-+ " NXR";
+(data.saldo || 0) + " NXR";
 
 document.getElementById("miningTotal")
 .innerHTML =
-(data.miningTotal || 0).toFixed(2)
-+ " NXR";
+(data.miningTotal || 0) + " NXR";
 
 document.getElementById("miningStatus")
 .innerHTML =
@@ -1067,34 +781,6 @@ data.level;
 document.getElementById("walletAddress")
 .innerHTML =
 data.wallet;
-
-document.getElementById("energyText")
-.innerHTML =
-(data.energy || 0) + "%";
-
-document.getElementById("energyMining")
-.innerHTML =
-(data.energy || 0) + "%";
-
-document.getElementById("rigCost")
-.innerHTML =
-(0.2 * data.rigLevel).toFixed(2)
-+ " NXR/s";
-
-document.getElementById("electricCost")
-.innerHTML =
-(0.1 * data.rigLevel).toFixed(2)
-+ " NXR/s";
-
-/* AUTO RESUME */
-
-if(data.miningActive && !miningInterval){
-
-setTimeout(()=>{
-startMiningRealtime();
-},1000);
-
-}
 
 });
 
@@ -1122,27 +808,6 @@ dashboard.style.display = "block";
 
 }
 
-
-function showError(error){
-
-if(error.code === "auth/wrong-password"){
-statusBox.innerHTML = "Password salah";
-}
-
-else if(error.code === "auth/user-not-found"){
-statusBox.innerHTML = "Akun tidak ditemukan";
-}
-
-else if(error.code === "auth/email-already-in-use"){
-statusBox.innerHTML = "Email sudah digunakan";
-}
-
-else{
-statusBox.innerHTML = "Terjadi kesalahan";
-}
-
-}
-
 /* =========================
    START MINING
 ========================= */
@@ -1150,185 +815,117 @@ statusBox.innerHTML = "Terjadi kesalahan";
 function startMiningRealtime(){
 
 if(miningInterval) return;
-if(clickCooldown) return;
-
-clickCooldown = true;
-
-setTimeout(()=>{
-clickCooldown = false;
-},1500);
 
 const user = auth.currentUser;
 
 if(!user){
-statusBox.innerHTML = "Login dulu";
+
+statusBox.innerHTML =
+"Login terlebih dahulu";
+
 return;
+
 }
 
 const userRef =
 db.ref("users/" + user.uid);
 
+let energy = 100;
+
 miningInterval = setInterval(()=>{
 
 userRef.once("value")
+
 .then((snapshot)=>{
 
 const data = snapshot.val();
 
-if(!data) return;
+let saldo =
+data.saldo || 0;
 
-if((data.energy || 0) <= 0){
+let miningTotal =
+data.miningTotal || 0;
+
+const biaya = 3;
+const hasilMining = 5;
+const profit = hasilMining - biaya;
+
+if(saldo <= 0){
 
 stopMining();
 
 statusBox.innerHTML =
-"Energi habis";
-
-return;
-}
-
-/* =====================
-   HITUNG MINING
-===================== */
-
-const rigPower = data.rigPower || 1;
-const rigLevel = data.rigLevel || 1;
-
-const hasilMining =
-0.5 * rigPower;
-
-const listrik =
-0.2 * rigLevel;
-
-const maintenance =
-0.1 * rigLevel;
-
-const biaya =
-listrik + maintenance;
-
-const profit =
-hasilMining - biaya;
-
-if(profit <= 0){
-
-statusBox.innerHTML =
-"Rig tidak profit";
+"Saldo habis";
 
 return;
 
 }
 
-/* =====================
-   UPDATE USER
-===================== */
+saldo += profit;
+miningTotal += hasilMining;
 
-const saldoBaru =
-(data.saldo || 0) + profit;
+energy--;
 
-const totalMiningBaru =
-(data.miningTotal || 0) + hasilMining;
+if(energy <= 0){
 
-const energyBaru =
-Math.max(0, (data.energy || 0) - 1);
+energy = 100;
 
-let levelBaru =
-data.level || "Beginner Miner";
-
-if(totalMiningBaru >= 100){
-levelBaru = "Advanced Miner";
 }
 
-if(totalMiningBaru >= 500){
-levelBaru = "Pro Miner";
+let level =
+"Beginner Miner";
+
+if(miningTotal >= 100){
+
+level = "Advanced Miner";
+
 }
 
-if(totalMiningBaru >= 1000){
-levelBaru = "Legend Miner";
+if(miningTotal >= 500){
+
+level = "Pro Miner";
+
+}
+
+if(miningTotal >= 1000){
+
+level = "Legend Miner";
+
 }
 
 userRef.update({
 
-saldo: saldoBaru,
-
-miningTotal: totalMiningBaru,
-
-energy: energyBaru,
-
+saldo: saldo,
+miningTotal: miningTotal,
 miningActive: true,
-
-level: levelBaru,
-
-lastActive: Date.now()
+level: level
 
 });
-
-/* =====================
-   UPDATE GLOBAL
-===================== */
-
-economyRef.once("value")
-.then((ecoSnap)=>{
-
-const eco = ecoSnap.val();
-
-if(!eco) return;
-
-economyRef.update({
-
-totalMined:
-(eco.totalMined || 0)
-+ hasilMining,
-
-marketCirculation:
-(eco.marketCirculation || 0)
-+ profit,
-
-systemVault:
-(eco.systemVault || 0)
-- hasilMining,
-
-electricityIncome:
-(eco.electricityIncome || 0)
-+ listrik,
-
-maintenanceIncome:
-(eco.maintenanceIncome || 0)
-+ maintenance,
-
-rigRentalIncome:
-(eco.rigRentalIncome || 0)
-+ 0.05
-
-});
-
-});
-
-/* =====================
-   UI
-===================== */
 
 document.getElementById("profitText")
 .innerHTML =
-profit.toFixed(2) + " NXR";
+profit + " NXR";
 
 document.getElementById("profitMining")
 .innerHTML =
-profit.toFixed(2) + " NXR";
+profit + " NXR";
+
+document.getElementById("energyText")
+.innerHTML =
+energy + "%";
+
+document.getElementById("energyMining")
+.innerHTML =
+energy + "%";
 
 statusBox.innerHTML =
-"+" +
-profit.toFixed(2) +
-" NXR Mining";
+"Mining aktif +" + profit + " NXR";
 
 });
 
-},MINING_INTERVAL);
-
-statusBox.innerHTML =
-"Mining dimulai";
+},3000);
 
 }
-
 
 /* =========================
    STOP MINING
@@ -1340,19 +937,15 @@ const user = auth.currentUser;
 
 if(!user) return;
 
+db.ref("users/" + user.uid).update({
+
+miningActive: false
+
+});
+
 clearInterval(miningInterval);
 
 miningInterval = null;
-
-isMiningStarted = false;
-
-db.ref("users/" + user.uid).update({
-
-miningActive: false,
-
-lastActive: Date.now()
-
-});
 
 statusBox.innerHTML =
 "Mining dihentikan";
@@ -1364,13 +957,6 @@ statusBox.innerHTML =
 ========================= */
 
 function claimMining(){
-  if(clickCooldown) return;
-
-clickCooldown = true;
-
-setTimeout(()=>{
-clickCooldown = false;
-},1500);
 
 const user = auth.currentUser;
 
@@ -1380,96 +966,22 @@ const userRef =
 db.ref("users/" + user.uid);
 
 userRef.once("value")
+
 .then((snapshot)=>{
 
 const data = snapshot.val();
-
-const now = Date.now();
-
-const cooldown = 86400000;
-
-if(now - (data.lastClaim || 0) < cooldown){
-
-statusBox.innerHTML =
-"Daily reward sudah diklaim";
-
-return;
-
-}
 
 const saldoBaru =
 (data.saldo || 0) + 10;
 
 userRef.update({
 
-saldo: saldoBaru,
-
-lastClaim: now
+saldo: saldoBaru
 
 });
 
 statusBox.innerHTML =
-"+10 NXR Daily Reward";
-
-});
-
-}
-function upgradeRig(){
-  if(clickCooldown) return;
-
-clickCooldown = true;
-
-setTimeout(()=>{
-clickCooldown = false;
-},1500);
-
-const user = auth.currentUser;
-
-if(!user){
-return;
-}
-
-const userRef =
-db.ref("users/" + user.uid);
-
-userRef.once("value")
-.then((snapshot)=>{
-
-const data = snapshot.val();
-
-const biaya =
-RIG_UPGRADE_COST[data.rigLevel];
-
-if(!biaya){
-
-statusBox.innerHTML =
-"Rig maksimum";
-
-return;
-
-}
-
-if(data.saldo < biaya){
-
-statusBox.innerHTML =
-"NXR tidak cukup";
-
-return;
-
-}
-
-userRef.update({
-
-saldo: data.saldo - biaya,
-
-rigLevel: data.rigLevel + 1,
-
-rigPower: data.rigPower + 1
-
-});
-
-statusBox.innerHTML =
-"Rig berhasil diupgrade";
+"+10 NXR berhasil diklaim";
 
 });
 
@@ -1487,10 +999,6 @@ statusBox.innerHTML =
 }
 
 function withdrawNXR(){
-
-
-
-
 
 statusBox.innerHTML =
 "Withdraw segera hadir";
@@ -1513,60 +1021,8 @@ statusBox.innerHTML =
 
 function openLeaderboard(){
 
-db.ref("users")
-.orderByChild("miningTotal")
-.limitToLast(10)
-.once("value")
-
-.then((snapshot)=>{
-
-let html =
-"===== TOP MINER =====<br><br>";
-
-let rank = 1;
-
-const arr = [];
-
-snapshot.forEach((child)=>{
-
-arr.push(child.val());
-
-
-});
-
-arr.reverse();
-
-arr.forEach((data)=>{
-
-html +=
-rank +
-". " +
-data.username +
-" - " +
-(data.miningTotal || 0).toFixed(2)
-+ " NXR<br>";
-
-rank++;
-
-});
-
-statusBox.innerHTML = html;
-
-});
-
-}
-
-function openShop(){
-
 statusBox.innerHTML =
-"Shop Nexora segera hadir";
-
-}
-
-function openVIP(){
-
-statusBox.innerHTML =
-"VIP System segera hadir";
+"Leaderboard segera hadir";
 
 }
 
@@ -1576,25 +1032,10 @@ statusBox.innerHTML =
 
 function logout(){
 
-const user = auth.currentUser;
-
-if(user){
-
-db.ref("users/" + user.uid).update({
-
-online: false,
-
-miningActive: false,
-
-lastActive: Date.now()
-
-});
-
-}
-
 stopMining();
 
 auth.signOut()
+
 .then(()=>{
 
 dashboard.style.display =
@@ -1630,14 +1071,6 @@ dashboard.style.display =
 "block";
 
 loadDashboard(user.uid);
-
-db.ref("users/" + user.uid).update({
-
-online: true,
-
-lastActive: Date.now()
-
-});
 
 }else{
 
@@ -1689,7 +1122,7 @@ percentText.innerHTML =
 percent + "%";
 
 if(percent % 20 === 0 &&
-msg < messages.length - 1){
+msg < messages.length){
 
 text.innerHTML =
 messages[msg];
@@ -1712,33 +1145,6 @@ document.getElementById("aiLoader")
 }
 
 },40);
-
-setInterval(()=>{
-
-const user = auth.currentUser;
-
-if(!user) return;
-
-const userRef =
-db.ref("users/" + user.uid);
-
-userRef.transaction((data)=>{
-
-if(data){
-
-if(data.energy < 100){
-
-data.energy = Math.min(100, data.energy + 1);
-
-}
-
-}
-
-return data;
-
-});
-
-},60000);
 
 </script>
 
